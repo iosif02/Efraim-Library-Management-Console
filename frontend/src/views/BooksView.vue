@@ -9,5 +9,4 @@ import { booksStore } from '@/stores/booksStore';
 
 const store = booksStore();
 let books = await store.fetchBooks();
-console.log(books);
 </script>

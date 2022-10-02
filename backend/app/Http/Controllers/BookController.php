@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index($perPage)
+    public function index()
     {
         return Book::paginate(15);
     }

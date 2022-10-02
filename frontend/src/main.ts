@@ -5,6 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import Notifications from '@kyvg/vue3-notification'
 
+import "./interceptors/axios"
 import "./assets/main.css";
 
 const app = createApp(App);

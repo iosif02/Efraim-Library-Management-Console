@@ -12,7 +12,7 @@ export const booksStore = defineStore('booksStore', {
   actions: {
     async fetchBooks() {
 			try {
-				let books = await axios.get(config.apiUrl + "/books");
+				let books = await axios.get("/books");
 				if(books) {
 					books = books
 				}

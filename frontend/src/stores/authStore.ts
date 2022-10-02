@@ -61,6 +61,17 @@ export const authStore = defineStore('authStore', {
 			}
 
 			return this.$state.isAuthenticated;
+		},
+		async logout() {
+			try {
+				await axios.post(config.apiUrl + "/logout");
+				localStorage.removeItem('bearerToken');
+				localStorage.removeItem('userDetails');
+				return true;
+			} catch(ex) {
+				console.error("Request error: " + ex);
+				NotificationHelper.NotifyError("Error occurred. Please contact the administrator!");
+			}
 		}
   },
 })
