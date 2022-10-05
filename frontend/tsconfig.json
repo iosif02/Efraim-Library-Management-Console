@@ -7,7 +7,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "jsx": "react-jsx",
+    "jsx": "react-jsx"
   },
   "vueCompilerOptions": {
     "experimentalDisableTemplateSupport": true
@@ -16,5 +16,6 @@
     {
       "path": "./tsconfig.config.json"
     }
-  ]
+  ],
+  "exclude": ["node_modules", "src/**/*.spec.ts"]
 }

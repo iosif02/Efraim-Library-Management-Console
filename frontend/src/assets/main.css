@@ -1,35 +1,76 @@
 @import "./base.css";
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
   font-weight: normal;
+  min-height: 100vh;
+  height: 100%;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+.btn {
+  min-width: 125px;
+  padding: .5rem 1rem;
+  border: 1px solid var(--button-color);
+  border-radius: 11px;
+  background-color: var(--button-color);
+  color: #ffff;
+  line-height: 15px;
+  text-align: center;
+  margin-bottom: .75rem;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.btn:hover {
+  background-color: #ffff;
+  color: var(--button-color);
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.btn-outline {
+  background-color: #ffff;
+  color: var(--button-color);
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.btn-outline:hover {
+  background-color: var(--button-color);
+  color: #ffff;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+input {
+  padding: .5rem 1rem;
+  border: 1px solid var(--button-color);
+  border-radius: 11px;
+  background-color: #ffff;
+  color: var(--button-color);
+
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .75rem;
+}
+
+.form-group input:focus {
+  outline: none;
+}
+
+.form-group label {
+  color: #4D4D4D;
+  margin-bottom: .25rem;
+}
+
+.form-group [role="alert"] {
+  position: absolute;
+  align-self: flex-end;
+  font-size: .65rem;
+  color: red;
+  bottom: -1rem;
+}
+
+.auth-title {
+  text-align: center;
+  margin: 6rem 0 2rem 0;
 }
