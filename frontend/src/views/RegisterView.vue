@@ -22,6 +22,7 @@
 			<ErrorMessage name="password_confirmation" />
 		</div>
 		<input type="submit" value="Register" class="btn w-100">
+		<p class="small-text">Already have an account? <RouterLink :to="{ name: 'login' }">Login here</RouterLink></p>
 	</Form>
 </template>
 
@@ -70,3 +71,10 @@ function validatePassword(value: string): string|boolean {
 	return true;
 }
 </script>
+
+<style scoped>
+	.small-text {
+		font-size: .75rem;
+		text-align: center;
+	}
+</style>
