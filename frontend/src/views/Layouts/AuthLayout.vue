@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { RouterLink, RouterView } from "vue-router";
+    import { RouterView } from "vue-router";
     import { onMounted } from "vue";
     import { createNoise3D } from 'simplex-noise';
     // import * as dat from 'dat.gui';
@@ -9,10 +9,10 @@
          */
         window.requestAnimationFrame = (function(){
             return  window.requestAnimationFrame       ||
-                    window.webkitRequestAnimationFrame ||
-                    window.mozRequestAnimationFrame    ||
-                    window.oRequestAnimationFrame      ||
-                    window.msRequestAnimationFrame     ||
+                    // window.webkitRequestAnimationFrame ||
+                    // window.mozRequestAnimationFrame    ||
+                    // window.oRequestAnimationFrame      ||
+                    // window.msRequestAnimationFrame     ||
                     function (callback) {
                         window.setTimeout(callback, 1000 / 60);
                     };
@@ -39,7 +39,6 @@
 
 
         // Vars
-
         var canvas: HTMLCanvasElement,
             resetCanvasButton: HTMLButtonElement,
             context: CanvasRenderingContext2D,
@@ -55,7 +54,6 @@
 
 
         // Initialize
-
         function init() {
             canvas = document.getElementById('cnvs') as HTMLCanvasElement;
 
