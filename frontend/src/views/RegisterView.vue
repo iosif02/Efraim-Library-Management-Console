@@ -1,26 +1,28 @@
 <template>
-	<Form @submit="register">
-		<div>
+	<h2 class="auth-title">Create Account</h2>
+	<Form class="form-control" @submit="register">
+		<div class="form-group">
 			<p>Name</p>
 			<Field name="name" type="text" :rules="validateName" />
 			<ErrorMessage name="name" />
 		</div>
-		<div>
+		<div class="form-group">
 			<p>Email</p>
 			<Field name="email" type="email" :rules="validateEmail" />
 			<ErrorMessage name="email" />
 		</div>
-		<div>
+		<div class="form-group">
 			<p>Password</p>
 			<Field name="password" type="password" :rules="validatePassword" />
 			<ErrorMessage name="password" />
 		</div>
-		<div>
+		<div class="form-group">
 			<p>Confirm Password</p>
 			<Field name="password_confirmation" type="password" :rules="validatePassword" />
 			<ErrorMessage name="password_confirmation" />
 		</div>
-		<button>Registerr</button>
+		<input type="submit" value="Register" class="btn w-100">
+		<p class="small-text">Already have an account? <RouterLink :to="{ name: 'login' }">Login here</RouterLink></p>
 	</Form>
 </template>
 
@@ -69,3 +71,10 @@ function validatePassword(value: string): string|boolean {
 	return true;
 }
 </script>
+
+<style scoped>
+	.small-text {
+		font-size: .75rem;
+		text-align: center;
+	}
+</style>
