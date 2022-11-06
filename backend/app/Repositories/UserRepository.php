@@ -15,11 +15,7 @@ class UserRepository implements IUserRepository
         try {
             \DB::beginTransaction();
 
-            $user = User::create([
-                'name' => $fields['name'],
-                'email' => $fields['email'],
-                'password' => bcrypt($fields['password'])
-            ]);
+            $user = User::create($fields);
 
             \DB::commit();
         } catch (Exception $exception) {

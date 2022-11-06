@@ -18,11 +18,11 @@ return new class extends Migration
             $table->id();
             $table->string('title', 64);
             $table->string('category', 32);
-            $table->integer('year');
-            $table->float('price');
-            $table->string('image');
-            $table->integer('quantity');
-            $table->foreignIdFor(Publisher::class);
+            $table->integer('year')->nullable();
+            $table->float('price')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('quantity')->nullable();
+            $table->foreignIdFor(Publisher::class)->nullable();
             $table->timestamps();
         });
     }

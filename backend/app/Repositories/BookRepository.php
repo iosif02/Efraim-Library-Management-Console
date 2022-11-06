@@ -8,6 +8,25 @@ use Illuminate\Support\Facades\Config;
 
 class BookRepository implements IBookRepository
 {
+    public function AddBook($fields) {
+        try {
+            \DB::beginTransaction();
+
+            $book = Book::create($fields);
+
+            \DB::commit();
+        } catch (Exception $exception) {
+            \DB::rollback();
+            throw $exception;
+        }
+
+        return $book;
+    }
+
+    public function GetBookById($bookId) {
+        return Book::find($bookId);
+    }
+
     public function SearchBooks($filters): LengthAwarePaginator
     {
         $queryBook = Book::query();
