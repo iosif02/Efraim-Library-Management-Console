@@ -41,6 +41,21 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
+/* Services */
+$app->bind(
+    App\Interfaces\IAuthService::class,
+    App\Services\AuthService::class
+);
+
+
+/* Repositories */
+$app->bind(
+    App\Repositories\IUserRepository::class,
+    App\Repositories\UserRepository::class
+);
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

@@ -17,11 +17,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public routes
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
+Route::post('register', [AuthController::class, 'Register']);
+Route::post('login', [AuthController::class, 'Login']);
+Route::post('logout', [AuthController::class, 'Logout']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::prefix('book')->group(function () {
+        Route::post('/add', [BookController::class, 'AddBook']);
+        Route::get('/{bookId}', [BookController::class, 'GetBook']);
+        Route::post('/update/{bookId}', [BookController::class, 'UpdateBook']);
+        Route::delete('/delete/{bookId}', [BookController::class, 'DeleteBook']);
+
+        Route::post('/search', [BookController::class, 'SearchBooks']);
+    });
+
+
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/test', function () {
         return "test";

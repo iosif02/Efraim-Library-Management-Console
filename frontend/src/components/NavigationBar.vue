@@ -4,18 +4,20 @@ import { RouterLink } from "vue-router";
 
 <template>
     <div class="navbar-items">
-        <div class="item">
+        <RouterLink :to="{ name: 'home' }" class="link">
             <font-awesome-icon icon="fa-solid fa-house-user" class="icon" />
-            <RouterLink :to="{ name: 'home' }" class="link">Home</RouterLink>
-        </div>
-        <div class="item">
+            <div>Home</div>
+        </RouterLink>
+
+        <RouterLink :to="{ name: 'books' }" class="link">
             <font-awesome-icon icon="fa-solid fa-book" class="icon" />
-            <RouterLink :to="{ name: 'books' }" class="link">Books</RouterLink>
-        </div>
-        <div class="item">
+            <div>Books</div>
+        </RouterLink>
+
+        <RouterLink :to="{ name: 'profile' }" class="link">
             <font-awesome-icon icon="fa-solid fa-user" class="icon" />
-            <RouterLink :to="{ name: 'profile' }" class="link">Profile</RouterLink>
-        </div>
+            <div>Profile</div>
+        </RouterLink>
     </div>
 </template>
 
@@ -25,12 +27,10 @@ import { RouterLink } from "vue-router";
     justify-content: space-evenly;
     gap: 10px;
 }
-.item {
-    text-align: center;
-}
 .link {
     text-decoration: none;
     display: block;
+    text-align: center;
 }
 .router-link-exact-active {
     color: red  ;
