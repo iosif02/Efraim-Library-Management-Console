@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    /* Custom variables */
+    'paginate_per_page' => env('PAGINATE_PER_PAGE'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

@@ -47,12 +47,20 @@ $app->bind(
     App\Interfaces\IAuthService::class,
     App\Services\AuthService::class
 );
+$app->bind(
+    App\Interfaces\IBookService::class,
+    App\Services\BookService::class
+);
 
 
 /* Repositories */
 $app->bind(
     App\Repositories\IUserRepository::class,
     App\Repositories\UserRepository::class
+);
+$app->bind(
+    App\Repositories\IBookRepository::class,
+    App\Repositories\BookRepository::class
 );
 
 

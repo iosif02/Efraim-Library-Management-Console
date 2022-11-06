@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
-use Illuminate\Http\Request;
+use App\Http\Requests\BookSearchRequest;
+use App\Interfaces\IBookService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
-    public function index()
+    private IBookService $bookService;
+
+    public function __construct(IBookService $bookService) {
+        $this->bookService = $bookService;
+    }
+
+    public function SearchBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
-        return Book::paginate(15);
+        $validated = $request->validated();
+        $result = $this->bookService->SearchBooks($validated);
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response($result, 200);
     }
 }

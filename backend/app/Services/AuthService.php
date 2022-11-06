@@ -29,18 +29,18 @@ class AuthService implements IAuthService
         return (bool)$result;
     }
 
-    public function Login($fields): array|bool
+    public function Login($fields): ?array
     {
         try {
             $user = $this->userRepository->GetUserByEmail($fields['email']);
             if(!$user || !Hash::check($fields['password'], $user->password)) {
-                return false;
+                return null;
             }
 
             $token = $user->createToken('myapptoken')->plainTextToken;
         } catch(Exception $exception) {
             Log::error('Login error: ' . $exception->getMessage());
-            return false;
+            return null;
         }
 
         return [
