@@ -39,7 +39,7 @@ class AuthController extends Controller
             return response(false, 401);
         }
 
-        return response(true, 200);
+        return response($result, 200);
     }
 
     #[ArrayShape(['message' => "string"])]
