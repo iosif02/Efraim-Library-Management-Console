@@ -11,7 +11,9 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_that_true_is_true()
+
+    // todo : why does jb suck at writing their own code
+    public function test_that_true_is_true(): void
     {
         $this->assertTrue(true);
     }
