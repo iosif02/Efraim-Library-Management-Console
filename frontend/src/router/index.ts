@@ -15,12 +15,12 @@ const router = createRouter({
         {
           path: "/login",
           name: "login",
-          component: () => import("@/views/LoginView.vue"),
+          component: () => import("@/views/Auth/LoginView.vue"),
         },
         {
           path: "/register",
           name: "register",
-          component: () => import("@/views/RegisterView.vue"),
+          component: () => import("@/views/Auth/RegisterView.vue"),
         },
       ]
     },
@@ -32,17 +32,17 @@ const router = createRouter({
         {
           path: "/about",
           name: "about",
-          component: () => import("@/views/AboutView.vue"),
+          component: () => import("@/views/Pages/AboutView.vue"),
         },
         {
           path: "/books",
           name: "books",
-          component: () => import("@/views/BooksView.vue"),
+          component: () => import("@/views/Pages/BooksView.vue"),
         },
         {
           path: "/profile",
           name: "profile",
-          component: () => import("@/views/AboutView.vue"),
+          component: () => import("@/views/Pages/AboutView.vue"),
         },
       ]
     },
@@ -50,21 +50,21 @@ const router = createRouter({
 });
 
 
-router.beforeEach(async (to, from) => {
-  const store = authStore();
+// router.beforeEach(async (to, from) => {
+//   const store = authStore();
 
-  if (to.name !== 'login' && to.name !== 'register') {
-    store.loadUserDetailsFromStorage();
-    if(!store.isAuthenticated) {
-      return { name: 'login' }
-    }
-  }
-  if (to.name == 'login' ||  to.name == 'register') {
-    store.loadUserDetailsFromStorage();
-    if(store.isAuthenticated) {
-      return { name: 'home' }
-    }
-  }
-})
+//   if (to.name !== 'login' && to.name !== 'register') {
+//     store.loadUserDetailsFromStorage();
+//     if(!store.isAuthenticated) {
+//       return { name: 'login' }
+//     }
+//   }
+//   if (to.name == 'login' ||  to.name == 'register') {
+//     store.loadUserDetailsFromStorage();
+//     if(store.isAuthenticated) {
+//       return { name: 'home' }
+//     }
+//   }
+// })
 
 export default router;

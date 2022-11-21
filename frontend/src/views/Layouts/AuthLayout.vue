@@ -247,7 +247,7 @@
         z-index: -1;
 	}
     .auth-container {
-        margin-top: 10vh;
+        margin-top: 13vh;
         background-color: #ffffffce;
         border: 1px var(--button-color) solid;
         border-radius: 11px;
