@@ -4,7 +4,7 @@
     <div class="spacer"></div>
     <SearchBar />
     <div class="spacer"></div>
-    <VList title="Custom Title" :showCount="true" />
+    <VList title="Custom Title" :showCount="true" :list="[]" />
 	</div>
 </template>
 
