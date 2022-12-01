@@ -31,8 +31,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/search', [BookController::class, 'SearchBooks']);
     });
 
-
-    Route::get('/books', [BookController::class, 'index']);
     Route::get('/test', function () {
         return "test";
     });

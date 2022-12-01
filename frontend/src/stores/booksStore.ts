@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import axios from "axios"
-import { config } from "@/../env.d";
 
 export const booksStore = defineStore('booksStore', {
   state: () => ({ 
@@ -11,14 +10,14 @@ export const booksStore = defineStore('booksStore', {
   },
   actions: {
     async fetchBooks() {
-			try {
-				let books = await axios.get("/books");
-				if(books) {
-					books = books
-				}
-			} catch(ex) {
-				console.error("Request error: " + ex);
-			}
+      try {
+        let books = await axios.get("/book/search");
+        if(books) {
+          books = books
+        }
+      } catch(ex) {
+        console.error("Request error: " + ex);
+      }
     },
   },
 })

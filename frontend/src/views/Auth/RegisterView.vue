@@ -30,11 +30,12 @@
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { authStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
+import type RegisterModel from '@/models/auth/RegisterModel';
 
 const router = useRouter();
 const store = authStore();
 
-async function register(model: any): Promise<void> {
+async function register(model: RegisterModel): Promise<void> {
 	let result = await store.register(model);
 
 	if(result) {

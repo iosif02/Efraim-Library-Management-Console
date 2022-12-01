@@ -3,6 +3,7 @@ import { RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { authStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
+import type LoginModel from "@/models/auth/LoginModel";
 
 const props = defineProps({
 	userCreated: {
@@ -13,7 +14,7 @@ const props = defineProps({
 const store = authStore();
 const router = useRouter();
 
-async function login(model: any): Promise<void> {
+async function login(model: LoginModel): Promise<void> {
 	let result = await store.login(model);
 	
 	if(result) {

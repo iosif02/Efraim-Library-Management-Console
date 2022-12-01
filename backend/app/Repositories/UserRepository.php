@@ -14,7 +14,7 @@ class UserRepository implements IUserRepository
     {
         try {
             \DB::beginTransaction();
-            
+
             $fields['password'] = bcrypt($fields['password']);
             $user = User::create($fields);
 

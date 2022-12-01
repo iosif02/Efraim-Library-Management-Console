@@ -3,6 +3,7 @@ import axios from "axios"
 import { config } from "@/../env.d";
 import type RegisterModel from "@/models/auth/RegisterModel";
 import NotificationHelper from "@/helpers/NotificationHelper";
+import type LoginModel from "@/models/auth/LoginModel";
 
 export const authStore = defineStore('authStore', {
   state: () => ({
@@ -32,7 +33,7 @@ export const authStore = defineStore('authStore', {
 				}
 			}
     },
-		async login(user: RegisterModel) {
+		async login(user: LoginModel) {
 			try {
 				let response = await axios.post(config.apiUrl + "/login", user);
 
@@ -52,7 +53,7 @@ export const authStore = defineStore('authStore', {
 					NotificationHelper.NotifyError("Error occurred. Please contact the administrator!");
 				}
 			}
-    },
+		},
 		loadUserDetailsFromStorage() {
 			let userDetails = localStorage.getItem("userDetails");
 			if(userDetails) {
