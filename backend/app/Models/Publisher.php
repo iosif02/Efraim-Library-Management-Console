@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Publisher extends Model
 {
@@ -12,12 +13,12 @@ class Publisher extends Model
     protected $fillable = ['name', 'city'];
     protected $dates = ['deleted_at'];
 
-    public function getDisplayNameAttribute()
+    public function getDisplayNameAttribute(): string
     {
         return $this->attributes['name'] .', '. $this->attributes['city'];
     }
 
-    public function Books()
+    public function Books(): HasMany
     {
         return $this->hasMany(Publisher::class);
     }

@@ -22,17 +22,21 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
 
   background: #F6F6F7;
   border-radius: 50px;
+
+  margin-bottom: 20px;
 }
 .search {
   flex: 1;
   border: none;
   background-color: transparent;
+  font-family: 'Roboto';
 }
 .search:focus {
   outline: none;
 }
 .search::placeholder {
-  font-family: 'Inter';
+  /* font-family: 'Inter'; */
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 300;
   font-size: 12px;

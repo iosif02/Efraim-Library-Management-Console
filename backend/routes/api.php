@@ -23,6 +23,9 @@ Route::post('logout', [AuthController::class, 'Logout']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('book')->group(function () {
+        Route::get('/', [BookController::class, 'Homepage']);
+
+
         Route::post('/add', [BookController::class, 'AddBook']);
         Route::get('/{bookId}', [BookController::class, 'GetBook']);
         Route::post('/update/{bookId}', [BookController::class, 'UpdateBook']);

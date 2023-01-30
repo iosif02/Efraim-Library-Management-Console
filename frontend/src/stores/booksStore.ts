@@ -1,23 +1,26 @@
 import { defineStore } from "pinia";
 import axios from "axios"
+import HomepageModel from "@/models/book/HomepageModel";
 
 export const booksStore = defineStore('booksStore', {
   state: () => ({ 
-		books: []
+		homepage: new HomepageModel()
 	}),
   getters: {
-    getBooks: (state) => state.books,
+    getDelayedBooks: (state) => state.homepage.DelayedBooks,
+    getPopularBooks: (state) => state.homepage.PopularBooks,
+    getCategories: (state) => state.homepage.Categories,
   },
   actions: {
     async fetchBooks() {
       try {
-        let books = await axios.get("/book/search");
+        let books = await axios.get("/book");
         if(books) {
-          books = books
+          this.homepage = books.data;
         }
       } catch(ex) {
         console.error("Request error: " + ex);
       }
-    },
+    }
   },
 })
