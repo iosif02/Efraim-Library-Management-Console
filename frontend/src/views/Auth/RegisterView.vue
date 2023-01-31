@@ -39,7 +39,7 @@ async function register(model: RegisterModel): Promise<void> {
 	let result = await store.register(model);
 
 	if(result) {
-		router.push({ name: "login" })
+		router.replace({ name: "login" })
 	}
 }
 
