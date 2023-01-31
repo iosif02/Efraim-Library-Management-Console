@@ -4,9 +4,12 @@ import SearchBar from '@/components/global/SearchBar.vue';
 import DelayedBooks from '@/components/books/DelayedBooks.vue';
 import PopularBooks from '@/components/books/PopularBooks.vue';
 import Categories from '@/components/books/Categories.vue';
+import TitleSection from "@/components/global/TitleSection.vue";
 
 const store = booksStore();
-let books = await store.fetchBooks();
+if(!store.homepageFetched){
+  await store.fetchHomepage();
+}
 
 </script>
 
@@ -14,16 +17,28 @@ let books = await store.fetchBooks();
 	<div class="homepage">
     <SearchBar />
 
-    <DelayedBooks />
+    <div class="delayed-books">
+      <TitleSection :title="`Late (${store.homepage.DelayedBooks?.Total})`" :route-name="'delayedBooks'" />
+      <DelayedBooks :books="store.homepage.DelayedBooks?.Books" />
+    </div>
 
-    <PopularBooks />
+    <div class="popular-books">
+      <TitleSection :title="'Popular Books'" :route-name="'popularBooks'" />
+      <PopularBooks :books="store.homepage.PopularBooks" />
+    </div>
 
-    <Categories />
+    <div class="categories">
+      <TitleSection :title="'Categories'" :route-name="'categories'" />
+      <Categories :categories="store.homepage.Categories"/>
+    </div>
 	</div>
 </template>
 
 <style scoped>
 .spacer {
   margin-bottom: .8rem;
+}
+.delayed-books, .popular-books {
+    margin-bottom: 20px;
 }
 </style>

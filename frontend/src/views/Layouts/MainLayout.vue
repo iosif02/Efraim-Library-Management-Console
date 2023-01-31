@@ -8,6 +8,9 @@ import TopMenu from "@/components/global/TopMenu.vue";
   <div class="layout">
     <div class="content">
       <TopMenu />
+
+      <RouterView name="GoBack"></RouterView>
+
       <RouterView />
     </div>
     <NavigationBar />

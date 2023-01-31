@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { booksStore } from '@/stores/booksStore';
 import moment from 'moment';
-import ChevronRightIcon from "@/components/icons/ChevronRightIcon.vue";
 
-const store = booksStore();
+const props = defineProps(['books'])
 
 let formatDate = (date: string) => {
     if (date) {
@@ -26,32 +24,21 @@ let delayedDays = (date: string) => {
 </script>
 
 <template>
-    <div class="delayed-books">
-        <div class="category-title">
-            <div class="title">Late (23)</div>
-            <div class="see-all">
-                <ChevronRightIcon />
-            </div>
-        </div>
-        <div class="books">
-            <div v-for="book in store.getDelayedBooks.Books" class="book">
-                <img :src="book.PhotoUrl" alt="">
-                <div class="details">
-                    <div class="top-section">
-                        <p class="name">{{ book.UserName }}</p>
-                        <p class="date">{{ formatDate(book.DueDate) }} - {{ delayedDays(book.DueDate) }} days</p>
-                    </div>
-                    <div class="book-title">{{ book.BookTitle }}</div>
+    <div class="books">
+        <div v-for="book in props?.books" class="book">
+            <img :src="book.PhotoUrl" alt="">
+            <div class="details">
+                <div class="top-section">
+                    <p class="name">{{ book.UserName }}</p>
+                    <p class="date">{{ formatDate(book.DueDate) }} - {{ delayedDays(book.DueDate) }} days</p>
                 </div>
+                <div class="book-title">{{ book.BookTitle }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.delayed-books {
-    margin-bottom: 20px;
-}
 .category-title {
     display: flex;
     justify-content: space-between;

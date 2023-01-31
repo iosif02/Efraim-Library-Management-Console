@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 
 <template>
     <div class="top-menu">
-        <RouterLink :to="{ name: 'books' }" class="link">
+        <RouterLink :to="{ name: 'home' }" class="link">
             <div class="link-name">Titles</div>
         </RouterLink>
         <RouterLink :to="{ name: 'readers' }" class="link">
