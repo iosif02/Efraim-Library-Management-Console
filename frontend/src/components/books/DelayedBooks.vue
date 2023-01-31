@@ -5,7 +5,7 @@ const props = defineProps(['books'])
 
 let formatDate = (date: string) => {
     if (date) {
-        return moment(date, 'DD MMM').format("DD MMM");
+        return moment(date, "DD-MM-YY h:mm:ss").format("DD MMM");
     }
     return date;
 }
@@ -14,7 +14,7 @@ let delayedDays = (date: string) => {
         const currentDate = new Date();
         const oneDay = 24 * 60 * 60 * 1000;
 
-        let newDate = new Date(moment(date, 'DD MMM').toString());
+        let newDate = new Date(moment(date, "DD-MM-YY h:mm:ss").toString());
         let days = currentDate.getTime() - newDate.getTime();
 
         return Math.ceil(days / oneDay) - 1;
