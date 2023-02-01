@@ -18,7 +18,7 @@ async function login(model: LoginModel): Promise<void> {
 	let result = await store.login(model);
 	
 	if(result) {
-		router.push({ name: "home" })
+		router.replace({ name: "home" })
 	}
 }
 

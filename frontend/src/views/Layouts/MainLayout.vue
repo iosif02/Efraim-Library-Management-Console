@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import NavigationBar from "@/components/NavigationBar.vue";
+import NavigationBar from "@/components/global/NavigationBar.vue";
+import TopMenu from "@/components/global/TopMenu.vue";
 </script>
 
 <template>
   <div class="layout">
     <div class="content">
+      <TopMenu />
+
+      <RouterView name="GoBack"></RouterView>
+
       <RouterView />
     </div>
     <NavigationBar />
@@ -23,5 +28,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
   padding: 1.5rem;
   padding-bottom: 5rem;
 }
+.spacer {
+  margin-bottom: .8rem;
+}
 </style>
-    

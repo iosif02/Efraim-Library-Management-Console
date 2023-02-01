@@ -9,6 +9,7 @@ use App\Models\Book;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
+use JetBrains\PhpStorm\ArrayShape;
 
 class BookController extends Controller
 {
@@ -16,6 +17,261 @@ class BookController extends Controller
 
     public function __construct(IBookService $bookService) {
         $this->bookService = $bookService;
+    }
+
+    #[ArrayShape(['DelayedBooks' => "array", "PopularBooks" => "array[]", "Categories" => "array[]"])]
+    public function GetHomepage(): array
+    {
+        $date = date('d-m-y h:i:s');
+        return [
+            'DelayedBooks' => [
+                'Total' => 23,
+                'Books' => [
+                    [
+                        "UserName" => "Iosif Oprea",
+                        "DueDate" => $date,
+                        "BookTitle" => "Fram, ursul polar",
+                        "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+                    ],
+                    [
+                        "UserName" => "Iosif Oprea",
+                        "DueDate" => $date,
+                        "BookTitle" => "Fram, ursul polar",
+                        "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+                    ],
+                    [
+                        "UserName" => "Iosif Oprea",
+                        "DueDate" => $date,
+                        "BookTitle" => "Fram, ursul polar",
+                        "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+                    ]
+                ]
+            ],
+            "PopularBooks" => [
+                [
+                    "UserName" => "Iosif Oprea",
+                    "BookTitle" => "Fram, ursul polar",
+                    "AuthorName" => "Autor",
+                    "CategoryNumber" => 4,
+                    "CategoryName" => "Children",
+                    "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "AuthorName" => "Autor",
+                    "BookTitle" => "Fram, ursul polar",
+                    "CategoryNumber" => 4,
+                    "CategoryName" => "Children",
+                    "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "AuthorName" => "Autor",
+                    "CategoryNumber" => 4,
+                    "CategoryName" => "Children",
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+                ]
+            ],
+            "Categories" => [
+                [
+                    "Name" => "History",
+                    "Books" => 4
+                ],
+                [
+                    "Name" => "History",
+                    "Books" => 4
+                ],
+                [
+                    "Name" => "History",
+                    "Books" => 4
+                ]
+            ]
+        ];
+    }
+
+    #[ArrayShape(['Total' => "int", 'Books' => "array[]"])]
+    public function GetDelayedBooks(): array
+    {
+        $date = date('d-m-y h:i:s');
+        return [
+            'Total' => 23,
+            'Books' => [
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+                ],
+                [
+                    "UserName" => "Iosif Oprea",
+                    "DueDate" => $date,
+                    "BookTitle" => "Fram, ursul polar",
+                    "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+                ]
+            ]
+        ];
+    }
+
+    public function GetPopularBooks(): array
+    {
+        return [
+            [
+                "UserName" => "Iosif Oprea",
+                "BookTitle" => "Fram, ursul polar",
+                "AuthorName" => "Autor",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "AuthorName" => "Autor",
+                "BookTitle" => "Fram, ursul polar",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "AuthorName" => "Autor",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "BookTitle" => "Fram, ursul polar",
+                "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "BookTitle" => "Fram, ursul polar",
+                "AuthorName" => "Autor",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "AuthorName" => "Autor",
+                "BookTitle" => "Fram, ursul polar",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "AuthorName" => "Autor",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "BookTitle" => "Fram, ursul polar",
+                "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "BookTitle" => "Fram, ursul polar",
+                "AuthorName" => "Autor",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "PhotoUrl" => "https://i.guim.co.uk/img/media/51e82d1479c8bec3fbf6e620f44199490171ac66/433_134_1145_1723/master/1145.jpg?width=700&quality=85&auto=format&fit=max&s=ba7fd94e443ce0193c3a42095c9b4736"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "AuthorName" => "Autor",
+                "BookTitle" => "Fram, ursul polar",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "PhotoUrl" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvcq4KN4eIWKxk5vlSZH3Po_g2e9zPb8q_9g&usqp=CAU"
+            ],
+            [
+                "UserName" => "Iosif Oprea",
+                "AuthorName" => "Autor",
+                "CategoryNumber" => 4,
+                "CategoryName" => "Children",
+                "BookTitle" => "Fram, ursul polar",
+                "PhotoUrl" => "https://d1csarkz8obe9u.cloudfront.net/themedlandingpages/tlp_hero_book-cover-adb8a02f82394b605711f8632a44488b-1627474998.jpg"
+            ]
+        ];
+    }
+
+    public function GetCategories() {
+        return [
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ],
+            [
+                "Name" => "History",
+                "Books" => 4
+            ]
+        ];
     }
 
     public function AddBook(AddBookRequest $request): Response|Application|ResponseFactory

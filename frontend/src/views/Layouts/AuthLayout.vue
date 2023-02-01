@@ -229,37 +229,37 @@
 </template>
 
 <style scoped>
-    main {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-    }
-    .responsive-auth {
-        width: 90vw;
-        max-width: 25rem;
-        min-width: 5rem;
-    }
-	
-	canvas {
-		position: absolute;
-		top: 0;
-		left: 0;
-        z-index: -1;
-	}
-    .auth-container {
-        margin-top: 13vh;
-        background-color: #ffffffce;
-        border: 1px var(--button-color) solid;
-        border-radius: 11px;
-        padding: 2rem 3rem;
-    }
-    .custom-button {
-        position: absolute;
-        background-color: #ffffffce;
-        min-width: auto;
-        top: 0;
-        right: 0;
-        margin: 1rem;
-    }
+main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.responsive-auth {
+    width: 90vw;
+    max-width: 25rem;
+    min-width: 5rem;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.auth-container {
+    margin-top: 13vh;
+    background-color: #ffffffce;
+    border: 1px var(--button-color) solid;
+    border-radius: 11px;
+    padding: 2rem 3rem;
+}
+.custom-button {
+    position: absolute;
+    background-color: #ffffffce;
+    min-width: auto;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+}
 </style>
-    
+ 
