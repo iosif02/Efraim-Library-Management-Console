@@ -9,11 +9,17 @@ if(!store.popularBooks?.length) {
 }
 
 var changePage = (page: number) => {
-    // Change pagination and fetch data
+    store.popularBooksChangePage(page);
 }
 </script>
 
 <template>
+    <Loading v-if="store.isLoading" />
+
+    <GoBack go-back-text="Popular Books" />
+
+    <SearchBar />
+
     <PopularBooks :books="store.popularBooks" />
 
     <Pagination

@@ -9,11 +9,17 @@ if(!store.delayedBooks.Books.length) {
 }
 
 var changePage = (page: number) => {
-    // Change pagination and fetch data
+    store.delayedBooksChangePage(page);
 }
 </script>
 
 <template>
+    <Loading v-if="store.isLoading" />
+
+    <GoBack go-back-text="Late Books" />
+
+    <SearchBar />
+
     <DelayedBooks :books="store.delayedBooks.Books" />
 
     <Pagination

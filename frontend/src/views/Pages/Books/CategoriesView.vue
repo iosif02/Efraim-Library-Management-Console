@@ -9,11 +9,17 @@ if(!store.categories?.length) {
 }
 
 var changePage = (page: number) => {
-    // Change pagination and fetch data
+    store.categoriesChangePage(page);
 }
 </script>
 
 <template>
+    <Loading v-if="store.isLoading" />
+
+    <GoBack go-back-text="Categories" />
+
+    <SearchBar />
+
     <Categories :categories="store.categories" />
 
     <Pagination

@@ -29,7 +29,7 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
   flex: 1;
   border: none;
   background-color: transparent;
-  font-family: 'Roboto';
+  font-family: 'Roboto-400';
 }
 .search:focus {
   outline: none;

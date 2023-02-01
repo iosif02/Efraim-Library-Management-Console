@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 import NavigationBar from "@/components/global/NavigationBar.vue";
 import TopMenu from "@/components/global/TopMenu.vue";
 </script>
@@ -9,8 +9,6 @@ import TopMenu from "@/components/global/TopMenu.vue";
     <div class="content">
       <TopMenu />
 
-      <RouterView name="GoBack"></RouterView>
-
       <RouterView />
     </div>
     <NavigationBar />
@@ -19,10 +17,10 @@ import TopMenu from "@/components/global/TopMenu.vue";
 
 <style scoped>
 .layout {
-  height:auto !important; /* real browsers */
-  height:100%; /* IE6: treaded as min-height*/
+  height: auto !important; /* real browsers */
+  height: 100%; /* IE6: treaded as min-height*/
 
-  min-height:100%; /* real browsers */
+  min-height: 100%; /* real browsers */
 }
 .content {
   padding: 1.5rem;

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import ChevronLeftIcon from "@/components/icons/ChevronLeftIcon.vue";
 import router from "@/router";
+
+defineProps(['goBackText'])
 </script>
 
 <template>
     <div class="back-button">
         <span @click="router.back()">
             <ChevronLeftIcon />
-            <span class="title">Back</span>
+            <span class="title">{{ goBackText }}</span>
         </span>
     </div>
 </template>

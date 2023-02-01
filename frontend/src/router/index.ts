@@ -18,21 +18,21 @@ const router = createRouter({
 });
 
 
-// router.beforeEach(async (to, from) => {
-//   const store = authStore();
+router.beforeEach(async (to, from) => {
+  const store = authStore();
 
-//   if (to.name !== 'login' && to.name !== 'register') {
-//     store.loadUserDetailsFromStorage();
-//     if(!store.isAuthenticated) {
-//       return { name: 'login' }
-//     }
-//   }
-//   if (to.name == 'login' ||  to.name == 'register') {
-//     store.loadUserDetailsFromStorage();
-//     if(store.isAuthenticated) {
-//       return { name: 'home' }
-//     }
-//   }
-// })
+  if (to.name !== 'login' && to.name !== 'register') {
+    store.loadUserDetailsFromStorage();
+    if(!store.isAuthenticated) {
+      return { name: 'login' }
+    }
+  }
+  if (to.name == 'login' ||  to.name == 'register') {
+    store.loadUserDetailsFromStorage();
+    if(store.isAuthenticated) {
+      return { name: 'home' }
+    }
+  }
+})
 
 export default router;
