@@ -93,7 +93,7 @@ export const booksStore = defineStore('booksStore', {
     },
     async searchBooks() {
       try {
-        let books = await axios.post("/books/search/?page=" + this.homepage.pagination.CurrentPage, this.homepage.searchModel);
+        let books = await axios.post("/books/search?page=" + this.homepage.pagination.CurrentPage, this.homepage.searchModel);
         if(books?.data) {
           this.homepage.books = books.data.data;
           this.homepage.pagination.LastPage = books.data.last_page;
