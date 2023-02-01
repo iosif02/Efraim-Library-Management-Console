@@ -38,9 +38,7 @@ class BookService implements IBookService
     public function GetBookById($bookId) {
         if(!$bookId) return null;
 
-        $book = $this->bookRepository->GetBookById($bookId);
-
-        return $book;
+        return $this->bookRepository->GetBookById($bookId);
     }
 
     public function SearchBooks($filters): ?LengthAwarePaginator

@@ -3,24 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\Book;
+use App\Models\Transactions;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Config;
 
 class BookRepository implements IBookRepository
 {
+    /**
+     * @throws Exception
+     */
     public function AddBook($fields) {
-        try {
-            \DB::beginTransaction();
-
-            $book = Book::create($fields);
-
-            \DB::commit();
-        } catch (Exception $exception) {
-            \DB::rollback();
-            throw $exception;
-        }
-
-        return $book;
+        return Book::create($fields);
     }
 
     public function GetBookById($bookId) {
@@ -35,5 +30,10 @@ class BookRepository implements IBookRepository
         }
 
         return $queryBook->paginate(Config::get('app.paginate_per_page'));
+    }
+
+    public function GetDelayedBooks(): array|Collection
+    {
+        return Transactions::query()->where('return_date', '<', 'get_date()')->get();
     }
 }

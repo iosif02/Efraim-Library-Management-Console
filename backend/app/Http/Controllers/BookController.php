@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddBookRequest;
 use App\Http\Requests\BookSearchRequest;
 use App\Interfaces\IBookService;
+use App\Models\Book;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
@@ -28,7 +29,8 @@ class BookController extends Controller
         return response(true, 200);
     }
 
-    public function GetBook($bookId) {
+    public function GetBook($bookId):  ?Book
+    {
         if(!$bookId) return null;
 
         return $this->bookService->GetBookById($bookId);
