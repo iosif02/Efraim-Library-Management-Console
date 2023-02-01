@@ -3,6 +3,7 @@ import axios from "axios"
 import HomepageModel from "@/models/book/HomepageModel";
 import DelayedBooksModel from "@/models/book/DelayedBooks";
 import Pagination from "@/models/global/Pagination";
+import SearchBookModel from "@/models/book/SearchBook";
 
 export const booksStore = defineStore('booksStore', {
   state: () => ({
@@ -10,13 +11,22 @@ export const booksStore = defineStore('booksStore', {
 
 		homepage: new HomepageModel(),
     homepageFetched: false,
-    popularBooks: [],
-    delayedBooks: new DelayedBooksModel(),
-    categories: [],
 
-    delayedBooksPagination: new Pagination(),
-    popularBooksPagination: new Pagination(),
-    categoriesPagination: new Pagination()
+    popularBooks: {
+      data: [],
+      pagination: new Pagination(),
+      searchModel: new SearchBookModel()
+    },
+    delayedBooks: {
+      data: new DelayedBooksModel(),
+      pagination: new Pagination(),
+      searchModel: new SearchBookModel()
+    },
+    categories: {
+      data: [],
+      pagination: new Pagination(),
+      searchModel: new SearchBookModel()
+    }
 	}),
   getters: {
 
@@ -37,11 +47,10 @@ export const booksStore = defineStore('booksStore', {
     },
     async fetchPopularBooks() {
       try {
-        this.isLoading = true;
-        let books = await axios.get("/books/popular-books/?page=" + this.popularBooksPagination.CurrentPage);
+        let books = await axios.get("/books/popular-books/?page=" + this.popularBooks.pagination.CurrentPage);
         if(books) {
-          this.popularBooks = books.data;
-          this.isLoading = false;
+          this.popularBooks.data = books.data;
+          this.popularBooks.pagination.LastPage = books.data.LastPage ?? 1;
         }
       } catch(ex) {
         console.error("Request error: " + ex);
@@ -49,11 +58,10 @@ export const booksStore = defineStore('booksStore', {
     },
     async fetchDelayedBooks() {
       try {
-        this.isLoading = true;
-        let books = await axios.get("/books/delayed-books/?page=" + this.delayedBooksPagination.CurrentPage);
+        let books = await axios.get("/books/delayed-books/?page=" + this.delayedBooks.pagination.CurrentPage);
         if(books) {
-          this.delayedBooks = books.data;
-          this.isLoading = false;
+          this.delayedBooks.data = books.data;
+          this.delayedBooks.pagination.LastPage = books.data.LastPage ?? 1;
         }
       } catch(ex) {
         console.error("Request error: " + ex);
@@ -61,26 +69,25 @@ export const booksStore = defineStore('booksStore', {
     },
     async fetchCategories() {
       try {
-        this.isLoading = true;
-        let books = await axios.get("/books/categories/?page=" + this.categoriesPagination.CurrentPage);
+        let books = await axios.get("/books/categories/?page=" + this.categories.pagination.CurrentPage);
         if(books) {
-          this.categories = books.data;
-          this.isLoading = false;
+          this.categories.data = books.data;
+          this.categories.pagination.LastPage = books.data.LastPage ?? 1;
         }
       } catch(ex) {
         console.error("Request error: " + ex);
       }
     },
     async popularBooksChangePage(page: number) {
-      this.popularBooksPagination.CurrentPage = page;
+      this.popularBooks.pagination.CurrentPage = page;
       this.fetchPopularBooks();
     },
     async delayedBooksChangePage(page: number) {
-      this.delayedBooksPagination.CurrentPage = page;
+      this.delayedBooks.pagination.CurrentPage = page;
       this.fetchDelayedBooks();
     },
     async categoriesChangePage(page: number) {
-      this.categoriesPagination.CurrentPage = page;
+      this.categories.pagination.CurrentPage = page;
       this.fetchCategories();
     }
   },

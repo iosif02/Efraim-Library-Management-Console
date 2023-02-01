@@ -8,13 +8,16 @@ defineProps(['goBackText'])
 <template>
     <div class="back-button">
         <span @click="router.back()">
-            <ChevronLeftIcon />
+            <ChevronLeftIcon class="icon" />
             <span class="title">{{ goBackText }}</span>
         </span>
     </div>
 </template>
 
 <style scoped>
+.icon {
+    margin-bottom: -2px;
+}
 .title {
   font-family: 'Roboto-500';
   color: #2B2E3C;

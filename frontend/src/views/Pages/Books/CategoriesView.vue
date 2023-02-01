@@ -4,7 +4,7 @@ import Pagination from '@/components/global/Pagination.vue';
 import { booksStore } from '@/stores/booksStore';
 
 const store = booksStore();
-if(!store.categories?.length) {
+if(!store.categories?.data?.length) {
   await store.fetchCategories();
 }
 
@@ -18,13 +18,16 @@ var changePage = (page: number) => {
 
     <GoBack go-back-text="Categories" />
 
-    <SearchBar />
+    <SearchBar
+        :defaultValue="store.categories.searchModel.BookTitle"
+        @keyup="(event: any) => store.categories.searchModel.BookTitle = event?.target?.value"
+    />
 
-    <Categories :categories="store.categories" />
+    <Categories :categories="store.categories.data" />
 
     <Pagination
-        :current-page="store.categoriesPagination.CurrentPage"
-        :last-page="store.categoriesPagination.LastPage"
+        :current-page="store.categories.pagination.CurrentPage"
+        :last-page="store.categories.pagination.LastPage"
         @change-page="changePage"
     />
 </template>

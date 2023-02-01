@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import SearchIcon from "@/components/icons/SearchIcon.vue";
+
+const props = defineProps(['defaultValue'])
+let searchValue = props?.defaultValue;
 </script>
 
 <template>
   <div class="search-container">
     <SearchIcon />
-    <input class="search" type="search" placeholder="Search books...">
+    <input v-model="searchValue" class="search" type="text" placeholder="Search books...">
   </div>
 </template>
 
