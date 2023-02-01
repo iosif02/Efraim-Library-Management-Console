@@ -5,7 +5,7 @@ import { booksStore } from '@/stores/booksStore';
 import { watch } from 'vue';
 
 const store = booksStore();
-if(!store.delayedBooks.data.Books.length) {
+if(!store.delayedBooks.data.length) {
   await store.fetchDelayedBooks();
 }
 
@@ -21,14 +21,14 @@ watch(() => store.delayedBooks.searchModel, async () => {
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack :go-back-text="`Late Books (${store.delayedBooks.data.Total})`" />
+    <GoBack :go-back-text="`Late Books (${store.delayedBooks.total})`" />
 
     <SearchBar
-        :defaultValue="store.delayedBooks.searchModel.BookTitle"
-        @keyup="(event: any) => store.delayedBooks.searchModel.BookTitle = event?.target?.value"
+        :defaultValue="store.delayedBooks.searchModel.title"
+        @keyup="(event: any) => store.delayedBooks.searchModel.title = event?.target?.value"
     />
 
-    <DelayedBooks :books="store.delayedBooks.data.Books" />
+    <DelayedBooks :books="store.delayedBooks.data" />
 
     <Pagination
         :current-page="store.delayedBooks.pagination.CurrentPage"

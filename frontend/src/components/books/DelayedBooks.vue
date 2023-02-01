@@ -32,7 +32,7 @@ let delayedDays = (date: string) => {
                     <p class="name">{{ book.UserName }}</p>
                     <p class="date">{{ formatDate(book.DueDate) }} - {{ delayedDays(book.DueDate) }} days</p>
                 </div>
-                <div class="book-title">{{ book.BookTitle }}</div>
+                <div class="book-title">{{ book.title }}</div>
             </div>
         </div>
     </div>

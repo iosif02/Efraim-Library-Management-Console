@@ -9,20 +9,32 @@ export const booksStore = defineStore('booksStore', {
   state: () => ({
     isLoading: false,
 
-		homepage: new HomepageModel(),
-    homepageFetched: false,
-
+		homepage: {
+      data: new HomepageModel(),
+      isFetched: false,
+      books: [],
+      pagination: new Pagination(),
+      searchModel: new SearchBookModel(),
+      total: 0
+    },
     popularBooks: {
       data: [],
       pagination: new Pagination(),
       searchModel: new SearchBookModel()
     },
     delayedBooks: {
-      data: new DelayedBooksModel(),
+      // data: new DelayedBooksModel(),
+      data: [],
+      total: 0,
       pagination: new Pagination(),
       searchModel: new SearchBookModel()
     },
     categories: {
+      data: [],
+      pagination: new Pagination(),
+      searchModel: new SearchBookModel()
+    },
+    books: {
       data: [],
       pagination: new Pagination(),
       searchModel: new SearchBookModel()
@@ -37,8 +49,8 @@ export const booksStore = defineStore('booksStore', {
         this.isLoading = true;
         let books = await axios.get("/books/homepage");
         if(books) {
-          this.homepage = books.data;
-          this.homepageFetched = true;
+          this.homepage.data = books.data;
+          this.homepage.isFetched = true;
           this.isLoading = false;
         }
       } catch(ex) {
@@ -60,7 +72,8 @@ export const booksStore = defineStore('booksStore', {
       try {
         let books = await axios.get("/books/delayed-books/?page=" + this.delayedBooks.pagination.CurrentPage);
         if(books) {
-          this.delayedBooks.data = books.data;
+          this.delayedBooks.data = books.data.Books;
+          this.delayedBooks.total = books.data.Total;
           this.delayedBooks.pagination.LastPage = books.data.LastPage ?? 1;
         }
       } catch(ex) {
@@ -78,6 +91,17 @@ export const booksStore = defineStore('booksStore', {
         console.error("Request error: " + ex);
       }
     },
+    async searchBooks() {
+      try {
+        let books = await axios.post("/books/search/?page=" + this.homepage.pagination.CurrentPage, this.homepage.searchModel);
+        if(books?.data) {
+          this.homepage.books = books.data.data;
+          this.homepage.pagination.LastPage = books.data.last_page;
+        }
+      } catch(ex) {
+        console.error("Request error: " + ex);
+      }
+    },
     async popularBooksChangePage(page: number) {
       this.popularBooks.pagination.CurrentPage = page;
       this.fetchPopularBooks();
@@ -89,6 +113,10 @@ export const booksStore = defineStore('booksStore', {
     async categoriesChangePage(page: number) {
       this.categories.pagination.CurrentPage = page;
       this.fetchCategories();
+    },
+    async booksHomeChangePage(page: number) {
+      this.homepage.pagination.CurrentPage = page;
+      this.searchBooks();
     }
   },
 })

@@ -1,6 +1,6 @@
 export default class PopularBookModel {
 	AuthorName: string = "";
-	BookTitle: string = "";
+	title: string = "";
     CategoryName: string = "";
     CategoryNumber: number = 0;
 	PhotoUrl: string = "";

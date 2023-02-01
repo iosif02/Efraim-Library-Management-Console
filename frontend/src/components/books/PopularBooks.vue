@@ -7,7 +7,7 @@ const props = defineProps(['books'])
         <div v-for="book in books" class="book">
             <img :src="book.PhotoUrl" alt="">
             <div class="details">
-                <div class="title">{{ book.BookTitle }}</div>
+                <div class="title">{{ book.title }}</div>
                 <div class="author">{{ book.AuthorName }}</div>
                 <div class="category">
                     <span class="category-number">({{ book.CategoryNumber }})</span>
@@ -38,6 +38,7 @@ img {
     font-size: 12px;
     color: #4974A5;
     font-family: 'Roboto-500';
+    padding: 5px 0;
 }
 .category {
     font-size: 12px;
@@ -51,8 +52,5 @@ img {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 98px;
-}
-.author {
-    padding: 5px 0;
 }
 </style>
