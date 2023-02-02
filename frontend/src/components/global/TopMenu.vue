@@ -18,8 +18,6 @@ import { RouterLink } from "vue-router";
 
 <style scoped>
 .top-menu {
-    /* display: flex;
-    justify-content: space-between; */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin-bottom: 20px;

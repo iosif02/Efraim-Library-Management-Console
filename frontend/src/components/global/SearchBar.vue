@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import SearchIcon from "@/components/icons/SearchIcon.vue";
+
+const props = defineProps(['defaultValue'])
+let searchValue = props?.defaultValue;
 </script>
 
 <template>
   <div class="search-container">
     <SearchIcon />
-    <input class="search" type="search" placeholder="Search books...">
+    <input v-model="searchValue" class="search" type="text" placeholder="Search books...">
   </div>
 </template>
 
@@ -29,7 +32,7 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
   flex: 1;
   border: none;
   background-color: transparent;
-  font-family: 'Roboto';
+  font-family: 'Roboto-400';
 }
 .search:focus {
   outline: none;

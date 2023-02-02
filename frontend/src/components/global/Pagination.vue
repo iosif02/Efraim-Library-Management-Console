@@ -1,12 +1,23 @@
-<script setup lang="ts">
+<script setup lang="ts">import { watch } from 'vue';
+
 const props = defineProps(['currentPage', 'lastPage'])
 
-// Create array
-let links = Array.from(Array(props.lastPage).keys()).map(x => ({ page: x + 1, active: props.currentPage == x + 1, dots: false }));
-// Set the dots
-links = links.map(x => ({ ...x, dots: !(x.page == 1 || x.page == props.lastPage || x.page == props.currentPage || x.page == props.currentPage + 1 || x.page == props.currentPage - 1) }))
-// Remove useless links
-links = links.filter(x => x.dots == false || (x.dots == true && (x.page + 2 == props.currentPage || x.page - 2 == props.currentPage)));
+var links = Array.from(Array(3).keys()).map(x => ({ page: x + 1, active: props.currentPage == x + 1, dots: false }));
+
+watch(() => props, async () => {
+    links = prepareLinks();
+}, { deep: true });
+
+var prepareLinks = () => {
+   // Create array
+    let localLinks = Array.from(Array(props.lastPage).keys()).map(x => ({ page: x + 1, active: props.currentPage == x + 1, dots: false }));
+    // Set the dots
+    localLinks = localLinks.map(x => ({ ...x, dots: !(x.page == 1 || x.page == props.lastPage || x.page == props.currentPage || x.page == props.currentPage + 1 || x.page == props.currentPage - 1) }))
+    // Remove useless links
+    localLinks = localLinks.filter(x => x.dots == false || (x.dots == true && (x.page + 2 == props.currentPage || x.page - 2 == props.currentPage))); 
+
+    return localLinks;
+}
 </script>
 
 <template>

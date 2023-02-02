@@ -8,6 +8,8 @@
     <title>Efraim library</title>
   </head>
   <body>
+    <div class="refresh-indicator"></div>
+
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
 
@@ -43,6 +45,7 @@
         var changeY = pStart.y - pStop.y;
         var changeX = pStart.x - pStop.x;
         if (isPullDown(changeY, changeX)) {
+          document.body.classList.add("refreshing");
           location.reload();
         }
       }
@@ -71,5 +74,42 @@
         false
       );
     </script>
+
+    <style>
+      .refresh-indicator {
+        position: relative;
+        top: -60px;
+        display: flex;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: -60px;
+        transition: .6s;
+      }
+
+      .refresh-indicator::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #76CECB;
+        border-top-color: #F6F6F6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .refreshing .refresh-indicator {
+        top: 0;
+        margin-bottom: 0;
+        transition: .6s;
+      }
+    </style>
   </body>
 </html>

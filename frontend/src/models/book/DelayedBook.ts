@@ -1,5 +1,5 @@
 export default class DelayedBookModel {
-	BookTitle: string = "";
+	title: string = "";
 	DueDate: string = "";
     PhotoUrl: string = "";
     UserName: string = "";

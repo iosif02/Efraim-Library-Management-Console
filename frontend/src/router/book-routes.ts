@@ -15,26 +15,17 @@ export default
         {
             path: "/delayed-books",
             name: "delayedBooks",
-            components: {
-                default: () => import("@/views/Pages/Books/DelayedBooksView.vue"),
-                GoBack: () => import("@/components/global/GoBack.vue")
-            }
+            component: () => import("@/views/Pages/Books/DelayedBooksView.vue")
         },
         {
             path: "/popular-books",
             name: "popularBooks",
-            components: {
-                default: () => import("@/views/Pages/Books/PopularBooksView.vue"),
-                GoBack: () => import("@/components/global/GoBack.vue")
-            }
+            component: () => import("@/views/Pages/Books/PopularBooksView.vue")
         },
         {
             path: "/categories",
             name: "categories",
-            components: {
-                default: () => import("@/views/Pages/Books/CategoriesView.vue"),
-                GoBack: () => import("@/components/global/GoBack.vue")
-            }
+            component: () => import("@/views/Pages/Books/CategoriesView.vue")
         }
     ]
 };

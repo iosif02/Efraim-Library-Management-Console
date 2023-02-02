@@ -2,23 +2,37 @@
 import Categories from '@/components/books/Categories.vue';
 import Pagination from '@/components/global/Pagination.vue';
 import { booksStore } from '@/stores/booksStore';
+import { watch } from 'vue';
 
 const store = booksStore();
-if(!store.categories?.length) {
+if(!store.categories?.data?.length) {
   await store.fetchCategories();
 }
 
 var changePage = (page: number) => {
-    // Change pagination and fetch data
+    store.categoriesChangePage(page);
 }
+
+watch(() => store.delayedBooks.searchModel, async () => {
+    await store.fetchCategories();
+}, { deep: true });
 </script>
 
 <template>
-    <Categories :categories="store.categories" />
+    <Loading v-if="store.isLoading" />
+
+    <GoBack go-back-text="Categories" />
+
+    <SearchBar
+        :defaultValue="store.categories.searchModel.title"
+        @keyup="(event: any) => store.categories.searchModel.title = event?.target?.value"
+    />
+
+    <Categories :categories="store.categories.data" />
 
     <Pagination
-        :current-page="store.categoriesPagination.CurrentPage"
-        :last-page="store.categoriesPagination.LastPage"
+        :current-page="store.categories.pagination.CurrentPage"
+        :last-page="store.categories.pagination.LastPage"
         @change-page="changePage"
     />
 </template>

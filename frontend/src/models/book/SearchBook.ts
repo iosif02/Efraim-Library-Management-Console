@@ -1,8 +1,7 @@
-export default class PopularBookModel {
+export default class SearchBookModel {
 	AuthorName: string = "";
 	title: string = "";
     CategoryName: string = "";
     CategoryNumber: number = 0;
-	PhotoUrl: string = "";
     UserName: string = "";
 }
