@@ -24,9 +24,9 @@ Route::post('logout', [AuthController::class, 'Logout']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('books')->group(function () {
         Route::get('/homepage', [BookController::class, 'GetHomepage']);
-        Route::get('/delayed-books', [BookController::class, 'GetDelayedBooks']);
-        Route::get('/popular-books', [BookController::class, 'GetPopularBooks']);
-        Route::get('/categories', [BookController::class, 'GetCategories']);
+        Route::post('/delayed-books', [BookController::class, 'GetDelayedBooks']);
+        Route::post('/popular-books', [BookController::class, 'GetPopularBooks']);
+        Route::post('/categories', [BookController::class, 'GetCategories']);
 
 
         Route::post('/add', [BookController::class, 'AddBook']);

@@ -52,4 +52,48 @@ class BookService implements IBookService
 
         return $result;
     }
+
+    public function SearchDelayedBooks($filters) {
+        try {
+            $result = $this->bookRepository->SearchDelayedBooks($filters);
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+
+//        $result = collect($result);
+//        $result['data'] = collect($result['data'])->map(function ($entry) {
+//            return [
+//                'transaction_id' => $entry['id'],
+//                'book_title' => $entry['book']['title'],
+//                'category' => $entry['book']['category'],
+//                'image' => $entry['book']['image'],
+//                'user_name' => $entry['user']['name']
+//            ];
+//        });
+
+        return $result;
+    }
+
+    public function GetCategories($fields)
+    {
+        try {
+            $result = $this->bookRepository->GetCategories($fields);
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+        return $result;
+    }
+
+    public function GetPopularBooks($fields)
+    {
+        try {
+            $result = $this->bookRepository->GetPopularBooks($fields);
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+        return $result;
+    }
 }

@@ -12,14 +12,8 @@ class Publisher extends Model
 
     protected $fillable = ['name', 'city'];
     protected $dates = ['deleted_at'];
-
     public function getDisplayNameAttribute(): string
     {
         return $this->attributes['name'] .', '. $this->attributes['city'];
-    }
-
-    public function Books(): HasMany
-    {
-        return $this->hasMany(Publisher::class);
     }
 }

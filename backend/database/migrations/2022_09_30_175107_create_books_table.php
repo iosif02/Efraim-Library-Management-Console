@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Publisher;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,11 +18,13 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title', 64);
-            $table->string('category', 32);
             $table->integer('year')->nullable();
             $table->float('price')->nullable();
             $table->string('image')->nullable();
             $table->integer('quantity')->nullable();
+            $table->boolean('is_recommended')->nullable();
+            $table->integer('order')->nullable();
+            $table->foreignIdFor(Category::class)->nullable();
             $table->foreignIdFor(Publisher::class)->nullable();
             $table->timestamps();
         });

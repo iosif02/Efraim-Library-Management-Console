@@ -25,8 +25,11 @@ class BookSearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'author' => 'nullable'
+            'title' => 'nullable|string',
+            'author' => 'nullable|string',
+            'pagination' => 'required',
+            'pagination.perPage' => 'required|integer',
+            'pagination.page' => 'required|integer',
         ];
     }
 
