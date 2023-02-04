@@ -1,34 +1,6 @@
-<template>
-	<h2 class="auth-title">Create Account</h2>
-	<Form class="form-control" @submit="register">
-		<div class="form-group">
-			<p>Name</p>
-			<Field name="name" type="text" :rules="validateName" />
-			<ErrorMessage name="name" />
-		</div>
-		<div class="form-group">
-			<p>Email</p>
-			<Field name="email" type="email" :rules="validateEmail" />
-			<ErrorMessage name="email" />
-		</div>
-		<div class="form-group">
-			<p>Password</p>
-			<Field name="password" type="password" :rules="validatePassword" />
-			<ErrorMessage name="password" />
-		</div>
-		<div class="form-group">
-			<p>Confirm Password</p>
-			<Field name="password_confirmation" type="password" :rules="validatePassword" />
-			<ErrorMessage name="password_confirmation" />
-		</div>
-		<input type="submit" value="Register" class="btn w-100">
-		<p class="small-text">Already have an account? <RouterLink :to="{ name: 'login' }">Login here</RouterLink></p>
-	</Form>
-</template>
-
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { authStore } from '@/stores/auth-storee';
+import { authStore } from '@/stores/auth-store';
 import { useRouter } from "vue-router";
 import type RegisterModel from '@/models/auth/RegisterModel';
 
@@ -72,6 +44,34 @@ function validatePassword(value: string): string|boolean {
 	return true;
 }
 </script>
+
+<template>
+	<h2 class="auth-title">Create Account</h2>
+	<Form class="form-control" @submit="register">
+		<div class="form-group">
+			<p>Name</p>
+			<Field name="name" type="text" :rules="validateName" />
+			<ErrorMessage name="name" />
+		</div>
+		<div class="form-group">
+			<p>Email</p>
+			<Field name="email" type="email" :rules="validateEmail" />
+			<ErrorMessage name="email" />
+		</div>
+		<div class="form-group">
+			<p>Password</p>
+			<Field name="password" type="password" :rules="validatePassword" />
+			<ErrorMessage name="password" />
+		</div>
+		<div class="form-group">
+			<p>Confirm Password</p>
+			<Field name="password_confirmation" type="password" :rules="validatePassword" />
+			<ErrorMessage name="password_confirmation" />
+		</div>
+		<input type="submit" value="Register" class="btn w-100">
+		<p class="small-text">Already have an account? <RouterLink :to="{ name: 'login' }">Login here</RouterLink></p>
+	</Form>
+</template>
 
 <style scoped>
 	.small-text {

@@ -2,7 +2,7 @@
 import type CategoryModel from '@/models/book/CategoryModel';
 import type { PropType } from 'vue'
 
-const props = defineProps({
+defineProps({
     categories: {
         type: Object as PropType<CategoryModel[]>,
         required: true

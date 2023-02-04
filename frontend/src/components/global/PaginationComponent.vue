@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 
-const props = defineProps(['currentPage', 'lastPage'])
+const props = defineProps({
+    currentPage: {
+        type: Number,
+        required: true
+    },
+    lastPage: {
+        type: Number,
+        required: true 
+    }
+});
 
 var prepareLinks = () => {
    // Create array

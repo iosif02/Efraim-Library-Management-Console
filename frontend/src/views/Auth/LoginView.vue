@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { authStore } from '@/stores/auth-storee';
+import { authStore } from '@/stores/auth-store';
 import { useRouter } from "vue-router";
 import type LoginModel from "@/models/auth/LoginModel";
 
