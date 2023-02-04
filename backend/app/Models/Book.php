@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Book extends Model
 {
@@ -14,12 +15,17 @@ class Book extends Model
     protected $fillable = [
         'title',
         'author',
-        'category',
+        'category_id',
         'year',
         'price',
         'image',
         'quantity',
-        'publisher_id'
+        'publisher_id',
+        'is_recommended'
+    ];
+
+    protected $casts = [
+        'is_recommended' => 'boolean',
     ];
     public function Transaction(): HasMany
     {
@@ -32,11 +38,6 @@ class Book extends Model
     public function BookAuthor(): HasMany
     {
         return $this->hasMany(BookAuthor::class);
-    }
-
-    public function Author()
-    {
-        return $this->hasManyThrough(Author::class, BookAuthor::class);
     }
 }
 

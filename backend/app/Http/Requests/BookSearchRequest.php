@@ -27,9 +27,9 @@ class BookSearchRequest extends FormRequest
         return [
             'title' => 'nullable|string',
             'author' => 'nullable|string',
-            'pagination' => 'required',
-            'pagination.perPage' => 'required|integer',
-            'pagination.page' => 'required|integer',
+            'pagination' => 'nullable',
+            'pagination.perPage' => 'nullable|integer',
+            'pagination.page' => 'nullable|integer',
         ];
     }
 

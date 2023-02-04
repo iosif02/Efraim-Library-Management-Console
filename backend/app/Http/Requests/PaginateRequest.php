@@ -25,8 +25,8 @@ class PaginateRequest extends FormRequest
     public function rules()
     {
         return [
-            'perPage' => 'nullable',
-            'page' => 'nullable'
+            'perPage' => 'nullable|integer',
+            'page' => 'nullable|integer'
         ];
     }
 }

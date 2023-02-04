@@ -41,7 +41,7 @@ class BookService implements IBookService
         return $this->bookRepository->GetBookById($bookId);
     }
 
-    public function SearchBooks($filters): ?LengthAwarePaginator
+    public function SearchBooks($filters)
     {
         try {
             $result = $this->bookRepository->SearchBooks($filters);
@@ -75,10 +75,10 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function GetCategories($fields)
+    public function SearchCategories($filters)
     {
         try {
-            $result = $this->bookRepository->GetCategories($fields);
+            $result = $this->bookRepository->SearchCategories($filters);
         } catch (Exception $exception) {
             Log::error('Search book error: ' . $exception->getMessage());
             return null;
@@ -86,14 +86,48 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function GetPopularBooks($fields)
+    public function SearchPopularBooks($filters)
     {
         try {
-            $result = $this->bookRepository->GetPopularBooks($fields);
+            $result = $this->bookRepository->SearchPopularBooks($filters);
         } catch (Exception $exception) {
             Log::error('Search book error: ' . $exception->getMessage());
             return null;
         }
         return $result;
     }
+
+    public function GetDelayedBooks()
+    {
+        try {
+            $result = $this->bookRepository->GetDelayedBooks();
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+        return $result;
+    }
+
+    public function GetPopularBooks()
+    {
+        try {
+            $result = $this->bookRepository->GetPopularBooks();
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+        return $result;
+    }
+
+    public function GetCategoryBooks()
+    {
+        try {
+            $result = $this->bookRepository->GetCategoryBooks();
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+        return $result;
+    }
+
 }
