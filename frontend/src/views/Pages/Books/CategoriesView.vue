@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Categories from '@/components/books/Categories.vue';
-import Pagination from '@/components/global/Pagination.vue';
-import { booksStore } from '@/stores/booksStore';
+import Categories from '@/components/books/CategoriesComponent.vue';
+import Pagination from '@/components/global/PaginationComponent.vue';
+import { booksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = booksStore();
@@ -31,8 +31,8 @@ watch(() => store.delayedBooks.searchModel, async () => {
     <Categories :categories="store.categories.data" />
 
     <Pagination
-        :current-page="store.categories.pagination.CurrentPage"
-        :last-page="store.categories.pagination.LastPage"
+        :current-page="store.categories.searchModel.pagination.page"
+        :last-page="store.categories.searchModel.pagination.last_page"
         @change-page="changePage"
     />
 </template>

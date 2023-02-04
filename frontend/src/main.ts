@@ -8,9 +8,9 @@ import Notifications from '@kyvg/vue3-notification';
 import "@/interceptors/axios"
 import "@/assets/main.css";
 
-import GoBackVue from "./components/global/GoBack.vue";
-import Loading from '@/components/global/Loading.vue';
-import SearchBar from '@/components/global/SearchBar.vue';
+import GoBackVue from "./components/global/GoBackComponent.vue";
+import Loading from '@/components/global/LoadingComponent.vue';
+import SearchBar from '@/components/global/SearchBarComponent.vue';
 
 const app = createApp(App);
 

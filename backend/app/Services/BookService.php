@@ -6,8 +6,8 @@ use App\Interfaces\IBookService;
 use App\Interfaces\IFileService;
 use App\Repositories\IBookRepository;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
+use JetBrains\PhpStorm\ArrayShape;
 
 class BookService implements IBookService
 {
@@ -18,6 +18,21 @@ class BookService implements IBookService
     {
         $this->bookRepository = $bookRepository;
         $this->fileService = $fileService;
+    }
+
+    #[ArrayShape(["delayedBooks" => "", "popularBooks" => "", "categories" => ""])]
+    public function GetHomepage(): array
+    {
+        $filters = ['pagination' => [ 'per_page' => 3, 'page' => 1]];
+        $delayedBooks = $this->bookRepository->SearchDelayedBooks($filters);
+        $popularBooks = $this->bookRepository->SearchPopularBooks($filters);
+        $categories = $this->bookRepository->SearchCategories($filters);
+
+        return [
+            "delayedBooks" => $delayedBooks,
+            "popularBooks" => $popularBooks,
+            "categories" => $categories
+        ];
     }
 
     public function AddBook($fields): bool
@@ -96,38 +111,4 @@ class BookService implements IBookService
         }
         return $result;
     }
-
-    public function GetDelayedBooks()
-    {
-        try {
-            $result = $this->bookRepository->GetDelayedBooks();
-        } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
-            return null;
-        }
-        return $result;
-    }
-
-    public function GetPopularBooks()
-    {
-        try {
-            $result = $this->bookRepository->GetPopularBooks();
-        } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
-            return null;
-        }
-        return $result;
-    }
-
-    public function GetCategoryBooks()
-    {
-        try {
-            $result = $this->bookRepository->GetCategoryBooks();
-        } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
-            return null;
-        }
-        return $result;
-    }
-
 }

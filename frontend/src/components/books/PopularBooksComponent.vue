@@ -1,17 +1,25 @@
 <script setup lang="ts">
-const props = defineProps(['books'])
+import type BookModel from '@/models/book/BookModel';
+import type { PropType } from 'vue'
+
+defineProps({
+    books: {
+        type: Object as PropType<BookModel[]>,
+        required: true
+    }
+});
 </script>
 
 <template>
     <div class="books">
         <div v-for="book in books" class="book">
-            <img :src="book.PhotoUrl" alt="">
+            <img :src="book.image" alt="">
             <div class="details">
                 <div class="title">{{ book.title }}</div>
-                <div class="author">{{ book.AuthorName }}</div>
+                <div class="author">{{ book.authors?.[0]?.name }}</div>
                 <div class="category">
-                    <span class="category-number">({{ book.CategoryNumber }})</span>
-                    <span class="category-name">{{ book.CategoryName }}</span>
+                    <span class="category-number">({{ book.category?.number }})</span>
+                    <span class="category-name">{{ book.category?.name }}</span>
                 </div>
             </div>
         </div>
@@ -24,6 +32,12 @@ const props = defineProps(['books'])
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 20px;
+}
+.books .book:nth-child(n + 1) {
+    justify-self: center;
+}
+.books .book:nth-child(n + 2) {
+    justify-self: right;
 }
 .book {
     width: 98px;
@@ -39,6 +53,9 @@ img {
     color: #4974A5;
     font-family: 'Roboto-500';
     padding: 5px 0;
+}
+.title {
+    color: #2B2E3C;
 }
 .category {
     font-size: 12px;

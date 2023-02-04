@@ -25,14 +25,20 @@ class BookRepository implements IBookRepository
 
     public function SearchBooks($filters)
     {
-        return Book::select('id', 'title', 'category_id', 'quantity')->where('title', 'like', '%'.$filters['title'].'%')
+        $query = Book::select('id', 'title', 'category_id', 'quantity', 'image')
             ->with([
-                'Category' => fn($query) => $query->select('id', 'name', 'number')
+                'Category' => fn($query) => $query->select('id', 'name', 'number'),
+                'Authors' => fn($query) => $query->select('name')
             ])
             ->withCount([
                 'Transaction' => fn($query) => $query->where('is_returned', 0)
-            ])
-            ->paginate($filters['pagination']['perPage'], null, null, $filters['pagination']['page']);
+            ]);
+
+        if(isset($filters['title']) && $filters['title'] != '') {
+            $query->where('title', 'like', '%'.$filters['title'].'%');
+        }
+
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
     public function SearchDelayedBooks($filters)
@@ -45,68 +51,37 @@ class BookRepository implements IBookRepository
                 'Book.Category' => fn($query) => $query->select('id', 'name', 'number', 'description')
             ])
             ->whereHas('Book', function ($query) use ($filters) {
-                if($filters['title']) {
+                if(isset($filters['title']) && $filters['title'] != '') {
                     $query->where('title', 'like', '%'.$filters['title'].'%');
                 }
             })
-            ->paginate($filters['pagination']['perPage'], null, null, $filters['pagination']['page']);
+            ->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
     public function SearchCategories($filters)
     {
-        return Category::select('name')
-            ->where('name', 'like', '%'.$filters['title'].'%')
-            ->withCount('Book')
-            ->paginate($filters['pagination']['perPage'], null, null, $filters['pagination']['page']);
+        $query = Category::select('name', 'number')->withCount('Book');
 
-//        return Book::withCount('Transaction')->with('category')->orderBy('transaction_count', 'desc')->get();
+        if(isset($filters['title']) && $filters['title'] != '') {
+            $query->where('name', 'like', '%'.$filters['title'].'%');
+        }
+
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
     public function SearchPopularBooks($filters)
     {
-        return Book::select('id', 'title', 'category_id')
-            ->where('title', 'like', '%'.$filters['title'].'%')
+        $query = Book::select('id', 'title', 'category_id', 'image')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
-                'BookAuthor' => fn($query) => $query->select('author_id', 'book_id'),
-                'BookAuthor.Author' => fn($query) => $query->select('id', 'name')
+                'Authors' => fn($query) => $query->select('name'),
             ])
-            ->where('is_recommended', true)->orderBy('order', 'asc')
-            ->paginate($filters['pagination']['perPage'], null, null, $filters['pagination']['page']);
-    }
+            ->where('is_recommended', true)->orderBy('order', 'asc');
 
-    public function GetDelayedBooks(){
-        $delayed = Transactions::where('return_date', '<', date('y-m-d'))->where('is_returned', 0)->count();
-        $transaction = Transactions::select('id', 'borrow_date', 'return_date', 'user_id', 'book_id')
-            ->where('return_date', '<', date('y-m-d'))->where('is_returned', 0)
-            ->with([
-                'Book' => fn($query) => $query->select('id', 'title', 'category_id', 'image'),
-                'User' => fn($query) => $query->select('id', 'name'),
-                'Book.Category' => fn($query) => $query->select('id', 'name', 'number', 'description')
-            ])
-            ->take(3)->get();
-        return [
-            'TotalBooks' => $delayed,
-            'Books' => $transaction
-        ];
-    }
+        if(isset($filters['title']) && $filters['title'] != '') {
+            $query->where('title', 'like', '%'.$filters['title'].'%');
+        }
 
-    public function GetPopularBooks()
-    {
-        return Book::select('id', 'title', 'category_id')
-            ->with([
-                'Category' => fn($query) => $query->select('id', 'name', 'number'),
-                'BookAuthor' => fn($query) => $query->select('author_id', 'book_id'),
-                'BookAuthor.Author' => fn($query) => $query->select('id', 'name')
-            ])
-            ->where('is_recommended', true)->orderBy('order', 'asc')
-            ->take(3)->get();
-    }
-
-    public function GetCategoryBooks()
-    {
-        return Category::select('name')
-            ->withCount('Book')
-            ->take(3)->get();
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 }

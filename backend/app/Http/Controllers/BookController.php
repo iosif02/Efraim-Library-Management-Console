@@ -20,26 +20,17 @@ class BookController extends Controller
         $this->bookService = $bookService;
     }
 
-    public function GetHomepage()
+    public function GetHomepage(): Response|Application|ResponseFactory
     {
-        $result1 = $this->bookService->GetDelayedBooks();
-        $result2 = $this->bookService->GetPopularBooks();
-        $result3 = $this->bookService->GetCategoryBooks();
-        if(!$result1 || !$result2 || !$result3) {
+        $result = $this->bookService->GetHomepage();
+        if(!$result) {
             return response(false, 400);
         }
 
-        return response(
-            [
-                'delayed' => $result1,
-                'popular' => $result2,
-                'category' => $result3,
-            ],
-            200
-        );
+        return response($result, 200);
     }
 
-    public function GetDelayedBooks(BookSearchRequest $request)
+    public function SearchDelayedBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchDelayedBooks($validated);
@@ -50,7 +41,7 @@ class BookController extends Controller
         return response($result, 200);
     }
 
-    public function GetPopularBooks(BookSearchRequest $request)
+    public function SearchPopularBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchPopularBooks($validated);
@@ -61,7 +52,8 @@ class BookController extends Controller
         return response($result, 200);
     }
 
-    public function GetCategories(BookSearchRequest $request) {
+    public function SearchCategories(BookSearchRequest $request): Response|Application|ResponseFactory
+    {
         $validated = $request->validated();
         $result = $this->bookService->SearchCategories($validated);
         if(!$result) {
@@ -88,7 +80,7 @@ class BookController extends Controller
         return $this->bookService->GetBookById($bookId);
     }
 
-    public function SearchBooks(BookSearchRequest $request)
+    public function SearchBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchBooks($validated);

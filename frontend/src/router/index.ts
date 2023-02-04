@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { authStore } from '@/stores/authStore';
+import { authStore } from '@/stores/auth-store';
 import authRoutes from "@/router/auth-routes";
 import bookRoutes from "@/router/book-routes";
 import readerRoutes from "@/router/reader-routes"

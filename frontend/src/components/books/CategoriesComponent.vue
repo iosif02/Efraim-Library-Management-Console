@@ -1,12 +1,20 @@
 <script setup lang="ts">
-const props = defineProps(['categories'])
+import type CategoryModel from '@/models/book/CategoryModel';
+import type { PropType } from 'vue'
+
+const props = defineProps({
+    categories: {
+        type: Object as PropType<CategoryModel[]>,
+        required: true
+    }
+});
 </script>
 
 <template>
     <div class="categories">
         <div v-for="(category, index) in categories" class="category" :key="index">
-            <div class="book-title">{{ index + 1 }} {{ category.Name }}</div>
-            <div class="book-number">{{ category.Books }} books</div>
+            <div class="book-title">{{ category.number }} {{ category.name }}</div>
+            <div class="book-number">{{ category.book_count }} books</div>
         </div>
     </div>
 </template>

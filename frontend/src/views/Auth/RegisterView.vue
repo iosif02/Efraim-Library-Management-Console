@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { authStore } from '@/stores/authStore';
+import { authStore } from '@/stores/auth-storee';
 import { useRouter } from "vue-router";
 import type RegisterModel from '@/models/auth/RegisterModel';
 

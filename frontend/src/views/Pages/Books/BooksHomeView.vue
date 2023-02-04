@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { booksStore } from '@/stores/booksStore';
-import DelayedBooks from '@/components/books/DelayedBooks.vue';
-import PopularBooks from '@/components/books/PopularBooks.vue';
-import Categories from '@/components/books/Categories.vue';
-import TitleSection from "@/components/global/TitleSection.vue";
+import { booksStore } from '@/stores/books-store';
+import DelayedBooks from '@/components/books/DelayedBooksComponent.vue';
+import PopularBooks from '@/components/books/PopularBooksComponent.vue';
+import Categories from '@/components/books/CategoriesComponent.vue';
+import TitleSection from "@/components/global/TitleSectionComponent.vue";
 import SearchBooksHomeView from './SearchBooksHomeView.vue';
 import { watch } from 'vue';
 
@@ -28,18 +28,18 @@ watch(() => store.homepage.searchModel, async () => {
 
     <div v-if="!store.homepage.searchModel.title">
       <div class="delayed-books">
-        <TitleSection :title="`Late (${store.homepage.data.DelayedBooks?.Total})`" :route-name="'delayedBooks'" />
-        <DelayedBooks :books="store.homepage.data.DelayedBooks?.Books" />
+        <TitleSection :title="`Late (${store.homepage.data.totalDelayedBooks})`" :route-name="'delayedBooks'" />
+        <DelayedBooks :books="store.homepage.data.delayedBooks" />
       </div>
 
       <div class="popular-books">
         <TitleSection :title="'Popular Books'" :route-name="'popularBooks'" />
-        <PopularBooks :books="store.homepage.data.PopularBooks" />
+        <PopularBooks :books="store.homepage.data.popularBooks" />
       </div>
 
       <div class="categories">
         <TitleSection :title="'Categories'" :route-name="'categories'" />
-        <Categories :categories="store.homepage.data.Categories"/>
+        <Categories :categories="store.homepage.data.categories"/>
       </div>
     </div>
     <div v-else>
@@ -54,6 +54,6 @@ watch(() => store.homepage.searchModel, async () => {
   margin-bottom: .8rem;
 }
 .delayed-books, .popular-books {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 </style>

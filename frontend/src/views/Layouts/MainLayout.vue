@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import NavigationBar from "@/components/global/NavigationBar.vue";
-import TopMenu from "@/components/global/TopMenu.vue";
+import NavigationBar from "@/components/global/NavigationBarComponent.vue";
+import TopMenu from "@/components/global/TopMenuComponent.vue";
 </script>
 
 <template>

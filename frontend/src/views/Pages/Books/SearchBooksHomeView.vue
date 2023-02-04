@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Books from '@/components/books/Books.vue';
-import Pagination from '@/components/global/Pagination.vue';
-import { booksStore } from '@/stores/booksStore';
+import Books from '@/components/books/BooksComponent.vue';
+import Pagination from '@/components/global/PaginationComponent.vue';
+import { booksStore } from '@/stores/books-store';
 
 const store = booksStore();
 
@@ -13,14 +13,14 @@ var changePage = (page: number) => {
 <template>
     <div class="results">
         Results 
-        <span>({{ store.homepage.books?.length }})</span>
+        <span>({{ store.homepage.searchModel.pagination.total }})</span>
     </div>
     
-    <Books :books="store.homepage.books" />
+    <Books :books="store.homepage.data.books" />
 
     <Pagination
-        :current-page="store.homepage.pagination.CurrentPage"
-        :last-page="store.homepage.pagination.LastPage"
+        :current-page="store.homepage.searchModel.pagination.page"
+        :last-page="store.homepage.searchModel.pagination.last_page"
         @change-page="changePage"
     />
 </template>

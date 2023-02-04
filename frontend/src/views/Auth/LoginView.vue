@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { authStore } from '@/stores/authStore';
+import { authStore } from '@/stores/auth-storee';
 import { useRouter } from "vue-router";
 import type LoginModel from "@/models/auth/LoginModel";
 
@@ -18,7 +18,8 @@ async function login(model: LoginModel): Promise<void> {
 	let result = await store.login(model);
 	
 	if(result) {
-		router.replace({ name: "home" })
+		// router.replace({ name: "home" })
+		location.reload();
 	}
 }
 

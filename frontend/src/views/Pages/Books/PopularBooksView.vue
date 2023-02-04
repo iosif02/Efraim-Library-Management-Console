@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PopularBooks from '@/components/books/PopularBooks.vue';
-import Pagination from '@/components/global/Pagination.vue';
-import { booksStore } from '@/stores/booksStore';
+import PopularBooks from '@/components/books/PopularBooksComponent.vue';
+import Pagination from '@/components/global/PaginationComponent.vue';
+import { booksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = booksStore();
@@ -31,8 +31,8 @@ watch(() => store.delayedBooks.searchModel, async () => {
     <PopularBooks :books="store.popularBooks.data" />
 
     <Pagination
-        :current-page="store.popularBooks.pagination.CurrentPage"
-        :last-page="store.popularBooks.pagination.LastPage"
+        :current-page="store.popularBooks.searchModel.pagination.page"
+        :last-page="store.popularBooks.searchModel.pagination.last_page"
         @change-page="changePage"
     />
 </template>

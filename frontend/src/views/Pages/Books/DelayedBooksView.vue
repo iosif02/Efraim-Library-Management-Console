@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import DelayedBooks from '@/components/books/DelayedBooks.vue';
-import Pagination from '@/components/global/Pagination.vue';
-import { booksStore } from '@/stores/booksStore';
+import DelayedBooks from '@/components/books/DelayedBooksComponent.vue';
+import Pagination from '@/components/global/PaginationComponent.vue';
+import { booksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = booksStore();
@@ -21,7 +21,7 @@ watch(() => store.delayedBooks.searchModel, async () => {
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack :go-back-text="`Late Books (${store.delayedBooks.total})`" />
+    <GoBack :go-back-text="`Late Books (${store.delayedBooks.searchModel.pagination.total})`" />
 
     <SearchBar
         :defaultValue="store.delayedBooks.searchModel.title"
@@ -31,8 +31,8 @@ watch(() => store.delayedBooks.searchModel, async () => {
     <DelayedBooks :books="store.delayedBooks.data" />
 
     <Pagination
-        :current-page="store.delayedBooks.pagination.CurrentPage"
-        :last-page="store.delayedBooks.pagination.LastPage"
+        :current-page="store.delayedBooks.searchModel.pagination.page"
+        :last-page="store.delayedBooks.searchModel.pagination.last_page"
         @change-page="changePage"
     />
 </template>

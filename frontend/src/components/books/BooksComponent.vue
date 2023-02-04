@@ -1,5 +1,13 @@
 <script setup lang="ts">
-defineProps(['books'])
+import type BookModel from '@/models/book/BookModel';
+import type { PropType } from 'vue'
+
+defineProps({
+    books: {
+        type: Object as PropType<BookModel[]>,
+        required: true
+    }
+});
 </script>
 
 <template>
@@ -12,10 +20,10 @@ defineProps(['books'])
                     <div class="status">Available</div>
                 </div>
                 <div class="bottom-section">
-                    <div class="author">{{ book.AuthorName }}</div>
+                    <div class="author">{{ book.authors?.[0]?.name }}</div>
                     <div class="category">
-                        <span class="category-number">({{ book.category }})</span>
-                        <span class="category-name">{{ book.CategoryName }} history</span>
+                        <span class="category-number">({{ book.category?.number }})</span>
+                        <span class="category-name">{{ book.category?.name }}</span>
                     </div>
                 </div>
             </div>

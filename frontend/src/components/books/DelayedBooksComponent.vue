@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import moment from 'moment';
+import type DelayedBookModel from '@/models/book/DelayedBookModel';
+import type { PropType } from 'vue'
 
-const props = defineProps(['books'])
+const props = defineProps({
+    books: {
+        type: Object as PropType<DelayedBookModel[]>,
+        required: true
+    }
+});
 
 let formatDate = (date: string) => {
     if (date) {
-        return moment(date, "DD-MM-YY h:mm:ss").format("DD MMM");
+        return moment(date, "YYYY-MM-DD h:mm:ss").format("DD MMM");
     }
     return date;
 }
@@ -14,7 +21,7 @@ let delayedDays = (date: string) => {
         const currentDate = new Date();
         const oneDay = 24 * 60 * 60 * 1000;
 
-        let newDate = new Date(moment(date, "DD-MM-YY h:mm:ss").toString());
+        let newDate = new Date(moment(date, "YYYY-MM-DD h:mm:ss").toString());
         let days = currentDate.getTime() - newDate.getTime();
 
         return Math.ceil(days / oneDay) - 1;
@@ -25,14 +32,14 @@ let delayedDays = (date: string) => {
 
 <template>
     <div class="books">
-        <div v-for="book in props?.books" class="book">
-            <img :src="book.PhotoUrl" alt="">
+        <div v-for="currentBook in props?.books" class="book">
+            <img :src="currentBook.book.image" alt="">
             <div class="details">
                 <div class="top-section">
-                    <p class="name">{{ book.UserName }}</p>
-                    <p class="date">{{ formatDate(book.DueDate) }} - {{ delayedDays(book.DueDate) }} days</p>
+                    <p class="name">{{ currentBook.user.name }}</p>
+                    <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
                 </div>
-                <div class="book-title">{{ book.title }}</div>
+                <div class="book-title">{{ currentBook.book.title }}</div>
             </div>
         </div>
     </div>
@@ -67,7 +74,8 @@ let delayedDays = (date: string) => {
 img {
     height: 40px;
     width: 40px;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 12px;
 }
 .top-section {
     display: flex;
