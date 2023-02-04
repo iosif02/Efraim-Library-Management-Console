@@ -28,9 +28,8 @@ defineProps({
 
 <style scoped>
 .books {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 .books .book:nth-child(n + 1) {

@@ -1,12 +1,7 @@
-<script setup lang="ts">import { watch } from 'vue';
+<script setup lang="ts">
+import { watch } from 'vue';
 
 const props = defineProps(['currentPage', 'lastPage'])
-
-var links = Array.from(Array(3).keys()).map(x => ({ page: x + 1, active: props.currentPage == x + 1, dots: false }));
-
-watch(() => props, async () => {
-    links = prepareLinks();
-}, { deep: true });
 
 var prepareLinks = () => {
    // Create array
@@ -18,10 +13,16 @@ var prepareLinks = () => {
 
     return localLinks;
 }
+
+var links = prepareLinks();
+
+watch(() => props, async () => {
+    links = prepareLinks();
+}, { deep: true });
 </script>
 
 <template>
-    <div class="pagination">
+    <div class="pagination" v-if="links.length > 1">
         <div v-for="link in links">
             <div v-if="link.active" class="link active">
                 {{ link.page }}
