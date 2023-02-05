@@ -6,28 +6,28 @@ import NotificationHelper from "@/helpers/NotificationHelper";
 import type LoginModel from "@/models/auth/LoginModel";
 
 export const authStore = defineStore('authStore', {
-  state: () => ({
+  	state: () => ({
 		isAuthenticated: false,
 		bearerToken: "",
 		userDetails: ""
 	}),
-  getters: {
-  },
-  actions: {
-    async register(user: RegisterModel) {
-			try {
-				let response = await axios.post(config.apiUrl + "/register", user);
+	getters: {
+	},
+  	actions: {
+		async register(user: RegisterModel) {
+				try {
+					let response = await axios.post(config.apiUrl + "/register", user);
 
-				if(response?.data == 1) {
-					NotificationHelper.NotifySuccess("The user was created. Please login!");
-					return true;
+					if(response?.data == 1) {
+						NotificationHelper.NotifySuccess("The user was created. Please login!");
+						return true;
+					}
+
+					return false;
+				} catch(ex: any) {
+					console.error("Request error: " + ex);
 				}
-
-				return false;
-			} catch(ex: any) {
-				console.error("Request error: " + ex);
-			}
-    },
+		},
 		async login(user: LoginModel) {
 			try {
 				let response = await axios.post(config.apiUrl + "/login", user);
@@ -63,5 +63,5 @@ export const authStore = defineStore('authStore', {
 				console.error("Request error: " + ex);
 			}
 		}
-  },
+  	},
 })

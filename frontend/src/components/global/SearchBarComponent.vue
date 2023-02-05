@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import SearchIcon from "@/components/icons/SearchIcon.vue";
 
-const props = defineProps(['defaultValue'])
+const props = defineProps({
+  defaultValue: {
+    type: String
+  }
+})
 let searchValue = props?.defaultValue;
 </script>
 

@@ -2,55 +2,33 @@
 import { RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { authStore } from '@/stores/auth-store';
-import { useRouter } from "vue-router";
-import type LoginModel from "@/models/auth/LoginModel";
+import * as yup from 'yup';
 
-const props = defineProps({
+defineProps({
 	userCreated: {
 		type: Boolean,
 		default: false
 	}
 });
+
 const store = authStore();
-const router = useRouter();
-
-async function login(model: LoginModel): Promise<void> {
+async function login(model: any): Promise<void> {
 	let result = await store.login(model);
-	
-	if(result) {
-		// router.replace({ name: "home" })
-		location.reload();
-	}
+	if(result) location.reload();
 }
 
-function validateEmail(value: string): string|boolean {
-	if (!value) {
-		return 'This field is required';
-	}
-
-	const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-	if (!regex.test(value)) {
-		return 'This field must be a valid email';
-	}
-
-	return true;
-}
-
-function validateName(value: string): string|boolean {
-	if(!value) {
-		return 'This field is required';
-	}
-
-	return true;
-}
+const validateForm = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8),
+});
 </script>
 
 <template>
 	<h2 class="auth-title">Login</h2>
-	<Form class="form-control" @submit="login">
+	<Form class="form-control" @submit="login" :validation-schema="validateForm">
 		<div class="form-group">
 			<label>Email</label>
-			<Field name="email" type="email" :rules="validateEmail" />
+			<Field name="email" type="email" />
 			<ErrorMessage name="email" />
 		</div>
 		<div class="form-group">
@@ -59,7 +37,10 @@ function validateName(value: string): string|boolean {
 			<ErrorMessage name="password" />
 		</div>
 		<input value="Sign In" type="submit" class="btn w-100">
-		<p class="small-text">You don't have an account? <RouterLink :to="{ name: 'register' }">Register here</RouterLink></p>
+		<p class="small-text">
+			You don't have an account?
+			<RouterLink :to="{ name: 'register' }">Register here</RouterLink>
+		</p>
 	</Form>
 </template>
 

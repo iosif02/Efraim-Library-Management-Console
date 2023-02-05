@@ -2,7 +2,12 @@
 import ChevronLeftIcon from "@/components/icons/ChevronLeftIcon.vue";
 import router from "@/router";
 
-defineProps(['goBackText'])
+defineProps({
+    goBackText: {
+        type: String,
+        required: true
+    }
+})
 </script>
 
 <template>
