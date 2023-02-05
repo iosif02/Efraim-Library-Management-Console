@@ -3,7 +3,6 @@ import { authStore } from '@/stores/auth-store';
 import authRoutes from "@/router/auth-routes";
 import bookRoutes from "@/router/book-routes";
 import readerRoutes from "@/router/reader-routes"
-import profileRoutes from "@/router/profile-routes"
 import authorsRoutes from "@/router/authors-routes"
 
 const router = createRouter({
@@ -12,7 +11,6 @@ const router = createRouter({
     authRoutes,
     bookRoutes,
     readerRoutes,
-    profileRoutes,
     authorsRoutes
   ],
 });

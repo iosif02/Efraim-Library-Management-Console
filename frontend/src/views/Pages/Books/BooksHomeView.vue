@@ -4,7 +4,8 @@ import DelayedBooks from '@/components/books/DelayedBooksComponent.vue';
 import PopularBooks from '@/components/books/PopularBooksComponent.vue';
 import Categories from '@/components/books/CategoriesComponent.vue';
 import TitleSection from "@/components/global/TitleSectionComponent.vue";
-import SearchBooksHomeView from './SearchBooksHomeView.vue';
+import SearchBooksHomeView from '@/views/Pages/Books/SearchBooksHomeView.vue';
+import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 import { watch } from 'vue';
 
 const store = booksStore();
@@ -46,6 +47,7 @@ watch(() => store.homepage.searchModel, async () => {
       <SearchBooksHomeView />
     </div>
 
+    <CreateButtonComponent route-name="createBook" />
 	</div>
 </template>
 

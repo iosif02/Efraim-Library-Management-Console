@@ -3,6 +3,7 @@ import BooksHomeViewVue from "@/views/Pages/Books/BooksHomeView.vue";
 import DelayedBooksViewVue from "@/views/Pages/Books/DelayedBooksView.vue";
 import PopularBooksViewVue from "@/views/Pages/Books/PopularBooksView.vue";
 import CategoriesViewVue from "@/views/Pages/Books/CategoriesView.vue";
+import CreateBookViewVue from "@/views/Pages/Books/CreateBookView.vue";
 
 export default
 {
@@ -30,6 +31,11 @@ export default
             path: "/categories",
             name: "categories",
             component: CategoriesViewVue
+        },
+        {
+            path: "/create-book",
+            name: "createBook",
+            component: CreateBookViewVue
         }
     ]
 };
