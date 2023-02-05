@@ -9,11 +9,11 @@ import { watch } from 'vue';
 
 const store = booksStore();
 if(!store.homepage.isFetched){
-  await store.fetchHomepage();
+  store.fetchHomepage();
 }
 
 watch(() => store.homepage.searchModel, async () => {
-    await store.searchBooks();
+  await store.searchBooks();
 }, { deep: true });
 </script>
 

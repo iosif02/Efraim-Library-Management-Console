@@ -6,7 +6,7 @@ import { watch } from 'vue';
 
 const store = booksStore();
 if(!store.popularBooks?.data.length) {
-  await store.fetchPopularBooks();
+    store.fetchPopularBooks();
 }
 
 var changePage = (page: number) => {

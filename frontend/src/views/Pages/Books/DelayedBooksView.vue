@@ -6,7 +6,7 @@ import { watch } from 'vue';
 
 const store = booksStore();
 if(!store.delayedBooks.data.length) {
-  await store.fetchDelayedBooks();
+    store.fetchDelayedBooks();
 }
 
 var changePage = (page: number) => {

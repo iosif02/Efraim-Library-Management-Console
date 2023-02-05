@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
 import NavigationBar from "@/components/global/NavigationBarComponent.vue";
 import TopMenu from "@/components/global/TopMenuComponent.vue";
 </script>
@@ -9,7 +8,11 @@ import TopMenu from "@/components/global/TopMenuComponent.vue";
     <div class="content">
       <TopMenu />
 
-      <RouterView />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </div>
     <NavigationBar />
   </div>

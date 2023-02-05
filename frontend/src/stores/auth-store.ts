@@ -25,12 +25,7 @@ export const authStore = defineStore('authStore', {
 
 				return false;
 			} catch(ex: any) {
-				if(ex?.response?.data?.errors) {
-					NotificationHelper.NotifyFormValidation(ex.response.data.errors);
-				} else {
-					console.error("Request error: " + ex);
-					NotificationHelper.NotifyError("Error occurred. Please contact the administrator!");
-				}
+				console.error("Request error: " + ex);
 			}
     },
 		async login(user: LoginModel) {
@@ -46,12 +41,7 @@ export const authStore = defineStore('authStore', {
 
 				return false;
 			} catch(ex: any) {
-				if(ex?.response?.data?.errors) {
-					NotificationHelper.NotifyFormValidation(ex.response.data.errors);
-				} else {
-					console.error("Request error: " + ex);
-					NotificationHelper.NotifyError("Error occurred. Please contact the administrator!");
-				}
+				console.error("Request error: " + ex);
 			}
 		},
 		loadUserDetailsFromStorage() {
@@ -71,7 +61,6 @@ export const authStore = defineStore('authStore', {
 				return true;
 			} catch(ex) {
 				console.error("Request error: " + ex);
-				NotificationHelper.NotifyError("Error occurred. Please contact the administrator!");
 			}
 		}
   },

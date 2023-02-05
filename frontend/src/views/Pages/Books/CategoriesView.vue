@@ -6,7 +6,7 @@ import { watch } from 'vue';
 
 const store = booksStore();
 if(!store.categories?.data?.length) {
-  await store.fetchCategories();
+    store.fetchCategories();
 }
 
 var changePage = (page: number) => {

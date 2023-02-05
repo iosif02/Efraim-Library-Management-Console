@@ -1,4 +1,8 @@
 import MainLayout from "@/views/Layouts/MainLayout.vue";
+import BooksHomeViewVue from "@/views/Pages/Books/BooksHomeView.vue";
+import DelayedBooksViewVue from "@/views/Pages/Books/DelayedBooksView.vue";
+import PopularBooksViewVue from "@/views/Pages/Books/PopularBooksView.vue";
+import CategoriesViewVue from "@/views/Pages/Books/CategoriesView.vue";
 
 export default
 {
@@ -10,22 +14,22 @@ export default
         {
             path: "/books",
             name: "books",
-            component: () => import("@/views/Pages/Books/BooksHomeView.vue"),
+            component: BooksHomeViewVue
         },
         {
             path: "/delayed-books",
             name: "delayedBooks",
-            component: () => import("@/views/Pages/Books/DelayedBooksView.vue")
+            component: DelayedBooksViewVue
         },
         {
             path: "/popular-books",
             name: "popularBooks",
-            component: () => import("@/views/Pages/Books/PopularBooksView.vue")
+            component: PopularBooksViewVue
         },
         {
             path: "/categories",
             name: "categories",
-            component: () => import("@/views/Pages/Books/CategoriesView.vue")
+            component: CategoriesViewVue
         }
     ]
 };

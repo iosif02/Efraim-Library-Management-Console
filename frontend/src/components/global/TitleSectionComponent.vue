@@ -6,12 +6,12 @@ const props = defineProps(['title', 'routeName'])
 </script>
 
 <template>
-    <div class="category-title">
-        <div class="title">{{ title }}</div>
-        <RouterLink :to="{ name: routeName }">
-            <ChevronRightIcon />
-        </RouterLink>
-    </div>
+  <div class="category-title">
+    <div class="title">{{ title }}</div>
+    <RouterLink :to="{ name: routeName }">
+      <ChevronRightIcon />
+    </RouterLink>
+  </div>
 </template>
 
 <style scoped>
