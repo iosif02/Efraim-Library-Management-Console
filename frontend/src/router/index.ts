@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import { authStore } from '@/stores/auth-store';
 import authRoutes from "@/router/auth-routes";
 import bookRoutes from "@/router/book-routes";
-import readerRoutes from "@/router/reader-routes"
-import authorsRoutes from "@/router/authors-routes"
+import readerRoutes from "@/router/reader-routes";
+import authorsRoutes from "@/router/author-routes";
+import userRoutes from "@/router/user-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,7 +12,8 @@ const router = createRouter({
     authRoutes,
     bookRoutes,
     readerRoutes,
-    authorsRoutes
+    authorsRoutes,
+    userRoutes
   ],
 });
 
