@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/delayed-books', [BookController::class, 'SearchDelayedBooks']);
         Route::post('/popular-books', [BookController::class, 'SearchPopularBooks']);
         Route::post('/categories', [BookController::class, 'SearchCategories']);
-
+        Route::post('/recommended-books', [BookController::class, 'SearchRecommendedBooks']);
 
         Route::post('/add', [BookController::class, 'AddBook']);
         Route::get('/{bookId}', [BookController::class, 'GetBook']);

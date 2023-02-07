@@ -41,10 +41,10 @@ class BookController extends Controller
         return response($result, 200);
     }
 
-    public function SearchPopularBooks(BookSearchRequest $request): Response|Application|ResponseFactory
+    public function SearchRecommendedBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();
-        $result = $this->bookService->SearchPopularBooks($validated);
+        $result = $this->bookService->SearchRecommendedBooks($validated);
         if(!$result) {
             return response(false, 400);
         }
@@ -56,6 +56,16 @@ class BookController extends Controller
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchCategories($validated);
+        if(!$result) {
+            return response(false, 400);
+        }
+        return response($result, 200);
+    }
+
+    public function SearchPopularBooks(BookSearchRequest $request)
+    {
+        $validated = $request->validated();
+        $result = $this->bookService->SearchPopularBooks($validated);
         if(!$result) {
             return response(false, 400);
         }

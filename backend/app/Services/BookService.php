@@ -111,4 +111,15 @@ class BookService implements IBookService
         }
         return $result;
     }
+
+    public function SearchRecommendedBooks($filters)
+    {
+        try {
+            $result = $this->bookRepository->SearchRecommendedBooks($filters);
+        } catch (Exception $exception) {
+            Log::error('Search book error: ' . $exception->getMessage());
+            return null;
+        }
+        return $result;
+    }
 }

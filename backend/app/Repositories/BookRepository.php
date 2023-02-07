@@ -71,6 +71,22 @@ class BookRepository implements IBookRepository
 
     public function SearchPopularBooks($filters)
     {
+        $query = Book::select('id', 'title', 'category_id', 'image')->withCount('Transaction')
+            ->with([
+                'Category' => fn($query) => $query->select('id', 'name', 'number'),
+                'Authors' => fn($query) => $query->select('name')
+            ])->orderBy('transaction_count', 'desc');
+
+        if(isset($filters['title']) && $filters['title'] != '') {
+            $query->where('title', 'like', '%'.$filters['title'].'%');
+        }
+
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+
+    }
+
+    public function SearchRecommendedBooks($filters)
+    {
         $query = Book::select('id', 'title', 'category_id', 'image')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),

@@ -11,4 +11,5 @@ interface IBookService
     public function SearchDelayedBooks($filters);
     public function SearchCategories($filters);
     public function SearchPopularBooks($filters);
+    public function SearchRecommendedBooks($filters);
 }
