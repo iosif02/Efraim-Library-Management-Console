@@ -12,16 +12,16 @@ class FileService implements IFileService
     {
         if(is_string($file)) {
             $location = Storage::get('public/images') . uniqid() . '.png';
-            return $this->base64_to_jpeg($file, $location);
+            $fileName = $this->base64_to_jpeg($file, $location);
         } else {
             $fileName = $file->getFilename().'.'.$file->extension();
             Storage::disk('public')->put($fileName, $file->getContent());
-            return 'images/' . $fileName;
         }
+
+        return 'images/' . $fileName;
     }
 
     public function base64_to_jpeg($base64_string, $output_file) {
-        Storage::get('public') . '/images/' . 'test.png';
         // open the output file for writing
         $ifp = fopen( $output_file, 'wb' );
 
