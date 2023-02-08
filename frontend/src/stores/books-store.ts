@@ -103,7 +103,6 @@ export const useBooksStore = defineStore('useBooksStore', {
     },
     async createBook(book: BookModel) {
       try {
-        console.log(book);
         this.isLoading = true;
         let books = await axios.post("/books/add", book);
         if(books?.data) {

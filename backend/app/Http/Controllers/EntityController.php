@@ -9,7 +9,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 
 
-class AuthorController extends Controller
+class EntityController extends Controller
 {
     private IAuthorService $authorService;
     public function __construct(IAuthorService $authorService) {
@@ -20,6 +20,17 @@ class AuthorController extends Controller
     {
         $validated = $request->validated();
         $result = $this->authorService->SearchAuthors($validated);
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response($result, 200);
+    }
+
+    public function SearchPublisher(AuthorSearchRequest $request): Response|Application|ResponseFactory
+    {
+        $validated = $request->validated();
+        $result = $this->authorService->SearchPublisher($validated);
         if(!$result) {
             return response(false, 400);
         }

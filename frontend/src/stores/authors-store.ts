@@ -14,7 +14,7 @@ export const useAuthorsStore = defineStore('useAuthorsStore', {
     actions: {
         async fetchAuthors() {
             try {
-                let authors = await axios.post("/authors/search", this.searchModel);
+                let authors = await axios.post("/entities/authors/search", this.searchModel);
                 if(authors?.data) {
                     this.authors = authors.data.data;
                     this.searchModel.pagination.total = authors.data.total ?? 1;

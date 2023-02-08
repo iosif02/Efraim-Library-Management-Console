@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\EntityController;
 use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,11 +35,33 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/update/{bookId}', [BookController::class, 'UpdateBook']);
         Route::delete('/delete/{bookId}', [BookController::class, 'DeleteBook']);
 
+        Route::post('/add-category', [BookController::class, 'AddCategory']);
+        Route::post('/update-category/{bookId}', [BookController::class, 'UpdateCategory']);
+        Route::delete('/delete-category/{bookId}', [BookController::class, 'DeleteCategory']);
+
         Route::post('/search', [BookController::class, 'SearchBooks']);
     });
 
-    Route::prefix('authors')->group(function () {
-        Route::post('/search', [AuthorController::class, 'SearchAuthors']);
+    Route::prefix('entities')->group(function () {
+        Route::prefix('authors')->group(function (){
+            Route::post('/search', [EntityController::class, 'SearchAuthors']);
+            Route::post('/add', [BookController::class, 'AddAuthor']);
+            Route::post('/update/{bookId}', [BookController::class, 'UpdateAuthor']);
+            Route::delete('/delete/{bookId}', [BookController::class, 'DeleteAuthor']);
+        });
+        Route::prefix('publisher')->group(function (){
+            Route::post('/search', [EntityController::class, 'SearchPublisher']);
+            Route::post('/add', [BookController::class, 'AddPublisher']);
+            Route::post('/update/{bookId}', [BookController::class, 'UpdatePublisher']);
+            Route::delete('/delete/{bookId}', [BookController::class, 'DeletePublisher']);
+        });
+        Route::prefix('category')->group(function (){
+//            Route::post('/search', [EntityController::class, 'SearchCategory']);
+            Route::post('/add', [BookController::class, 'AddCategory']);
+            Route::post('/update/{bookId}', [BookController::class, 'UpdateCategory']);
+            Route::delete('/delete/{bookId}', [BookController::class, 'DeleteCategory']);
+
+        });
     });
 });
 

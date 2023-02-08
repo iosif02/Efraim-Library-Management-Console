@@ -18,7 +18,7 @@ if(!booksStore.categories.data.length) {
 }
 
 const validateForm = yup.object({
-    title: yup.string().required().label("test"),
+    title: yup.string().required(),
     category_id: yup.object().nullable().required(),
     quantity: yup.string().required(),
     year: yup.string(),
@@ -30,11 +30,11 @@ const validateForm = yup.object({
 
 const imgSrc = ref<String|ArrayBuffer|null|undefined>("");
 var onFile = (e: any) => {
-    const files = e.target.files
-    if (!files.length) return
+    const files = e.target.files;
+    if (!files.length) return;
 
-    const reader = new FileReader()
-    reader.readAsDataURL(files[0])
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
     reader.onload = (e) => {
         watchEffect(() => {
             imgSrc.value = e.target?.result;
@@ -48,12 +48,6 @@ const filteredCategories = ref<Array<CategoryModel>>([]);
 const selectedAuthors = ref<Array<string>>([]);
 const selectedCategory = ref<CategoryModel>();
 
-// watchEffect(() => {
-//     filteredAuthors.value = authorsStore.authors;
-// });
-// watchEffect(() => {
-//     filteredCategories.value = booksStore.categories.data;
-// });
 var searchAuthors = (event: any) => {
     watchEffect(() => {
         filteredAuthors.value = authorsStore.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
@@ -66,6 +60,7 @@ var searchCategories = (event: any) => {
 }
 
 var onSubmit = async (book: any) => {
+    book.image = imgSrc.value;
     book.category_id = book.category_id?.id;
     book.authors = book.authors.map((x: any) => x.id);
     await booksStore.createBook(book);
@@ -76,12 +71,12 @@ var onSubmit = async (book: any) => {
     <GoBack go-back-text="Create Book" />
 
     <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
-        <div class="form-group image" as="image">
+        <div class="form-group image">
             <img :src="imgSrc?.toString()" v-if="imgSrc" />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>
-            <input name="image" type="file" @change="onFile">
+            <input name="select_image" type="file" @change="onFile">
             <ErrorMessage name="image" />
         </div>
         <div class="form-group">

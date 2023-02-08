@@ -28,9 +28,10 @@ class AddBookRequest extends FormRequest
 //            'title' => 'required|unique:books,title',
             'title' => 'required|string',
             'category_id' => 'required|integer',
-            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-            'price' => 'integer|nullable',
-            'year' => 'integer|nullable',
+//            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'image' => 'nullable',
+            'price' => 'string|nullable',
+            'year' => 'string|nullable',
             'authors' => 'nullable'
         ];
     }

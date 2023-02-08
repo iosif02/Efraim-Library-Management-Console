@@ -26,4 +26,16 @@ class AuthorService implements IAuthorService
 
         return $result;
     }
+
+    public function SearchPublisher($filters)
+    {
+        try {
+            $result = $this->authorRepository->SearchPublisher($filters);
+        } catch (Exception $exception) {
+            Log::error('Search authors error: ' . $exception->getMessage());
+            return null;
+        }
+
+        return $result;
+    }
 }

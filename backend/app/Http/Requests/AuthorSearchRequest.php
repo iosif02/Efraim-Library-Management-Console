@@ -26,9 +26,9 @@ class AuthorSearchRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string',
-            'pagination' => 'required',
-            'pagination.per_page' => 'required|integer',
-            'pagination.page' => 'required|integer',
+            'pagination' => 'nullable',
+            'pagination.per_page' => 'nullable|integer',
+            'pagination.page' => 'nullable|integer',
         ];
     }
 }
