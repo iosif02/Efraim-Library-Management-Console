@@ -11,14 +11,13 @@ class FileService implements IFileService
     public function StoreFile(UploadedFile|string $file): string
     {
         if(is_string($file)) {
-            $location = Storage::get('public/images') . uniqid() . '.png';
-            $fileName = $this->base64_to_jpeg($file, $location);
+            $name = 'images/' . uniqid() . '.png';
+            return $this->base64_to_jpeg($file, $name);
         } else {
             $fileName = $file->getFilename().'.'.$file->extension();
             Storage::disk('public')->put($fileName, $file->getContent());
+            return $fileName;
         }
-
-        return 'images/' . $fileName;
     }
 
     public function base64_to_jpeg($base64_string, $output_file) {
