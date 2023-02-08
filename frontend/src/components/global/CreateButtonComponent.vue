@@ -18,7 +18,7 @@ defineProps({
     background-color: #76CECB;
     width: 55px;
     height: 55px;
-    position: absolute;
+    position: fixed;
     right: 16px;
     bottom: 76px;
     border-radius: 50%;
