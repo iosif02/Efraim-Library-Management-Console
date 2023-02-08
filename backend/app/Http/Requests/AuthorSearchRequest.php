@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class AddBookRequest extends FormRequest
+class AuthorSearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,10 @@ class AddBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'title' => 'required|unique:books,title',
-            'title' => 'required|string',
-            'category_id' => 'required|integer',
-            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-            'price' => 'integer|nullable',
-            'year' => 'integer|nullable',
-            'authors' => 'nullable'
+            'name' => 'nullable|string',
+            'pagination' => 'required',
+            'pagination.per_page' => 'required|integer',
+            'pagination.page' => 'required|integer',
         ];
     }
 }

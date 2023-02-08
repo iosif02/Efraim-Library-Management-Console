@@ -55,6 +55,10 @@ $app->bind(
     App\Interfaces\IFileService::class,
     App\Services\FileService::class
 );
+$app->bind(
+    App\Interfaces\IAuthorService::class,
+    App\Services\AuthorService::class
+);
 
 
 /* Repositories */
@@ -65,6 +69,10 @@ $app->bind(
 $app->bind(
     App\Repositories\IBookRepository::class,
     App\Repositories\BookRepository::class
+);
+$app->bind(
+    App\Repositories\IAuthorRepository::class,
+    App\Repositories\AuthorRepository::class
 );
 
 

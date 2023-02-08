@@ -6,7 +6,7 @@ import type CategoryModel from "@/models/book/CategoryModel";
 import type BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 
-export const booksStore = defineStore('booksStore', {
+export const useBooksStore = defineStore('useBooksStore', {
   state: () => ({
     isLoading: false,
 
@@ -91,13 +91,26 @@ export const booksStore = defineStore('booksStore', {
     },
     async searchBooks() {
       try {
-        let books = await axios.post("/books/search?page=" + this.homepage.searchModel.pagination.page, this.homepage.searchModel);
+        let books = await axios.post("/books/search", this.homepage.searchModel);
         if(books?.data) {
           this.homepage.data.books = books.data.data;
           this.homepage.searchModel.pagination.total = books.data.total ?? 1;
           this.homepage.searchModel.pagination.last_page = books.data.last_page ?? 1;
         }
       } catch(ex) {
+        console.error("Request error: " + ex);
+      }
+    },
+    async createBook(book: BookModel) {
+      try {
+        console.log(book);
+        this.isLoading = true;
+        let books = await axios.post("/books/add", book);
+        if(books?.data) {
+          this.isLoading = false;
+        }
+      } catch(ex) {
+        this.isLoading = false;
         console.error("Request error: " + ex);
       }
     },

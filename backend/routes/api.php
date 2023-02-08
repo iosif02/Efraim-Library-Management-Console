@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,8 +38,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/search', [BookController::class, 'SearchBooks']);
     });
 
-    Route::get('/test', function () {
-        return "test";
+    Route::prefix('authors')->group(function () {
+        Route::post('/search', [AuthorController::class, 'SearchAuthors']);
     });
 });
 

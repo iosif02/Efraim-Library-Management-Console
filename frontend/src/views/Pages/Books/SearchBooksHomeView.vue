@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Books from '@/components/books/BooksComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
-import { booksStore } from '@/stores/books-store';
+import { useBooksStore } from '@/stores/books-store';
 
-const store = booksStore();
+const store = useBooksStore();
 
 var changePage = (page: number) => {
     store.booksHomeChangePage(page);

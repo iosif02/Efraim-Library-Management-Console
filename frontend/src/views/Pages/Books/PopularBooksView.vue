@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import PopularBooks from '@/components/books/PopularBooksComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
-import { booksStore } from '@/stores/books-store';
+import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
-const store = booksStore();
+const store = useBooksStore();
 if(!store.popularBooks?.data.length) {
     store.fetchPopularBooks();
 }

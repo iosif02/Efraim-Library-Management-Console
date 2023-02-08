@@ -6,9 +6,6 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Transactions;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
 class BookRepository implements IBookRepository
 {
@@ -60,7 +57,7 @@ class BookRepository implements IBookRepository
 
     public function SearchCategories($filters)
     {
-        $query = Category::select('name', 'number')->withCount('Book');
+        $query = Category::select('id', 'name', 'number')->withCount('Book');
 
         if(isset($filters['title']) && $filters['title'] != '') {
             $query->where('name', 'like', '%'.$filters['title'].'%');

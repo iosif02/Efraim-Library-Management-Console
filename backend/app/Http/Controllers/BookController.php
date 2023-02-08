@@ -62,7 +62,7 @@ class BookController extends Controller
         return response($result, 200);
     }
 
-    public function SearchPopularBooks(BookSearchRequest $request)
+    public function SearchPopularBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchPopularBooks($validated);

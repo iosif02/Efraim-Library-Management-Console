@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Categories from '@/components/books/CategoriesComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
-import { booksStore } from '@/stores/books-store';
+import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
-const store = booksStore();
+const store = useBooksStore();
 if(!store.categories?.data?.length) {
     store.fetchCategories();
 }
@@ -13,7 +13,7 @@ var changePage = (page: number) => {
     store.categoriesChangePage(page);
 }
 
-watch(() => store.delayedBooks.searchModel, async () => {
+watch(() => store.categories.searchModel, async () => {
     await store.fetchCategories();
 }, { deep: true });
 </script>

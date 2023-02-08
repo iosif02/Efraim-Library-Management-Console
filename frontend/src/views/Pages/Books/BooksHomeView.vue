@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { booksStore } from '@/stores/books-store';
+import { useBooksStore } from '@/stores/books-store';
 import DelayedBooks from '@/components/books/DelayedBooksComponent.vue';
 import PopularBooks from '@/components/books/PopularBooksComponent.vue';
 import Categories from '@/components/books/CategoriesComponent.vue';
@@ -8,7 +8,7 @@ import SearchBooksHomeView from '@/views/Pages/Books/SearchBooksHomeView.vue';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 import { watch } from 'vue';
 
-const store = booksStore();
+const store = useBooksStore();
 if(!store.homepage.isFetched){
   store.fetchHomepage();
 }
