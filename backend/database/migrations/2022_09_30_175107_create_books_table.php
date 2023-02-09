@@ -22,7 +22,7 @@ return new class extends Migration
             $table->float('price')->nullable();
             $table->string('image')->nullable();
             $table->integer('quantity')->nullable();
-            $table->boolean('is_recommended')->nullable();
+            $table->boolean('is_recommended')->default(false);
             $table->integer('order')->nullable();
             $table->foreignIdFor(Category::class)->nullable();
             $table->foreignIdFor(Publisher::class)->nullable();

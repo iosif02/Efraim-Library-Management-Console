@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\IBookService;
 use App\Interfaces\IFileService;
 use App\Repositories\IBookRepository;
+use App\Repositories\IEntityRepository;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
@@ -12,12 +13,14 @@ use JetBrains\PhpStorm\ArrayShape;
 class BookService implements IBookService
 {
     private IBookRepository $bookRepository;
+    private IEntityRepository $entityRepository;
     private IFileService $fileService;
 
-    public function __construct(IBookRepository $bookRepository, IFileService $fileService)
+    public function __construct(IBookRepository $bookRepository, IFileService $fileService, IEntityRepository $entityRepository)
     {
         $this->bookRepository = $bookRepository;
         $this->fileService = $fileService;
+        $this->entityRepository = $entityRepository;
     }
 
     #[ArrayShape(["delayedBooks" => "", "popularBooks" => "", "categories" => ""])]
@@ -26,7 +29,7 @@ class BookService implements IBookService
         $filters = ['pagination' => [ 'per_page' => 3, 'page' => 1]];
         $delayedBooks = $this->bookRepository->SearchDelayedBooks($filters);
         $popularBooks = $this->bookRepository->SearchPopularBooks($filters);
-        $categories = $this->bookRepository->SearchCategories($filters);
+        $categories = $this->entityRepository->SearchCategories($filters);
 
         return [
             "delayedBooks" => $delayedBooks,
@@ -87,17 +90,6 @@ class BookService implements IBookService
 //            ];
 //        });
 
-        return $result;
-    }
-
-    public function SearchCategories($filters)
-    {
-        try {
-            $result = $this->bookRepository->SearchCategories($filters);
-        } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
-            return null;
-        }
         return $result;
     }
 

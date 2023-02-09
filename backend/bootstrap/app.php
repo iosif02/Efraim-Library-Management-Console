@@ -56,8 +56,8 @@ $app->bind(
     App\Services\FileService::class
 );
 $app->bind(
-    App\Interfaces\IAuthorService::class,
-    App\Services\AuthorService::class
+    App\Interfaces\IEntityService::class,
+    App\Services\EntityService::class
 );
 
 
@@ -71,8 +71,8 @@ $app->bind(
     App\Repositories\BookRepository::class
 );
 $app->bind(
-    App\Repositories\IAuthorRepository::class,
-    App\Repositories\AuthorRepository::class
+    App\Repositories\IEntityRepository::class,
+    App\Repositories\EntityRepository::class
 );
 
 
