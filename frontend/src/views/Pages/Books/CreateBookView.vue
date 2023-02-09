@@ -107,13 +107,13 @@ var onSubmit = async (book: any) => {
         <div class="form-group">
             <Field name="authors" type="hidden" :value="selectedAuthors" v-model="selectedAuthors" />
             <label for="authors">Authors</label>
-            <AutoComplete name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :multiple="true" />
+            <AutoComplete name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true" />
             <ErrorMessage name="authors" />
         </div>
         <div class="form-group">
             <Field name="category_id" type="hidden" :value="selectedCategory" v-model="selectedCategory" />
             <label for="category_id">Category</label>
-            <AutoComplete name="category_id" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" />
+            <AutoComplete name="category_id" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" :dropdown="true" optionLabel="name" />
             <ErrorMessage name="category_id" />
         </div>
 

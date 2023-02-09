@@ -79,7 +79,7 @@ export const useBooksStore = defineStore('useBooksStore', {
     },
     async fetchCategories() {
       try {
-        let books = await axios.post("/books/categories", this.categories.searchModel);
+        let books = await axios.post("/entities/categories/search", this.categories.searchModel);
         if(books?.data) {
           this.categories.data = books.data.data;
           this.categories.searchModel.pagination.total = books.data.total ?? 1;

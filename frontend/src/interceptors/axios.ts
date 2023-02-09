@@ -7,6 +7,7 @@ axios.interceptors.request.use(function (axiosConfig) {
 	axiosConfig.baseURL = config.apiUrl;
 	axiosConfig.headers = {
 		Authorization: `Bearer ${token}`,
+		Accept: 'application/json'
 	}
 	return axiosConfig;
 	}, function (error) {
