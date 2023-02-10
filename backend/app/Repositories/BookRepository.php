@@ -35,7 +35,8 @@ class BookRepository implements IBookRepository
             $query->where('title', 'like', '%'.$filters['title'].'%');
         }
 
-        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page'])
+            ->append('status');
     }
 
     public function SearchDelayedBooks($filters)
@@ -52,7 +53,8 @@ class BookRepository implements IBookRepository
                     $query->where('title', 'like', '%'.$filters['title'].'%');
                 }
             })
-            ->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+            ->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page'])
+            ->append('delayed');
     }
 
     public function SearchPopularBooks($filters)

@@ -41,5 +41,13 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class, 'book_authors');
     }
+
+//    protected $appends = ['status'];
+
+    public function getStatusAttribute()
+    {
+        return $this->quantity - $this->transaction_count;
+    }
+
 }
 
