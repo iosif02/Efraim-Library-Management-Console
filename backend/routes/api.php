@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntityController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,10 +32,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::post('/add', [BookController::class, 'AddBook']);
         Route::get('/{bookId}', [BookController::class, 'GetBook']);
-        Route::post('/update/{bookId}', [BookController::class, 'UpdateBook']);
+        Route::post('/update', [BookController::class, 'UpdateBook']);
         Route::delete('/delete/{bookId}', [BookController::class, 'DeleteBook']);
-
         Route::post('/search', [BookController::class, 'SearchBooks']);
+
+        Route::post('/borrow', [BookController::class, 'BorrowBook']);
+        Route::post('/return', [BookController::class, 'ReturnBook']);
+
     });
 
     Route::prefix('entities')->group(function () {
@@ -57,6 +61,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::delete('/delete-category/{categoryId}', [EntityController::class, 'DeleteCategory']);
         });
     });
+
+    Route::prefix('user')->group(function () {
+        Route::get('users', [UserController::class, 'GetUsers']);
+        Route::post('/add-user', [UserController::class, 'AddUser']);
+        Route::post('/update-user', [UserController::class, 'UpdateUser']);
+        Route::delete('/delete-user/{userId}', [UserController::class, 'DeleteUser']);
+    });
+
 });
 
 Route::middleware('auth:api')->get('/user', function(Request $request) {

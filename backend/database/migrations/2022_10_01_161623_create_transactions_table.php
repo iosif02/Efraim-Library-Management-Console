@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Book::class);
             $table->dateTime('borrow_date');
-            $table->boolean('is_returned');
+            $table->boolean('is_returned')->default(false);
             $table->dateTime('return_date');
             $table->timestamps();
         });

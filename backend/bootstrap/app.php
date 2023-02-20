@@ -48,6 +48,10 @@ $app->bind(
     App\Services\AuthService::class
 );
 $app->bind(
+    App\Interfaces\IUserService::class,
+    App\Services\UserService::class
+);
+$app->bind(
     App\Interfaces\IBookService::class,
     App\Services\BookService::class
 );

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddBookRequest;
 use App\Http\Requests\BookSearchRequest;
+use App\Http\Requests\BorrowBookRequest;
 use App\Http\Requests\PaginateRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Interfaces\IBookService;
 use App\Models\Book;
 use App\Models\Transactions;
@@ -73,14 +75,35 @@ class BookController extends Controller
         return response(true, 200);
     }
 
-    public function GetBook($bookId):  ?Book
+    public function UpdateBook(UpdateBookRequest $request): Response|Application|ResponseFactory
+    {
+        $validated = $request->validated();
+        $result = $this->bookService->UpdateBook($validated);
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response(true, 200);
+    }
+
+    public function DeleteBook($bookId): Response|Application|ResponseFactory
+    {
+        $result = $this->bookService->DeleteBook($bookId);
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response(true, 200);
+    }
+
+    public function GetBook($bookId)
     {
         if(!$bookId) return null;
 
         return $this->bookService->GetBookById($bookId);
     }
 
-    public function SearchBooks(BookSearchRequest $request): Response|Application|ResponseFactory
+    public function SearchBooks(BookSearchRequest $request)
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchBooks($validated);
@@ -90,4 +113,27 @@ class BookController extends Controller
 
         return response($result, 200);
     }
+
+    public function BorrowBook(BorrowBookRequest $request): Response|Application|ResponseFactory
+    {
+        $validated = $request->validated();
+        $result = $this->bookService->BorrowBook($validated);
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response(true, 200);
+    }
+
+    public function ReturnBook(BorrowBookRequest $request): Response|Application|ResponseFactory
+    {
+        $validated = $request->validated();
+        $result = $this->bookService->ReturnBook($validated);
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response(true, 200);
+    }
+
 }

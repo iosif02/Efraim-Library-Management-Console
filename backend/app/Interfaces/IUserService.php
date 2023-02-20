@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Interfaces;
 
-interface IUserRepository
+interface IUserService
 {
-    public function CreateUser($fields);
-    public function GetUserByEmail($email);
     public function GetUsers();
     public function AddUser($fields);
     public function UpdateUser($fields);
