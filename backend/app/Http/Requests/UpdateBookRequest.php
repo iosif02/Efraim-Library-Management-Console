@@ -2,20 +2,17 @@
 
 namespace App\Http\Requests;
 
-
-use Illuminate\Support\Facades\URL;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class AddBookRequest extends FormRequest
+class UpdateBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return Auth::check();
     }
@@ -25,7 +22,7 @@ class AddBookRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             'title' => 'required|string',
@@ -36,6 +33,7 @@ class AddBookRequest extends FormRequest
             'year' => 'string|nullable',
             'publisher_id' => 'nullable|integer',
             'authors' => 'required|array',
+            'bookId' => 'required|integer',
         ];
     }
 }

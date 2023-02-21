@@ -6,6 +6,7 @@ use App\Interfaces\IBookService;
 use App\Interfaces\IFileService;
 use App\Repositories\IBookRepository;
 use App\Repositories\IEntityRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
@@ -41,16 +42,52 @@ class BookService implements IBookService
     public function AddBook($fields): bool
     {
         try {
-            $imageName = $this->fileService->StoreFile($fields['image']);
-            $fields['image'] = $imageName;
-
+            if(isset($fields['image'])){ //cand vi fi in productie trebuie scoasa conditia
+                $imageName = $this->fileService->StoreFile($fields['image']);
+                $fields['image'] = $imageName;
+            } // si aici
             $result = $this->bookRepository->AddBook($fields);
         } catch (Exception $exception) {
             Log::error('Add book error: ' . $exception->getMessage());
             return false;
         }
 
-        return (bool)$result;
+        return $result;
+    }
+
+    public function UpdateBook($fields): bool
+    {
+        try {
+            if(!$fields['bookId'])
+                throw new Exception('categoryId is required!');
+
+            if(isset($fields['image'])){
+                $imageName = $this->fileService->StoreFile($fields['image']);
+                $fields['image'] = $imageName;
+            }
+
+            $result = $this->bookRepository->UpdateBook($fields);
+        } catch (Exception $exception) {
+            Log::error('Update book error: ' . $exception->getMessage());
+            return false;
+        }
+
+        return $result;
+    }
+
+    public function DeleteBook($bookId): bool
+    {
+        try {
+            if(!$bookId)
+                throw new Exception('bookId is required!');
+
+            $result = $this->bookRepository->DeleteBook($bookId);
+        } catch (Exception $exception) {
+            Log::error('Delete book error: ' . $exception->getMessage());
+            return false;
+        }
+
+        return $result;
     }
 
     public function GetBookById($bookId) {
@@ -71,11 +108,12 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function SearchDelayedBooks($filters) {
+    public function SearchDelayedBooks($filters)
+    {
         try {
             $result = $this->bookRepository->SearchDelayedBooks($filters);
         } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
+            Log::error('Search delayed book error: ' . $exception->getMessage());
             return null;
         }
 
@@ -98,7 +136,7 @@ class BookService implements IBookService
         try {
             $result = $this->bookRepository->SearchPopularBooks($filters);
         } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
+            Log::error('Search popular book error: ' . $exception->getMessage());
             return null;
         }
         return $result;
@@ -109,9 +147,36 @@ class BookService implements IBookService
         try {
             $result = $this->bookRepository->SearchRecommendedBooks($filters);
         } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
+            Log::error('Search recommended book error: ' . $exception->getMessage());
             return null;
         }
         return $result;
     }
+
+    public function BorrowBook($fields): ?bool
+    {
+        try {
+            $fields['borrow_date'] = Carbon::today();
+            $fields['return_date'] = Carbon::today()->addWeeks(2);
+            $fields['is_returned'] = false;
+
+            $result = $this->bookRepository->BorrowBook($fields);
+        } catch (Exception $exception) {
+            Log::error('Borrow book error: ' . $exception->getMessage());
+            return null;
+        }
+        return (bool)$result;
+    }
+
+    public function ReturnBook($fields): ?bool
+    {
+        try {
+            $result = $this->bookRepository->ReturnBook($fields);
+        } catch (Exception $exception) {
+            Log::error('Borrow book error: ' . $exception->getMessage());
+            return null;
+        }
+        return (bool)$result;
+    }
+
 }

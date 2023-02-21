@@ -22,7 +22,8 @@ class Book extends Model
         'image',
         'quantity',
         'publisher_id',
-        'is_recommended'
+        'is_recommended',
+        'order',
     ];
 
     protected $casts = [
@@ -40,6 +41,11 @@ class Book extends Model
     public function Authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class, 'book_authors');
+    }
+
+    public function Publisher(): BelongsTo
+    {
+        return $this->belongsTo(Publisher::class);
     }
 
 //    protected $appends = ['status'];

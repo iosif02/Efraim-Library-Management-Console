@@ -11,6 +11,10 @@ class Transactions extends Model
 {
     use HasFactory;
 
+
+    protected $casts = [
+        'is_returned' => 'boolean',
+    ];
     protected $fillable = ['borrow_date', 'is_returned', 'return_date', 'book_id', 'user_id'];
 
     public function Book(): BelongsTo
