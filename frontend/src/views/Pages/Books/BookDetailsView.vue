@@ -37,10 +37,11 @@ var onReturn = (transactionId: number) => {
       <img :src="store.bookDetails.image" />
     </div>
     <p class="book-title">{{ store.bookDetails.title }}</p>
-    <p class="book-author">{{ store.bookDetails.authors[0]?.name }}</p>
+    <!-- TODO: show name of all authors -->
+    <p class="book-author">{{ store.bookDetails.authors?.[0]?.name }}</p>
     <div class="book-category">
-      <span>({{ store.bookDetails.category.number }})</span>
-      <p>{{ store.bookDetails.category.name }}</p>
+      <span>({{ store.bookDetails.category?.number }})</span>
+      <p>{{ store.bookDetails.category?.name }}</p>
     </div>
   </div>
 
@@ -54,7 +55,7 @@ var onReturn = (transactionId: number) => {
   <div class="borrow-book" v-for="transaction in store.bookDetails.transaction">
     <div>
       <div class="row">
-        <p class="transaction-name">{{ transaction.user_details.first_name + ' ' + transaction.user_details.last_name }}</p>
+        <p class="transaction-name">{{ transaction.user_details?.first_name + ' ' + transaction.user_details?.last_name }}</p>
         <StatusBookComponent :status="store.bookDetails.status"/>
       </div>
       <p class="transaction-date">{{ transaction.borrow_date + ' - ' + transaction.return_date }}</p>
