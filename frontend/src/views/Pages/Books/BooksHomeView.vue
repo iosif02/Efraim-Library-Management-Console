@@ -30,7 +30,7 @@ watch(() => store.homepage.searchModel, async () => {
     <div v-if="!store.homepage.searchModel.title">
       <div class="delayed-books">
         <TitleSection :title="`Late (${store.homepage.data.totalDelayedBooks})`" :route-name="'delayedBooks'" />
-        <DelayedBooks :books="store.homepage.data.delayedBooks" />
+        <DelayedBooks :books="store.homepage.data.delayedBooks"/>
       </div>
 
       <div class="popular-books">

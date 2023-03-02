@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 
 use App\Models\User;
-use App\Models\UserDetails;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,14 +16,14 @@ class UserRepository implements IUserRepository
     public function CreateUser($fields): User
     {
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             $fields['password'] = bcrypt($fields['password']);
             $user = User::create($fields);
 
-            \DB::commit();
+            DB::commit();
         } catch (Exception $exception) {
-            \DB::rollback();
+            DB::rollback();
             throw $exception;
         }
 

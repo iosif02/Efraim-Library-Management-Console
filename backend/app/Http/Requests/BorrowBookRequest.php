@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class BorrowBookRequest extends FormRequest
 {
@@ -25,8 +27,24 @@ class BorrowBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer',
-            'book_id' => 'required|integer',
+            'user_id' => [
+                'required',
+                'integer',
+                Rule::unique('transactions')->where(function ($query){
+                    return $query->where('is_returned', false)
+                        ->where('user_id', request('user_id'))
+                        ->where('book_id', request('book_id'));
+                })
+            ],
+            'book_id' => [
+                'required',
+                'integer',
+                Rule::unique('transactions')->where(function ($query){
+                    return $query->where('is_returned', false)
+                        ->where('user_id', request('user_id'))
+                        ->where('book_id', request('book_id'));
+                })
+            ],
         ];
     }
 }

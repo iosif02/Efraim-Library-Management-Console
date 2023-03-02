@@ -3,7 +3,7 @@ import axios from "axios"
 import HomepageViewModel from "@/models/book/HomepageViewModel";
 import SearchBookModel from "@/models/book/SearchBookModel";
 import type CategoryModel from "@/models/book/CategoryModel";
-import type BookModel from "@/models/book/BookModel";
+import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 
 export const useBooksStore = defineStore('useBooksStore', {
@@ -27,6 +27,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       searchModel: new SearchBookModel(),
       data: [] as CategoryModel[]
     },
+    bookDetails: new BookModel(),
     books: {
       searchModel: new SearchBookModel(),
       data: [] as BookModel[]
@@ -89,6 +90,19 @@ export const useBooksStore = defineStore('useBooksStore', {
         console.error("Request error: " + ex);
       }
     },
+    async fetchBookDetails(bookId: String) {
+      try {
+        this.isLoading = true;
+        let book = await axios.get("/books/" + bookId);
+        if(book?.data){
+          this.bookDetails = book.data;
+          this.isLoading = false;
+        }
+      } catch (ex) {
+        this.isLoading = false;
+        console.error("Request error: " + ex)
+      }
+    },
     async searchBooks() {
       try {
         let books = await axios.post("/books/search", this.homepage.searchModel);
@@ -109,6 +123,30 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.isLoading = false;
         }
       } catch(ex) {
+        this.isLoading = false;
+        console.error("Request error: " + ex);
+      }
+    },
+    async updateBook(book: BookModel) {
+      try {
+        this.isLoading = true;
+        let books = await axios.post("/books/update", book);
+        if(books?.data) {
+          this.isLoading = false;
+        }
+      } catch(ex) {
+        this.isLoading = false;
+        console.error("Request error: " + ex);
+      }
+    },
+    async returnBook(transactionId: number){
+      try {
+        this.isLoading = true
+        let transaction = await axios.post("/books/return/" + transactionId);
+        if(transaction?.data) {
+          this.isLoading = false;
+        }
+      } catch (ex) {
         this.isLoading = false;
         console.error("Request error: " + ex);
       }

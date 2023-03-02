@@ -17,7 +17,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class, 'reader_id');
+            $table->foreignIdFor(User::class, 'admin_id');
             $table->foreignIdFor(Book::class);
             $table->dateTime('borrow_date');
             $table->boolean('is_returned')->default(false);

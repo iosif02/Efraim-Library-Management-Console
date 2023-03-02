@@ -13,6 +13,6 @@ interface IBookRepository
     public function SearchPopularBooks($filters);
     public function SearchRecommendedBooks($filters);
     public function BorrowBook($fields);
-    public function ReturnBook($fields);
+    public function ReturnBook($transactionId);
 
 }

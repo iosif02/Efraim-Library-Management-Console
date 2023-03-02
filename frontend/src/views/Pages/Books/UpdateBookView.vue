@@ -7,7 +7,12 @@ import { useEntitiesStore } from '@/stores/entities-store';
 import type AuthorModel from '@/models/entities/AuthorModel';
 import type CategoryModel from '@/models/book/CategoryModel';
 import type PublisherModel from '@/models/entities/PublisherModel';
+import { watch } from 'vue';
 import router from '@/router';
+
+const props = defineProps({
+  id: String,
+})
 
 const entitiesStore = useEntitiesStore();
 const booksStore = useBooksStore();
@@ -72,12 +77,31 @@ var searchPublishers = (event: any) => {
 }
 
 var onSubmit = (book: any) => {
-    book.image = imgSrc.value;
+    imgSrc.value ? book.image = imgSrc.value : delete book.image;
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
-    book.authors = book.authors.map((x: any) => x.id);
-    booksStore.createBook(book);
+    book.authors = book.authors.map((x: any) =>{
+        if(x.pivot)
+            return x.pivot.author_id
+
+        return x.id
+    });
+    book.bookId = props.id
+    console.log(book)
+    booksStore.updateBook(book);
 }
+
+if(!props.id || props.id == '0' || !parseInt(props.id)){
+  router.back();
+}
+
+// if(!booksStore.bookDetails.id) {
+    booksStore.fetchBookDetails(props.id ?? "");
+// }
+
+// watch(() => props.id, () => {
+//     booksStore.fetchBookDetails(props.id ?? "");
+// });
 
 </script>
 
@@ -87,9 +111,9 @@ var onSubmit = (book: any) => {
 
     <GoBack go-back-text="Back" />
 
-    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
+    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="booksStore.bookDetails" ref="myForm">
         <div class="form-group image">
-            <img :src="imgSrc?.toString()" v-if="imgSrc?.toString()" />
+            <img :src="imgSrc?.toString() || booksStore.bookDetails.image" v-if="imgSrc?.toString() || booksStore.bookDetails.image " />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>
@@ -135,7 +159,7 @@ var onSubmit = (book: any) => {
             <ErrorMessage name="category" />
         </div>
         
-        <input value="Create" type="submit" class="btn w-100">
+        <input value="Edit" type="submit" class="btn w-100">
 
     </Form>
 </template>

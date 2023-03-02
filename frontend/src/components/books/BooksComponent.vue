@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type BookModel from '@/models/book/BookModel';
 import type { PropType } from 'vue'
+import { RouterLink } from "vue-router";
+import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
 
 defineProps({
     books: {
@@ -17,13 +19,20 @@ defineProps({
             <div class="details">
                 <div class="top-section">
                     <div class="title">{{ book.title }}</div>
-                    <div class="status">Available</div>
+                    <StatusBookComponent :status="book.status" route="editBook"/>   
                 </div>
                 <div class="bottom-section">
                     <div class="author">{{ book.authors?.[0]?.name }}</div>
-                    <div class="category">
-                        <span class="category-number">({{ book.category?.number }})</span>
-                        <span class="category-name">{{ book.category?.name }}</span>
+                    <div class="edit">
+                        <div class="category">
+                            <span class="category-number">({{ book.category?.number }})</span>
+                            <span class="category-name">{{ book.category?.name }}</span>
+                        </div>
+                        <div class="btnLink">
+                            <RouterLink :to="{ name: 'editBook', params: { id: book.id } }">
+                                <button class="btnEdit">Edit</button>
+                            </RouterLink>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,5 +102,27 @@ img {
     background: #76CE9F;
     border-radius: 50%;
     left: 10px;
+}
+.edit{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.btnEdit{
+    width: 69px;
+    height: 24px;
+    background: #76CECB;
+    border-radius: 7px;
+    border: none;
+
+    font-family: 'Roboto-400';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 15px;
+    color: #FFFFFF;
+}
+.btnLink{
+    position: relative;
+    bottom: -10px;
 }
 </style>

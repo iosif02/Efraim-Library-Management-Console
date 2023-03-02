@@ -27,6 +27,11 @@ class Transactions extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function UserDetails(): BelongsTo
+    {
+        return $this->belongsTo(UserDetails::class, 'user_id', 'user_id');
+    }
+
 //    protected $appends = ['delayed'];
 
     public function getDelayedAttribute()

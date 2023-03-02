@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Book;
-use App\Models\BookAuthor;
 use App\Models\Transactions;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +71,21 @@ class BookRepository implements IBookRepository
     }
 
     public function GetBookById($bookId) {
-        return Book::with('Category')->find($bookId);
+        return Book::with([
+            'Category' => fn($query) => $query->select('id', 'name', 'number'),
+            'Authors' => fn($query) => $query->select('name'),
+            'Publisher' => fn($query) => $query->select('id', 'name'),
+            'Transaction' => function ($query){
+                $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned')
+                    ->where('is_returned', false);
+            },
+            'Transaction.UserDetails' => fn($query) => $query->select('id', 'user_id', 'first_name', 'last_name')
+        ])
+            ->withCount([
+                'Transaction' => function ($query){
+                    $query->where('is_returned', false);
+                }
+            ])->find($bookId)->append('status');
     }
 
     public function SearchBooks($filters)
@@ -102,7 +115,7 @@ class BookRepository implements IBookRepository
     public function SearchDelayedBooks($filters)
     {
         $transaction =  Transactions::select('id', 'borrow_date', 'return_date', 'user_id', 'book_id')
-            ->where('return_date', '<', date('y-m-d'))->where('is_returned', 0)
+            ->where('return_date', '<', date('y-m-d'))->where('is_returned', false)
             ->with([
                 'Book' => fn($query) => $query->select('id', 'title', 'category_id', 'image'),
                 'User' => fn($query) => $query->select('id', 'name'),
@@ -125,7 +138,10 @@ class BookRepository implements IBookRepository
 
     public function SearchPopularBooks($filters)
     {
-        $query = Book::select('id', 'title', 'category_id', 'image')->withCount('Transaction')
+        $query = Book::select('id', 'title', 'category_id', 'image')
+            ->withCount([
+                'Transaction' => fn($query) => $query->where('is_returned', false),
+            ])->has('Transaction', '>', 0) //in loc de has pot folosi si having('transaction_count', '>', 0), ca un where
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
@@ -157,13 +173,13 @@ class BookRepository implements IBookRepository
 
     public function BorrowBook($fields)
     {
+
         return Transactions::create($fields);
     }
 
-    public function ReturnBook($fields)
+    public function ReturnBook($transactionId)
     {
-        $transaction = Transactions::where('user_id', $fields['user_id'])
-            ->where('book_id', $fields['book_id'])->first();
+        $transaction = Transactions::find($transactionId);
         $transaction->is_returned = true;
         $transaction->update();
         return $transaction;

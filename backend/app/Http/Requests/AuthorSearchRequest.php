@@ -25,7 +25,7 @@ class AuthorSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string',
+            'title' => 'nullable|string',
             'pagination' => 'nullable',
             'pagination.per_page' => 'nullable|integer',
             'pagination.page' => 'nullable|integer',
