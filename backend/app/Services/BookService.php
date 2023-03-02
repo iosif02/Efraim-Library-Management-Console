@@ -9,6 +9,8 @@ use App\Repositories\IBookRepository;
 use App\Repositories\IEntityRepository;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -25,7 +27,11 @@ class BookService implements IBookService
         $this->entityRepository = $entityRepository;
     }
 
-    #[ArrayShape(["delayedBooks" => "", "popularBooks" => "", "categories" => ""])]
+    #[ArrayShape([
+        'delayedBooks' => LengthAwarePaginator::class|null,
+        'popularBooks' => LengthAwarePaginator::class|null,
+        'categories' => LengthAwarePaginator::class|null
+    ])]
     public function GetHomepage(): array
     {
         $filters = ['pagination' => [ 'per_page' => 3, 'page' => 1]];
@@ -89,11 +95,12 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function GetBookById(int $bookId) {
+    public function GetBookById(int $bookId): ?Model
+    {
         return $this->bookRepository->GetBookById($bookId);
     }
 
-    public function SearchBooks(array $filters)
+    public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
         try {
             $result = $this->bookRepository->SearchBooks($filters);
@@ -105,7 +112,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function SearchDelayedBooks(array $filters)
+    public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator
     {
         try {
             $result = $this->bookRepository->SearchDelayedBooks($filters);
@@ -117,7 +124,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function SearchPopularBooks(array $filters)
+    public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
         try {
             $result = $this->bookRepository->SearchPopularBooks($filters);
@@ -128,7 +135,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function SearchRecommendedBooks(array $filters)
+    public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator
     {
         try {
             $result = $this->bookRepository->SearchRecommendedBooks($filters);
@@ -151,7 +158,7 @@ class BookService implements IBookService
             Log::error('Borrow book error: ' . $exception->getMessage());
             return false;
         }
-        return (bool)$result;
+        return $result;
     }
 
     public function ReturnBook(int $transactionId): bool
@@ -162,7 +169,7 @@ class BookService implements IBookService
             Log::error('Borrow book error: ' . $exception->getMessage());
             return false;
         }
-        return (bool)$result;
+        return $result;
     }
 
 }
