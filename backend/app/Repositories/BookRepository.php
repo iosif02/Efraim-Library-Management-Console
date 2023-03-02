@@ -13,7 +13,8 @@ class BookRepository implements IBookRepository
     /**
      * @throws Exception
      */
-    public function AddBook($fields) {
+    public function AddBook($fields): bool
+    {
         try {
             DB::beginTransaction();
 
@@ -31,7 +32,7 @@ class BookRepository implements IBookRepository
         return true;
     }
 
-    public function UpdateBook($fields)
+    public function UpdateBook($fields): bool
     {
         try {
             DB::beginTransaction();
@@ -52,7 +53,7 @@ class BookRepository implements IBookRepository
         return true;
     }
 
-    public function DeleteBook($bookId)
+    public function DeleteBook($bookId): bool
     {
         try {
             DB::beginTransaction();
@@ -171,9 +172,8 @@ class BookRepository implements IBookRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function BorrowBook($fields)
+    public function BorrowBook($fields): bool
     {
-
         return Transactions::create($fields);
     }
 

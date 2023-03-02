@@ -93,14 +93,17 @@ class BookController extends Controller
         return response(true, 200);
     }
 
-    public function GetBook(int $bookId)
+    public function GetBook(int $bookId): Response|Application|ResponseFactory
     {
-        if(!$bookId) return null;
+        $result = $this->bookService->GetBookById($bookId);
+        if(!$result) {
+            return response(false, 400);
+        }
 
-        return $this->bookService->GetBookById($bookId);
+        return response($result, 200);
     }
 
-    public function SearchBooks(BookSearchRequest $request)
+    public function SearchBooks(BookSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchBooks($validated);
@@ -131,5 +134,4 @@ class BookController extends Controller
 
         return response(true, 200);
     }
-
 }

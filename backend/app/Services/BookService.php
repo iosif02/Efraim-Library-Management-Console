@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\IBookService;
 use App\Interfaces\IFileService;
+use App\Models\Book;
 use App\Repositories\IBookRepository;
 use App\Repositories\IEntityRepository;
 use Carbon\Carbon;
@@ -39,7 +40,7 @@ class BookService implements IBookService
         ];
     }
 
-    public function AddBook($fields): bool
+    public function AddBook(array $fields): bool
     {
         try {
             $imageName = $this->fileService->StoreFile($fields['image']);
@@ -53,7 +54,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function UpdateBook($fields): bool
+    public function UpdateBook(array $fields): bool
     {
         try {
             if(!$fields['bookId'])
@@ -73,7 +74,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function DeleteBook($bookId): bool
+    public function DeleteBook(int $bookId): bool
     {
         try {
             if(!$bookId)
@@ -88,13 +89,11 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function GetBookById($bookId) {
-        if(!$bookId) return null;
-
+    public function GetBookById(int $bookId) {
         return $this->bookRepository->GetBookById($bookId);
     }
 
-    public function SearchBooks($filters)
+    public function SearchBooks(array $filters)
     {
         try {
             $result = $this->bookRepository->SearchBooks($filters);
@@ -106,7 +105,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function SearchDelayedBooks($filters)
+    public function SearchDelayedBooks(array $filters)
     {
         try {
             $result = $this->bookRepository->SearchDelayedBooks($filters);
@@ -115,21 +114,10 @@ class BookService implements IBookService
             return null;
         }
 
-//        $result = collect($result);
-//        $result['data'] = collect($result['data'])->map(function ($entry) {
-//            return [
-//                'transaction_id' => $entry['id'],
-//                'book_title' => $entry['book']['title'],
-//                'category' => $entry['book']['category'],
-//                'image' => $entry['book']['image'],
-//                'user_name' => $entry['user']['name']
-//            ];
-//        });
-
         return $result;
     }
 
-    public function SearchPopularBooks($filters)
+    public function SearchPopularBooks(array $filters)
     {
         try {
             $result = $this->bookRepository->SearchPopularBooks($filters);
@@ -140,7 +128,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function SearchRecommendedBooks($filters)
+    public function SearchRecommendedBooks(array $filters)
     {
         try {
             $result = $this->bookRepository->SearchRecommendedBooks($filters);
@@ -151,7 +139,7 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function BorrowBook($fields): ?bool
+    public function BorrowBook(array $fields): bool
     {
         try {
             $fields['borrow_date'] = Carbon::today();
@@ -161,18 +149,18 @@ class BookService implements IBookService
             $result = $this->bookRepository->BorrowBook($fields);
         } catch (Exception $exception) {
             Log::error('Borrow book error: ' . $exception->getMessage());
-            return null;
+            return false;
         }
         return (bool)$result;
     }
 
-    public function ReturnBook($transactionId): ?bool
+    public function ReturnBook(int $transactionId): bool
     {
         try {
             $result = $this->bookRepository->ReturnBook($transactionId);
         } catch (Exception $exception) {
             Log::error('Borrow book error: ' . $exception->getMessage());
-            return null;
+            return false;
         }
         return (bool)$result;
     }

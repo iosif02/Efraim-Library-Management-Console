@@ -38,11 +38,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::post('/borrow', [BookController::class, 'BorrowBook']);
         Route::post('/return/{transactionId}', [BookController::class, 'ReturnBook']);
-
     });
 
     Route::prefix('entities')->group(function () {
-
         Route::prefix('authors')->group(function (){
             Route::post('/search', [EntityController::class, 'SearchAuthors']);
             Route::post('/add-author', [EntityController::class, 'AddAuthor']);
@@ -71,7 +69,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/update-user', [UserController::class, 'UpdateUser']);
         Route::delete('/delete-user/{userId}', [UserController::class, 'DeleteUser']);
     });
-
 });
 
 Route::middleware('auth:api')->get('/user', function(Request $request) {

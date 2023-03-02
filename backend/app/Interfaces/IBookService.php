@@ -5,14 +5,14 @@ namespace App\Interfaces;
 interface IBookService
 {
     public function GetHomepage();
-    public function AddBook($fields);
-    public function UpdateBook($fields);
-    public function DeleteBook($bookId);
-    public function GetBookById($bookId);
-    public function SearchBooks($filters);
-    public function SearchDelayedBooks($filters);
-    public function SearchPopularBooks($filters);
-    public function SearchRecommendedBooks($filters);
-    public function BorrowBook($fields);
-    public function ReturnBook($transactionId);
+    public function AddBook(array $fields);
+    public function UpdateBook(array $fields);
+    public function DeleteBook(int $bookId);
+    public function GetBookById(int $bookId);
+    public function SearchBooks(array $filters);
+    public function SearchDelayedBooks(array $filters);
+    public function SearchPopularBooks(array $filters);
+    public function SearchRecommendedBooks(array $filters);
+    public function BorrowBook(array $fields);
+    public function ReturnBook(int $transactionId);
 }
