@@ -21,7 +21,7 @@ class UserService implements IUserService
         return $this->userRepository->GetUsers();
     }
 
-    public function AddUser($fields): bool
+    public function AddUser(array $fields): bool
     {
         try {
             $fields['birth_date'] = Carbon::parse($fields['birth_date']);
@@ -34,7 +34,7 @@ class UserService implements IUserService
         return $result;
     }
 
-    public function UpdateUser($fields)
+    public function UpdateUser(array $fields): bool
     {
         try {
             $fields['birth_date'] = Carbon::parse($fields['birth_date']);
@@ -47,7 +47,7 @@ class UserService implements IUserService
         return $result;
     }
 
-    public function DeleteUser($userId)
+    public function DeleteUser(int $userId): bool
     {
         try {
             if(!$userId)

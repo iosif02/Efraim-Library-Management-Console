@@ -83,7 +83,7 @@ class BookController extends Controller
         return response(true, 200);
     }
 
-    public function DeleteBook($bookId): Response|Application|ResponseFactory
+    public function DeleteBook(int $bookId): Response|Application|ResponseFactory
     {
         $result = $this->bookService->DeleteBook($bookId);
         if(!$result) {

@@ -7,7 +7,7 @@ interface IUserRepository
     public function CreateUser($fields);
     public function GetUserByEmail($email);
     public function GetUsers();
-    public function AddUser($fields);
-    public function UpdateUser($fields);
-    public function DeleteUser($userId);
+    public function AddUser(array $fields): bool;
+    public function UpdateUser(array $fields): bool;
+    public function DeleteUser(int $userId): bool;
 }

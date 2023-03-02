@@ -30,16 +30,18 @@ class UserRepository implements IUserRepository
         return $user;
     }
 
-    public function GetUserByEmail($email) {
+    public function GetUserByEmail($email): User
+    {
         return User::where('email', $email)->first();
     }
 
     public function GetUsers()
     {
+        //TODO: to change in type search function, tip POST
         return User::select('id', 'name', 'email')->with('UserDetails')->get();
     }
 
-    public function AddUser($fields)
+    public function AddUser(array $fields): bool
     {
         try {
             DB::beginTransaction();
@@ -57,7 +59,7 @@ class UserRepository implements IUserRepository
         return true;
     }
 
-    public function UpdateUser($fields)
+    public function UpdateUser(array $fields): bool
     {
         try {
             DB::beginTransaction();
@@ -76,7 +78,7 @@ class UserRepository implements IUserRepository
         return true;
     }
 
-    public function DeleteUser($userId)
+    public function DeleteUser(int $userId): bool
     {
         try {
             DB::beginTransaction();
