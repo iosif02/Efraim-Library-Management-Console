@@ -14,29 +14,33 @@ defineProps({
 
 <template>
     <div class="books">
-        <div v-for="book in books" class="book">
-            <img :src="book.image" alt="">
-            <div class="details">
-                <div class="top-section">
-                    <div class="title">{{ book.title }}</div>
-                    <StatusBookComponent :status="book.status" route="editBook"/>   
-                </div>
-                <div class="bottom-section">
-                    <div class="author">{{ book.authors?.[0]?.name }}</div>
-                    <div class="edit">
-                        <div class="category">
-                            <span class="category-number">({{ book.category?.number }})</span>
-                            <span class="category-name">{{ book.category?.name }}</span>
+        <template v-for="book in books" >
+            <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" style="text-decoration: none;">
+                <div class="book">
+                    <img :src="book.image" alt="">
+                    <div class="details">
+                        <div class="top-section">
+                            <div class="title">{{ book.title }}</div>
+                            <StatusBookComponent :status="book.status" route="editBook"/>   
                         </div>
-                        <div class="btnLink">
-                            <RouterLink :to="{ name: 'editBook', params: { id: book.id } }">
-                                <button class="btnEdit">Edit</button>
-                            </RouterLink>
+                        <div class="bottom-section">
+                            <div class="author">{{ book.authors?.[0]?.name }}</div>
+                            <div class="edit">
+                                <div class="category">
+                                    <span class="category-number">({{ book.category?.number }})</span>
+                                    <span class="category-name">{{ book.category?.name }}</span>
+                                </div>
+                                <div class="btnLink">
+                                    <RouterLink :to="{ name: 'editBook', params: { id: book.id } }">
+                                        <button class="btnEdit">Edit</button>
+                                    </RouterLink>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </RouterLink>
+        </template>
     </div>
 </template>
 
