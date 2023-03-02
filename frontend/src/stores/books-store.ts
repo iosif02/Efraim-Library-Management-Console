@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import axios from "axios"
 import HomepageViewModel from "@/models/book/HomepageViewModel";
 import SearchBookModel from "@/models/book/SearchBookModel";
-import type CategoryModel from "@/models/book/CategoryModel";
 import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 
@@ -22,10 +21,6 @@ export const useBooksStore = defineStore('useBooksStore', {
     delayedBooks: {
       searchModel: new SearchBookModel(),
       data: [] as DelayedBookModel[]
-    },
-    categories: {
-      searchModel: new SearchBookModel(),
-      data: [] as CategoryModel[]
     },
     bookDetails: new BookModel(),
     books: {
@@ -73,18 +68,6 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.delayedBooks.data = books.data.data;
           this.delayedBooks.searchModel.pagination.total = books.data.total ?? 1;
           this.delayedBooks.searchModel.pagination.last_page = books.data.last_page ?? 1;
-        }
-      } catch(ex) {
-        console.error("Request error: " + ex);
-      }
-    },
-    async fetchCategories() {
-      try {
-        let books = await axios.post("/entities/categories/search", this.categories.searchModel);
-        if(books?.data) {
-          this.categories.data = books.data.data;
-          this.categories.searchModel.pagination.total = books.data.total ?? 1;
-          this.categories.searchModel.pagination.last_page = books.data.last_page ?? 1;
         }
       } catch(ex) {
         console.error("Request error: " + ex);
@@ -158,10 +141,6 @@ export const useBooksStore = defineStore('useBooksStore', {
     async delayedBooksChangePage(page: number) {
       this.delayedBooks.searchModel.pagination.page = page;
       this.fetchDelayedBooks();
-    },
-    async categoriesChangePage(page: number) {
-      this.categories.searchModel.pagination.page = page;
-      this.fetchCategories();
     },
     async booksHomeChangePage(page: number) {
       this.homepage.searchModel.pagination.page = page;

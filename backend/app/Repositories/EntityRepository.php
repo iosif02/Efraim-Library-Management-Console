@@ -15,8 +15,8 @@ class EntityRepository implements IEntityRepository
     {
         $query = Author::select('id', 'name');
 
-        if(isset($filters['title']) && $filters['title'] != '') {
-            $query->where('name', 'like', '%'.$filters['title'].'%');
+        if(isset($filters['name']) && $filters['name'] != '') {
+            $query->where('name', 'like', '%'.$filters['name'].'%');
         }
 
         if(isset($filters['getAll']) && $filters['getAll']) {
@@ -65,8 +65,8 @@ class EntityRepository implements IEntityRepository
     {
         $query = Publisher::select('id', 'name');
 
-        if(isset($filters['title']) && $filters['title'] != '') {
-            $query->where('name', 'like', '%'.$filters['title'].'%');
+        if(isset($filters['name']) && $filters['name'] != '') {
+            $query->where('name', 'like', '%'.$filters['name'].'%');
         }
 
         if(isset($filters['getAll']) && $filters['getAll']) {
@@ -115,8 +115,8 @@ class EntityRepository implements IEntityRepository
     {
         $query = Category::select('id', 'name', 'number')->withCount('Book');
 
-        if(isset($filters['title']) && $filters['title'] != '') {
-            $query->where('name', 'like', '%'.$filters['title'].'%');
+        if(isset($filters['name']) && $filters['name'] != '') {
+            $query->where('name', 'like', '%'.$filters['name'].'%');
         }
 
         if(isset($filters['getAll']) && $filters['getAll']) {

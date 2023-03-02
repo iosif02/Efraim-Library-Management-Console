@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Categories from '@/components/books/CategoriesComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
-import { useBooksStore } from '@/stores/books-store';
+import { useEntitiesStore } from '@/stores/entities-store';
 import { watch } from 'vue';
 
-const store = useBooksStore();
+const store = useEntitiesStore();
 if(!store.categories?.data?.length) {
     store.fetchCategories();
 }
@@ -24,8 +24,8 @@ watch(() => store.categories.searchModel, async () => {
     <GoBack go-back-text="Categories" />
 
     <SearchBar
-        :defaultValue="store.categories.searchModel.title"
-        @keyup="(event: any) => store.categories.searchModel.title = event?.target?.value"
+        :defaultValue="store.categories.searchModel.name"
+        @keyup="(event: any) => store.categories.searchModel.name = event?.target?.value"
     />
 
     <Categories :categories="store.categories.data" />
