@@ -3,6 +3,7 @@ import axios from "axios"
 import type AuthorModel from "@/models/entities/AuthorModel";
 import SearchAuthorModel from "@/models/entities/SearchAuthorModel";
 import type PublisherModel from "@/models/entities/PublisherModel";
+import SearchPublisherModel from "@/models/entities/SearchPublisherModel";
 
 export const useEntitiesStore = defineStore('useEntitiesStore', {
     state: () => ({
@@ -12,7 +13,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
         },
         publishers: {
             data: [] as PublisherModel[],
-            searchModel: new SearchAuthorModel()
+            searchModel: new SearchPublisherModel()
         },
     }),
     getters: {
@@ -23,6 +24,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
             try {
                 let authors = await axios.post("/entities/authors/search", this.authors.searchModel);
                 if(authors?.data) {
+                    this.authors.searchModel.getAll = true;
                     this.authors.data = authors.data.data;
                     this.authors.searchModel.pagination.total = authors.data.total ?? 1;
                     this.authors.searchModel.pagination.last_page = authors.data.last_page ?? 1;
@@ -35,6 +37,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
             try {
                 let publishers = await axios.post("/entities/publishers/search", this.publishers.searchModel);
                 if(publishers?.data) {
+                    this.authors.searchModel.getAll = true;
                     this.publishers.data = publishers.data.data;
                     this.publishers.searchModel.pagination.total = publishers.data.total ?? 1;
                     this.publishers.searchModel.pagination.last_page = publishers.data.last_page ?? 1;

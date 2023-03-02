@@ -80,14 +80,8 @@ var onSubmit = (book: any) => {
     imgSrc.value ? book.image = imgSrc.value : delete book.image;
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
-    book.authors = book.authors.map((x: any) =>{
-        if(x.pivot)
-            return x.pivot.author_id
-
-        return x.id
-    });
+    book.authors = book.authors.map((x: AuthorModel) => x?.pivot?.author_id ?? x.id);
     book.bookId = props.id
-    console.log(book)
     booksStore.updateBook(book);
 }
 
@@ -95,13 +89,7 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
   router.back();
 }
 
-// if(!booksStore.bookDetails.id) {
-    booksStore.fetchBookDetails(props.id ?? "");
-// }
-
-// watch(() => props.id, () => {
-//     booksStore.fetchBookDetails(props.id ?? "");
-// });
+booksStore.fetchBookDetails(props.id ?? "");
 
 </script>
 

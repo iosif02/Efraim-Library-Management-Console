@@ -183,7 +183,7 @@ class BookRepository implements IBookRepository
         try {
             Transactions::create($fields);
         } catch (Exception $exception) {
-            Log::error('Delete book error: ' . $exception->getMessage());
+            Log::error('Borrow book error: ' . $exception->getMessage());
             return false;
         }
         return true;
@@ -196,7 +196,7 @@ class BookRepository implements IBookRepository
             $transaction->is_returned = true;
             $transaction->update();
         } catch (Exception $exception) {
-            Log::error('Delete book error: ' . $exception->getMessage());
+            Log::error('Return book error: ' . $exception->getMessage());
             return false;
         }
         return true;

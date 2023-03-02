@@ -5,41 +5,63 @@ namespace App\Repositories;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Publisher;
+use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class EntityRepository implements IEntityRepository
 {
-    public function SearchAuthors($filters) {
+    public function SearchAuthors($filters): ?LengthAwarePaginator
+    {
         $query = Author::select('id', 'name');
 
         if(isset($filters['title']) && $filters['title'] != '') {
             $query->where('name', 'like', '%'.$filters['title'].'%');
         }
 
-        if(isset($filters['pagination']['per_page']) && isset($filters['pagination']['page']))
-            return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        if(isset($filters['getAll']) && $filters['getAll']) {
+            $filters['pagination'] = ['per_page' => 9999999, 'page' => 1];
+        }
 
-        return $query->get();
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function AddAuthor($fields)
+    public function AddAuthor($fields): bool
     {
-        return Author::create($fields);
+        try {
+             Author::create($fields);
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function UpdateAuthor($fields)
+    public function UpdateAuthor($fields): bool
     {
-        $author = Author::find($fields['authorId']);
-        $author->fill($fields);
-        $author->update();
-        return $author;
+        try {
+            $author = Author::find($fields['authorId']);
+            $author->fill($fields);
+            $author->update();
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function DeleteAuthor($authorId): int
+    public function DeleteAuthor($authorId): bool
     {
-        return Author::destroy($authorId);
+        try {
+            Author::destroy($authorId);
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function SearchPublisher($filters)
+    public function SearchPublisher($filters): ?LengthAwarePaginator
     {
         $query = Publisher::select('id', 'name');
 
@@ -47,31 +69,49 @@ class EntityRepository implements IEntityRepository
             $query->where('name', 'like', '%'.$filters['title'].'%');
         }
 
-        if(isset($filters['pagination']['per_page']) && isset($filters['pagination']['page']))
-            return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        if(isset($filters['getAll']) && $filters['getAll']) {
+            $filters['pagination'] = ['per_page' => 9999999, 'page' => 1];
+        }
 
-        return $query->get();
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function AddPublisher($fields)
+    public function AddPublisher($fields): bool
     {
-        return Publisher::create($fields);
+        try {
+            Publisher::create($fields);
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function UpdatePublisher($fields)
+    public function UpdatePublisher($fields): bool
     {
-        $publisher = Publisher::find($fields['publisherId']);
-        $publisher->fill($fields);
-        $publisher->update();
-        return $publisher;
+        try {
+            $publisher = Publisher::find($fields['publisherId']);
+            $publisher->fill($fields);
+            $publisher->update();
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function DeletePublisher($publisherId): int
+    public function DeletePublisher($publisherId): bool
     {
-        return Publisher::destroy($publisherId);
+        try {
+            Publisher::destroy($publisherId);
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function SearchCategories($filters)
+    public function SearchCategories($filters): ?LengthAwarePaginator
     {
         $query = Category::select('id', 'name', 'number')->withCount('Book');
 
@@ -79,27 +119,45 @@ class EntityRepository implements IEntityRepository
             $query->where('name', 'like', '%'.$filters['title'].'%');
         }
 
-        if(isset($filters['pagination']['per_page']) && isset($filters['pagination']['page']))
-            return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        if(isset($filters['getAll']) && $filters['getAll']) {
+            $filters['pagination'] = ['per_page' => 9999999, 'page' => 1];
+        }
 
-        return $query->get();
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function AddCategory($fields)
+    public function AddCategory($fields): bool
     {
-        return Category::create($fields);
+        try {
+            Category::create($fields);
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function UpdateCategory($fields)
+    public function UpdateCategory($fields): bool
     {
-        $category = Category::find($fields['categoryId']);
-        $category->fill($fields);
-        $category->update();
-        return $category;
+        try {
+            $category = Category::find($fields['categoryId']);
+            $category->fill($fields);
+            $category->update();
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function DeleteCategory($categoryId)
+    public function DeleteCategory($categoryId): bool
     {
-        return Category::destroy($categoryId);
+        try {
+            Category::destroy($categoryId);
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 }

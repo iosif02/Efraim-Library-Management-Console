@@ -26,12 +26,6 @@ class BookService implements IBookService
         $this->fileService = $fileService;
         $this->entityRepository = $entityRepository;
     }
-
-    #[ArrayShape([
-        'delayedBooks' => LengthAwarePaginator::class|null,
-        'popularBooks' => LengthAwarePaginator::class|null,
-        'categories' => LengthAwarePaginator::class|null
-    ])]
     public function GetHomepage(): array
     {
         $filters = ['pagination' => [ 'per_page' => 3, 'page' => 1]];

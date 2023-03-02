@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\IEntityService;
 use App\Repositories\IEntityRepository;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
 class EntityService implements IEntityService
@@ -16,7 +17,8 @@ class EntityService implements IEntityService
         $this->entityRepository = $entityRepository;
     }
 
-    public function SearchAuthors($filters) {
+    public function SearchAuthors($filters): ?LengthAwarePaginator
+    {
         try {
             $result = $this->entityRepository->SearchAuthors($filters);
         } catch (Exception $exception) {
@@ -69,7 +71,7 @@ class EntityService implements IEntityService
         return (bool)$result;
     }
 
-    public function SearchPublisher($filters)
+    public function SearchPublisher($filters): ?LengthAwarePaginator
     {
         try {
             $result = $this->entityRepository->SearchPublisher($filters);
@@ -123,7 +125,7 @@ class EntityService implements IEntityService
         return (bool)$result;
     }
 
-    public function SearchCategories($filters)
+    public function SearchCategories($filters): ?LengthAwarePaginator
     {
         try {
             $result = $this->entityRepository->SearchCategories($filters);
@@ -161,7 +163,7 @@ class EntityService implements IEntityService
         return (bool)$result;
     }
 
-    public function DeleteCategory($categoryId)
+    public function DeleteCategory($categoryId): bool
     {
         try {
             if(!$categoryId)
