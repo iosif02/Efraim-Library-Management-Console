@@ -2,6 +2,7 @@
 import moment from 'moment';
 import type DelayedBookModel from '@/models/book/DelayedBookModel';
 import type { PropType } from 'vue'
+import { RouterLink } from "vue-router";
 
 const props = defineProps({
     books: {
@@ -31,18 +32,20 @@ let delayedDays = (date: string) => {
 </script>
 
 <template>
-    <div class="books">
-        <div v-for="currentBook in props?.books" class="book">
-            <img :src="currentBook.book.image" alt="">
-            <div class="details">
-                <div class="top-section">
-                    <p class="name">{{ currentBook.user.name }}</p>
-                    <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
+    <template v-for="currentBook in props?.books">
+        <RouterLink :to="{ name: 'bookDetails', params: { id: currentBook.book.id} }" style="text-decoration: none;">
+            <div class="book">
+                <img :src="currentBook.book.image" alt="">
+                <div class="details">
+                    <div class="top-section">
+                        <p class="name">{{ currentBook.user.name }}</p>
+                        <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
+                    </div>
+                    <div class="book-title">{{ currentBook.book.title }}</div>
                 </div>
-                <div class="book-title">{{ currentBook.book.title }}</div>
             </div>
-        </div>
-    </div>
+        </RouterLink>
+    </template>
 </template>
 
 <style scoped>

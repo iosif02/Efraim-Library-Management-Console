@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddBookRequest;
 use App\Http\Requests\BookSearchRequest;
 use App\Http\Requests\BorrowBookRequest;
-use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Interfaces\IBookService;
-use App\Models\Book;
-use App\Models\Transactions;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
@@ -96,7 +93,7 @@ class BookController extends Controller
         return response(true, 200);
     }
 
-    public function GetBook($bookId)
+    public function GetBook(int $bookId)
     {
         if(!$bookId) return null;
 
@@ -125,10 +122,9 @@ class BookController extends Controller
         return response(true, 200);
     }
 
-    public function ReturnBook(BorrowBookRequest $request): Response|Application|ResponseFactory
+    public function ReturnBook(int $transactionId): Response|Application|ResponseFactory
     {
-        $validated = $request->validated();
-        $result = $this->bookService->ReturnBook($validated);
+        $result = $this->bookService->ReturnBook($transactionId);
         if(!$result) {
             return response(false, 400);
         }

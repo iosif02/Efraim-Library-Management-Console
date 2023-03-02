@@ -15,10 +15,10 @@
 </template>
 
 <style scoped>
-.loading {
-    position: absolute;
-    top: 0;
+.loading {  
+    position: fixed;
     left: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -29,7 +29,7 @@
 .overlay {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     background-color: black;
     opacity: .2;
 }

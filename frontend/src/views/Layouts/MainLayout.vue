@@ -9,9 +9,9 @@ import TopMenu from "@/components/global/TopMenuComponent.vue";
       <TopMenu />
 
       <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
+        <!-- <keep-alive> -->
+        <component :is="Component" />
+        <!-- </keep-alive> -->
       </router-view>
     </div>
     <NavigationBar />

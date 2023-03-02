@@ -4,6 +4,8 @@ import DelayedBooksViewVue from "@/views/Pages/Books/DelayedBooksView.vue";
 import PopularBooksViewVue from "@/views/Pages/Books/PopularBooksView.vue";
 import CategoriesViewVue from "@/views/Pages/Books/CategoriesView.vue";
 import CreateBookViewVue from "@/views/Pages/Books/CreateBookView.vue";
+import BookDetailsViewVue from "@/views/Pages/Books/BookDetailsView.vue";
+import UpdateBookViewVue from "@/views/Pages/Books/UpdateBookView.vue";
 
 export default
 {
@@ -36,6 +38,18 @@ export default
             path: "/create-book",
             name: "createBook",
             component: CreateBookViewVue
+        },
+        {
+            path: "/books/:id",
+            name: "bookDetails",
+            component: BookDetailsViewVue,
+            props: true
+        },
+        {
+            path: "/edit/:id",
+            name: "editBook",
+            component: UpdateBookViewVue,   
+            props: true,
         }
     ]
 };

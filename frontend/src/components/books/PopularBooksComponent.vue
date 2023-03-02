@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type BookModel from '@/models/book/BookModel';
 import type { PropType } from 'vue'
+import { RouterLink } from "vue-router";
 
 defineProps({
     books: {
@@ -12,17 +13,21 @@ defineProps({
 
 <template>
     <div class="books">
-        <div v-for="book in books" class="book">
-            <img :src="book.image" alt="">
-            <div class="details">
-                <div class="title">{{ book.title }}</div>
-                <div class="author">{{ book.authors?.[0]?.name }}</div>
-                <div class="category">
-                    <span class="category-number">({{ book.category?.number }})</span>
-                    <span class="category-name">{{ book.category?.name }}</span>
+        <template v-for="book in books">
+            <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" style="text-decoration: none;">
+                <div class="book">
+                    <img :src="book.image" alt="">
+                    <div class="details">
+                        <div class="title">{{ book.title }}</div>
+                        <div class="author">{{ book.authors?.[0]?.name }}</div>
+                        <div class="category">
+                            <span class="category-number">({{ book.category?.number }})</span>
+                            <span class="category-name">{{ book.category?.name }}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </RouterLink>
+        </template>
     </div>
 </template>
 

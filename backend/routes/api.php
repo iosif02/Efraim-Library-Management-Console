@@ -37,23 +37,26 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/search', [BookController::class, 'SearchBooks']);
 
         Route::post('/borrow', [BookController::class, 'BorrowBook']);
-        Route::post('/return', [BookController::class, 'ReturnBook']);
+        Route::post('/return/{transactionId}', [BookController::class, 'ReturnBook']);
 
     });
 
     Route::prefix('entities')->group(function () {
+
         Route::prefix('authors')->group(function (){
             Route::post('/search', [EntityController::class, 'SearchAuthors']);
             Route::post('/add-author', [EntityController::class, 'AddAuthor']);
             Route::post('/update-author', [EntityController::class, 'UpdateAuthor']);
             Route::delete('/delete-author/{authorId}', [EntityController::class, 'DeleteAuthor']);
         });
+
         Route::prefix('publishers')->group(function (){
             Route::post('/search', [EntityController::class, 'SearchPublisher']);
             Route::post('/add-publisher', [EntityController::class, 'AddPublisher']);
             Route::post('/update-publisher', [EntityController::class, 'UpdatePublisher']);
             Route::delete('/delete-publisher/{publisherId}', [EntityController::class, 'DeletePublisher']);
         });
+
         Route::prefix('categories')->group(function (){
             Route::post('/search', [EntityController::class, 'SearchCategories']);
             Route::post('/add-category', [EntityController::class, 'AddCategory']);

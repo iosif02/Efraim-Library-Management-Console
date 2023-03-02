@@ -42,10 +42,8 @@ class BookService implements IBookService
     public function AddBook($fields): bool
     {
         try {
-            if(isset($fields['image'])){ //cand vi fi in productie trebuie scoasa conditia
-                $imageName = $this->fileService->StoreFile($fields['image']);
-                $fields['image'] = $imageName;
-            } // si aici
+            $imageName = $this->fileService->StoreFile($fields['image']);
+            $fields['image'] = $imageName;
             $result = $this->bookRepository->AddBook($fields);
         } catch (Exception $exception) {
             Log::error('Add book error: ' . $exception->getMessage());
@@ -59,9 +57,9 @@ class BookService implements IBookService
     {
         try {
             if(!$fields['bookId'])
-                throw new Exception('categoryId is required!');
+                throw new Exception('bookId is required!');
 
-            if(isset($fields['image'])){
+            if(isset($fields['image']) && $fields['image'] != ''){
                 $imageName = $this->fileService->StoreFile($fields['image']);
                 $fields['image'] = $imageName;
             }
@@ -168,10 +166,10 @@ class BookService implements IBookService
         return (bool)$result;
     }
 
-    public function ReturnBook($fields): ?bool
+    public function ReturnBook($transactionId): ?bool
     {
         try {
-            $result = $this->bookRepository->ReturnBook($fields);
+            $result = $this->bookRepository->ReturnBook($transactionId);
         } catch (Exception $exception) {
             Log::error('Borrow book error: ' . $exception->getMessage());
             return null;
