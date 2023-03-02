@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class EntityRepository implements IEntityRepository
 {
-    public function SearchAuthors($filters): ?LengthAwarePaginator
+    public function SearchAuthors(array $filters): ?LengthAwarePaginator
     {
         $query = Author::select('id', 'name');
 
@@ -26,7 +26,7 @@ class EntityRepository implements IEntityRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function AddAuthor($fields): bool
+    public function AddAuthor(array $fields): bool
     {
         try {
              Author::create($fields);
@@ -37,7 +37,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function UpdateAuthor($fields): bool
+    public function UpdateAuthor(array $fields): bool
     {
         try {
             $author = Author::find($fields['authorId']);
@@ -50,7 +50,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function DeleteAuthor($authorId): bool
+    public function DeleteAuthor(int $authorId): bool
     {
         try {
             Author::destroy($authorId);
@@ -61,7 +61,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function SearchPublisher($filters): ?LengthAwarePaginator
+    public function SearchPublisher(array $filters): ?LengthAwarePaginator
     {
         $query = Publisher::select('id', 'name');
 
@@ -76,7 +76,7 @@ class EntityRepository implements IEntityRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function AddPublisher($fields): bool
+    public function AddPublisher(array $fields): bool
     {
         try {
             Publisher::create($fields);
@@ -87,7 +87,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function UpdatePublisher($fields): bool
+    public function UpdatePublisher(array $fields): bool
     {
         try {
             $publisher = Publisher::find($fields['publisherId']);
@@ -100,7 +100,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function DeletePublisher($publisherId): bool
+    public function DeletePublisher(int $publisherId): bool
     {
         try {
             Publisher::destroy($publisherId);
@@ -111,7 +111,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function SearchCategories($filters): ?LengthAwarePaginator
+    public function SearchCategories(array $filters): ?LengthAwarePaginator
     {
         $query = Category::select('id', 'name', 'number')->withCount('Book');
 
@@ -126,7 +126,7 @@ class EntityRepository implements IEntityRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function AddCategory($fields): bool
+    public function AddCategory(array $fields): bool
     {
         try {
             Category::create($fields);
@@ -137,7 +137,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function UpdateCategory($fields): bool
+    public function UpdateCategory(array $fields): bool
     {
         try {
             $category = Category::find($fields['categoryId']);
@@ -150,7 +150,7 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
-    public function DeleteCategory($categoryId): bool
+    public function DeleteCategory(int $categoryId): bool
     {
         try {
             Category::destroy($categoryId);
