@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -13,32 +14,32 @@ class UserRepository implements IUserRepository
     /**
      * @throws Exception
      */
-    public function CreateUser($fields): User
+    public function CreateUser(array $fields): bool
     {
         try {
-            DB::beginTransaction();
-
             $fields['password'] = bcrypt($fields['password']);
-            $user = User::create($fields);
-
-            DB::commit();
+            User::create($fields);
         } catch (Exception $exception) {
-            DB::rollback();
-            throw $exception;
+            Log::error('Add user error: ' . $exception->getMessage());
+            return false;
         }
-
-        return $user;
+        return true;
     }
 
-    public function GetUserByEmail($email): User
+    public function GetUserByEmail(string $email): ?User
     {
         return User::where('email', $email)->first();
     }
 
-    public function GetUsers()
+    public function GetUsers(array $filters): ?LengthAwarePaginator
     {
-        //TODO: to change in type search function, tip POST
-        return User::select('id', 'name', 'email')->with('UserDetails')->get();
+        $query = User::select('id', 'name', 'email')->with('UserDetails');
+
+        if(isset($filters['name']) && $filters['name'] != '') {
+            $query->where('name', 'like', '%'.$filters['name'].'%');
+        }
+
+        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
     public function AddUser(array $fields): bool
@@ -63,9 +64,9 @@ class UserRepository implements IUserRepository
     {
         try {
             DB::beginTransaction();
-
             $user = User::find($fields['userId']);
-            $user->fill($fields)->update();
+            if($user)
+                $user->fill($fields)->update();
             $user->UserDetails->fill($fields)->update();
 
             DB::commit();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddUserRequest;
+use App\Http\Requests\UserSearchRequest;
 use App\Interfaces\IUserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -17,9 +18,10 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function GetUsers(): Response|Application|ResponseFactory
+    public function GetUsers(UserSearchRequest $request): Response|Application|ResponseFactory
     {
-        $result = $this->userService->GetUsers();
+        $validated = $request->validated();
+        $result = $this->userService->GetUsers($validated);
         if(!$result) {
             return response(false, 400);
         }

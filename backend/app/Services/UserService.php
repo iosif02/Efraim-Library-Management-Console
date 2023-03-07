@@ -6,6 +6,7 @@ use App\Interfaces\IUserService;
 use App\Repositories\IUserRepository;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
 class UserService implements IUserService
@@ -16,9 +17,9 @@ class UserService implements IUserService
         $this->userRepository = $userRepository;
     }
 
-    public function GetUsers()
+    public function GetUsers(array $filters): ?LengthAwarePaginator
     {
-        return $this->userRepository->GetUsers();
+        return $this->userRepository->GetUsers($filters);
     }
 
     public function AddUser(array $fields): bool

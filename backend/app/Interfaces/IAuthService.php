@@ -4,6 +4,6 @@ namespace App\Interfaces;
 
 interface IAuthService
 {
-    public function Register($fields);
-    public function Login($fields);
+    public function Register(array $fields): bool;
+    public function Login(array $fields): ?array;
 }
