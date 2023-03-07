@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\Book;
 use App\Models\Transactions;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -13,7 +15,8 @@ class BookRepository implements IBookRepository
     /**
      * @throws Exception
      */
-    public function AddBook($fields) {
+    public function AddBook(array $fields): bool
+    {
         try {
             DB::beginTransaction();
 
@@ -31,7 +34,7 @@ class BookRepository implements IBookRepository
         return true;
     }
 
-    public function UpdateBook($fields)
+    public function UpdateBook(array $fields): bool
     {
         try {
             DB::beginTransaction();
@@ -52,7 +55,7 @@ class BookRepository implements IBookRepository
         return true;
     }
 
-    public function DeleteBook($bookId)
+    public function DeleteBook(int $bookId): bool
     {
         try {
             DB::beginTransaction();
@@ -70,7 +73,8 @@ class BookRepository implements IBookRepository
         return true;
     }
 
-    public function GetBookById($bookId) {
+    public function GetBookById(int $bookId): ?Model
+    {
         return Book::with([
             'Category' => fn($query) => $query->select('id', 'name', 'number'),
             'Authors' => fn($query) => $query->select('name'),
@@ -81,14 +85,14 @@ class BookRepository implements IBookRepository
             },
             'Transaction.UserDetails' => fn($query) => $query->select('id', 'user_id', 'first_name', 'last_name')
         ])
-            ->withCount([
-                'Transaction' => function ($query){
-                    $query->where('is_returned', false);
-                }
-            ])->find($bookId)->append('status');
+        ->withCount([
+            'Transaction' => function ($query){
+                $query->where('is_returned', false);
+            }
+        ])->find($bookId)?->append('status');
     }
 
-    public function SearchBooks($filters)
+    public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
         $book = Book::select('id', 'title', 'category_id', 'quantity', 'image')
             ->with([
@@ -105,14 +109,16 @@ class BookRepository implements IBookRepository
 
         $books = $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 
+        // TODO: get delayed directly from query, do not manipulate the data
         $books->getCollection()->transform(function ($book) {
             $book->append('status');
             return $book;
         });
+
         return $books;
     }
 
-    public function SearchDelayedBooks($filters)
+    public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator
     {
         $transaction =  Transactions::select('id', 'borrow_date', 'return_date', 'user_id', 'book_id')
             ->where('return_date', '<', date('y-m-d'))->where('is_returned', false)
@@ -128,6 +134,7 @@ class BookRepository implements IBookRepository
             })
             ->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 
+        // TODO: get delayed directly from query, do not manipulate the data
         $transaction->getCollection()->transform(function ($book) {
             $book->append('delayed');
             return $book;
@@ -136,7 +143,7 @@ class BookRepository implements IBookRepository
         return $transaction;
     }
 
-    public function SearchPopularBooks($filters)
+    public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
         $query = Book::select('id', 'title', 'category_id', 'image')
             ->withCount([
@@ -155,7 +162,7 @@ class BookRepository implements IBookRepository
 
     }
 
-    public function SearchRecommendedBooks($filters)
+    public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator
     {
         $query = Book::select('id', 'title', 'category_id', 'image')
             ->with([
@@ -171,17 +178,27 @@ class BookRepository implements IBookRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function BorrowBook($fields)
+    public function BorrowBook(array $fields): bool
     {
-
-        return Transactions::create($fields);
+        try {
+            Transactions::create($fields);
+        } catch (Exception $exception) {
+            Log::error('Borrow book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function ReturnBook($transactionId)
+    public function ReturnBook(int $transactionId): bool
     {
-        $transaction = Transactions::find($transactionId);
-        $transaction->is_returned = true;
-        $transaction->update();
-        return $transaction;
+        try {
+            $transaction = Transactions::find($transactionId);
+            $transaction->is_returned = true;
+            $transaction->update();
+        } catch (Exception $exception) {
+            Log::error('Return book error: ' . $exception->getMessage());
+            return false;
+        }
+        return true;
     }
 }

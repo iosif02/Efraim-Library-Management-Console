@@ -15,8 +15,8 @@ const booksStore = useBooksStore();
 if(!entitiesStore.authors.data.length) {
     entitiesStore.fetchAuthors();
 }
-if(!booksStore.categories.data.length) {
-    booksStore.fetchCategories();
+if(!entitiesStore.categories.data.length) {
+    entitiesStore.fetchCategories();
 }
 if(!entitiesStore.publishers.data.length) {
     entitiesStore.fetchPublishers();
@@ -62,7 +62,7 @@ var searchAuthors = (event: any) => {
 }
 var searchCategories = (event: any) => {
     watchEffect(() => {
-        filteredCategories.value = booksStore.categories.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredCategories.value = entitiesStore.categories.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 var searchPublishers = (event: any) => {

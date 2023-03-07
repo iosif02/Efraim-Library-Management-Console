@@ -6,6 +6,7 @@ use App\Interfaces\IUserService;
 use App\Repositories\IUserRepository;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
 class UserService implements IUserService
@@ -16,12 +17,12 @@ class UserService implements IUserService
         $this->userRepository = $userRepository;
     }
 
-    public function GetUsers()
+    public function GetUsers(array $filters): ?LengthAwarePaginator
     {
-        return $this->userRepository->GetUsers();
+        return $this->userRepository->GetUsers($filters);
     }
 
-    public function AddUser($fields): bool
+    public function AddUser(array $fields): bool
     {
         try {
             $fields['birth_date'] = Carbon::parse($fields['birth_date']);
@@ -34,7 +35,7 @@ class UserService implements IUserService
         return $result;
     }
 
-    public function UpdateUser($fields)
+    public function UpdateUser(array $fields): bool
     {
         try {
             $fields['birth_date'] = Carbon::parse($fields['birth_date']);
@@ -47,7 +48,7 @@ class UserService implements IUserService
         return $result;
     }
 
-    public function DeleteUser($userId)
+    public function DeleteUser(int $userId): bool
     {
         try {
             if(!$userId)

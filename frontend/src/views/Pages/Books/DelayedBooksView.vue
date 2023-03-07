@@ -13,8 +13,8 @@ var changePage = (page: number) => {
     store.delayedBooksChangePage(page);
 }
 
-watch(() => store.delayedBooks.searchModel, async () => {
-    await store.fetchDelayedBooks();
+watch(() => store.delayedBooks.searchModel, () => {
+    store.fetchDelayedBooks();
 }, { deep: true });
 </script>
 

@@ -2,7 +2,6 @@
 import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
 import router from '@/router';
 import { useBooksStore } from '@/stores/books-store';
-import { watch } from 'vue';
 
 const props = defineProps({
   id: String
@@ -13,13 +12,7 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 }
 
 const store = useBooksStore();
-// if(!store.bookDetails.id) {
-  store.fetchBookDetails(props.id ?? "");
-// }
-
-// watch(() => props.id, () => {
-//   store.fetchBookDetails(props.id ?? "");
-// });
+store.fetchBookDetails(props.id ?? "");
 
 var onReturn = (transactionId: number) => {
   store.returnBook(transactionId);

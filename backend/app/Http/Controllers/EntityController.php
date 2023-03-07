@@ -56,7 +56,7 @@ class EntityController extends Controller
         return response(true, 200);
     }
 
-    public function DeleteAuthor($authorId): Response|Application|ResponseFactory
+    public function DeleteAuthor(int $authorId): Response|Application|ResponseFactory
     {
         $result = $this->entityService->DeleteAuthor($authorId);
         if(!$result) {
@@ -99,7 +99,7 @@ class EntityController extends Controller
         return response(true, 200);
     }
 
-    public function DeletePublisher($publisherId): Response|Application|ResponseFactory
+    public function DeletePublisher(int $publisherId): Response|Application|ResponseFactory
     {
         $result = $this->entityService->DeletePublisher($publisherId);
         if(!$result) {
@@ -141,7 +141,7 @@ class EntityController extends Controller
         return response(true, 200);
     }
 
-    public function DeleteCategory($categoryId): Response|Application|ResponseFactory
+    public function DeleteCategory(int $categoryId): Response|Application|ResponseFactory
     {
         $result = $this->entityService->DeleteCategory($categoryId);
         if(!$result) {

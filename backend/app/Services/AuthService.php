@@ -17,7 +17,7 @@ class AuthService implements IAuthService
         $this->userRepository = $userRepository;
     }
 
-    public function Register($fields): bool
+    public function Register(array $fields): bool
     {
         try {
             $result = $this->userRepository->CreateUser($fields);
@@ -26,10 +26,10 @@ class AuthService implements IAuthService
             return false;
         }
 
-        return (bool)$result;
+        return $result;
     }
 
-    public function Login($fields): ?array
+    public function Login(array $fields): ?array
     {
         try {
             $user = $this->userRepository->GetUserByEmail($fields['email']);

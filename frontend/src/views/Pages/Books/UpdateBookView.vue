@@ -7,7 +7,6 @@ import { useEntitiesStore } from '@/stores/entities-store';
 import type AuthorModel from '@/models/entities/AuthorModel';
 import type CategoryModel from '@/models/book/CategoryModel';
 import type PublisherModel from '@/models/entities/PublisherModel';
-import { watch } from 'vue';
 import router from '@/router';
 
 const props = defineProps({
@@ -20,8 +19,8 @@ const booksStore = useBooksStore();
 if(!entitiesStore.authors.data.length) {
     entitiesStore.fetchAuthors();
 }
-if(!booksStore.categories.data.length) {
-    booksStore.fetchCategories();
+if(!entitiesStore.categories.data.length) {
+    entitiesStore.fetchCategories();
 }
 if(!entitiesStore.publishers.data.length) {
     entitiesStore.fetchPublishers();
@@ -67,7 +66,7 @@ var searchAuthors = (event: any) => {
 }
 var searchCategories = (event: any) => {
     watchEffect(() => {
-        filteredCategories.value = booksStore.categories.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredCategories.value = entitiesStore.categories.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 var searchPublishers = (event: any) => {
@@ -80,14 +79,8 @@ var onSubmit = (book: any) => {
     imgSrc.value ? book.image = imgSrc.value : delete book.image;
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
-    book.authors = book.authors.map((x: any) =>{
-        if(x.pivot)
-            return x.pivot.author_id
-
-        return x.id
-    });
+    book.authors = book.authors.map((x: AuthorModel) => x?.pivot?.author_id ?? x.id);
     book.bookId = props.id
-    console.log(book)
     booksStore.updateBook(book);
 }
 
@@ -95,13 +88,7 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
   router.back();
 }
 
-// if(!booksStore.bookDetails.id) {
-    booksStore.fetchBookDetails(props.id ?? "");
-// }
-
-// watch(() => props.id, () => {
-//     booksStore.fetchBookDetails(props.id ?? "");
-// });
+booksStore.fetchBookDetails(props.id ?? "");
 
 </script>
 
