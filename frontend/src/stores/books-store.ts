@@ -4,6 +4,7 @@ import HomepageViewModel from "@/models/book/HomepageViewModel";
 import SearchBookModel from "@/models/book/SearchBookModel";
 import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
+import type BorrowBookModel from "@/models/book/BorrowBookModel";
 
 export const useBooksStore = defineStore('useBooksStore', {
   state: () => ({
@@ -23,128 +24,120 @@ export const useBooksStore = defineStore('useBooksStore', {
       data: [] as DelayedBookModel[]
     },
     bookDetails: new BookModel(),
-    books: {
-      searchModel: new SearchBookModel(),
-      data: [] as BookModel[]
-    }
 	}),
   getters: {
 
   },
   actions: {
-    async fetchHomepage() {
-      try {
-        this.isLoading = true;
-        let books = await axios.get("/books/homepage");
-        if(books?.data) {
-          this.homepage.data.categories = books.data?.categories?.data;
-          this.homepage.data.popularBooks = books.data?.popularBooks?.data;
-          this.homepage.data.delayedBooks = books.data?.delayedBooks?.data;
-          this.homepage.data.totalDelayedBooks = books.data?.delayedBooks?.total;
+    fetchHomepage() {
+      this.isLoading = true;
+      axios.get("/books/homepage")
+      .then(result => {
+          if(!result.data) return;
+
+          this.homepage.data.categories = result.data?.categories?.data;
+          this.homepage.data.popularBooks = result.data?.popularBooks?.data;
+          this.homepage.data.delayedBooks = result.data?.delayedBooks?.data;
+          this.homepage.data.totalDelayedBooks = result.data?.delayedBooks?.total;
           this.homepage.isFetched = true;
-          this.isLoading = false;
-        }
-      } catch(ex) {
-        this.isLoading = false;
-        console.error("Request error: " + ex);
-      }
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async fetchPopularBooks() {
-      try {
-        let books = await axios.post("/books/popular-books", this.popularBooks.searchModel);
-        if(books?.data) {
-          this.popularBooks.data = books.data.data;
-          this.popularBooks.searchModel.pagination.total = books.data.total ?? 1;
-          this.popularBooks.searchModel.pagination.last_page = books.data.last_page ?? 1;
-        }
-      } catch(ex) {
-        console.error("Request error: " + ex);
-      }
+    fetchPopularBooks() {
+      this.isLoading = true;
+      axios.post("/books/popular-books", this.popularBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.popularBooks.data = result.data.data;
+          this.popularBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.popularBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async fetchDelayedBooks() {
-      try {
-        let books = await axios.post("/books/delayed-books", this.delayedBooks.searchModel);
-        if(books?.data) {
-          this.delayedBooks.data = books.data.data;
-          this.delayedBooks.searchModel.pagination.total = books.data.total ?? 1;
-          this.delayedBooks.searchModel.pagination.last_page = books.data.last_page ?? 1;
-        }
-      } catch(ex) {
-        console.error("Request error: " + ex);
-      }
+    fetchDelayedBooks() {
+      this.isLoading = true;
+      axios.post("/books/delayed-books", this.delayedBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.delayedBooks.data = result.data.data;
+          this.delayedBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.delayedBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async fetchBookDetails(bookId: String) {
-      try {
-        this.isLoading = true;
-        let book = await axios.get("/books/" + bookId);
-        if(book?.data){
-          this.bookDetails = book.data;
-          this.isLoading = false;
-        }
-      } catch (ex) {
-        this.isLoading = false;
-        console.error("Request error: " + ex)
-      }
+    fetchBookDetails(bookId: String) {
+      this.isLoading = true;
+      axios.get("/books/" + bookId)
+      .then(result => {
+          if(!result.data) return;
+
+          this.bookDetails = result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async searchBooks() {
-      try {
-        let books = await axios.post("/books/search", this.homepage.searchModel);
-        if(books?.data) {
-          this.homepage.data.books = books.data.data;
-          this.homepage.searchModel.pagination.total = books.data.total ?? 1;
-          this.homepage.searchModel.pagination.last_page = books.data.last_page ?? 1;
-        }
-      } catch(ex) {
-        console.error("Request error: " + ex);
-      }
+    searchBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.homepage.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.homepage.data.books = result.data.data;
+          this.homepage.searchModel.pagination.total = result.data.total ?? 1;
+          this.homepage.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
     async createBook(book: BookModel) {
-      try {
-        this.isLoading = true;
-        let books = await axios.post("/books/add", book);
-        if(books?.data) {
-          this.isLoading = false;
-        }
-      } catch(ex) {
-        this.isLoading = false;
-        console.error("Request error: " + ex);
-      }
+      this.isLoading = true;
+      return axios.post("/books/add", book)
+      .then(result => {
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async updateBook(book: BookModel) {
-      try {
-        this.isLoading = true;
-        let books = await axios.post("/books/update", book);
-        if(books?.data) {
-          this.isLoading = false;
-        }
-      } catch(ex) {
-        this.isLoading = false;
-        console.error("Request error: " + ex);
-      }
+    updateBook(book: BookModel) {
+      this.isLoading = true;
+      axios.post("/books/update", book)
+      .then(result => {
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async returnBook(transactionId: number){
-      try {
-        this.isLoading = true
-        let transaction = await axios.post("/books/return/" + transactionId);
-        if(transaction?.data) {
-          this.isLoading = false;
-        }
-      } catch (ex) {
-        this.isLoading = false;
-        console.error("Request error: " + ex);
-      }
+    returnBook(transactionId: number){
+      this.isLoading = true;
+      axios.post("/books/return/" + transactionId)
+      .then(result => {
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
     },
-    async popularBooksChangePage(page: number) {
+    async borrowBook(borrowModel: BorrowBookModel) {
+      this.isLoading = true;
+      return axios.post("/books/borrow", borrowModel)
+      .then(result => {
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    popularBooksChangePage(page: number) {
       this.popularBooks.searchModel.pagination.page = page;
-      this.fetchPopularBooks();
     },
-    async delayedBooksChangePage(page: number) {
+    delayedBooksChangePage(page: number) {
       this.delayedBooks.searchModel.pagination.page = page;
-      this.fetchDelayedBooks();
     },
-    async booksHomeChangePage(page: number) {
+    booksHomeChangePage(page: number) {
       this.homepage.searchModel.pagination.page = page;
-      this.searchBooks();
     }
   },
 })

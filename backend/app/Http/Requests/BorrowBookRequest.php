@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class BorrowBookRequest extends FormRequest
+class   BorrowBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

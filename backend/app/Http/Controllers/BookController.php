@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Interfaces\IBookService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class BookController extends Controller
@@ -19,14 +20,14 @@ class BookController extends Controller
         $this->bookService = $bookService;
     }
 
-    public function GetHomepage(): Response|Application|ResponseFactory
+    public function GetHomepage(): JsonResponse
     {
         $result = $this->bookService->GetHomepage();
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
     public function SearchDelayedBooks(BookSearchRequest $request): Response|Application|ResponseFactory

@@ -5,17 +5,14 @@ import { useEntitiesStore } from '@/stores/entities-store';
 import { watch } from 'vue';
 
 const store = useEntitiesStore();
-if(!store.categories?.data?.length) {
-    store.fetchCategories();
-}
 
 var changePage = (page: number) => {
     store.categoriesChangePage(page);
 }
 
-watch(() => store.categories.searchModel, async () => {
-    await store.fetchCategories();
-}, { deep: true });
+watch(store.categories.searchModel, () => {
+    store.fetchCategories();
+}, { deep: true, immediate: true });
 </script>
 
 <template>
@@ -25,7 +22,8 @@ watch(() => store.categories.searchModel, async () => {
 
     <SearchBar
         :defaultValue="store.categories.searchModel.name"
-        @keyup="(event: any) => store.categories.searchModel.name = event?.target?.value"
+        @valueChanged="(value: string) => store.categories.searchModel.name = value"
+        placeholder='Search book...'
     />
 
     <Categories :categories="store.categories.data" />

@@ -41,6 +41,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::prefix('entities')->group(function () {
+        Route::get('/', [EntityController::class, 'GetEntities']);
+
         Route::prefix('authors')->group(function (){
             Route::post('/search', [EntityController::class, 'SearchAuthors']);
             Route::post('/add-author', [EntityController::class, 'AddAuthor']);

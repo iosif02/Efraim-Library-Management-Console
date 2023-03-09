@@ -33,11 +33,19 @@ class UserRepository implements IUserRepository
 
     public function GetUsers(array $filters): ?LengthAwarePaginator
     {
-        $query = User::select('id', 'name', 'email')->with('UserDetails');
-
-        if(isset($filters['name']) && $filters['name'] != '') {
-            $query->where('name', 'like', '%'.$filters['name'].'%');
-        }
+        $query = User::select('id', 'name')
+            ->with([
+                'UserDetails' => fn($query) => $query->select('id', 'user_id', 'first_name', 'last_name')
+            ])
+            ->whereHas('UserDetails', function ($query) use ($filters) {
+                if(isset($filters['name']) && $filters['name'] != '') {
+                    $query->where('first_name', 'like', '%'.$filters['name'].'%')
+                        ->orwhere('last_name', 'like', '%'.$filters['name'].'%');
+                }
+            })
+            ->withCount([
+                'Transaction' => fn($query) => $query->where('is_returned', false),
+            ]);
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }

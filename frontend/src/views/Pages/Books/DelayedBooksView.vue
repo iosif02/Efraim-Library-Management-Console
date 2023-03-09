@@ -5,17 +5,14 @@ import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = useBooksStore();
-if(!store.delayedBooks.data.length) {
-    store.fetchDelayedBooks();
-}
 
 var changePage = (page: number) => {
     store.delayedBooksChangePage(page);
 }
 
-watch(() => store.delayedBooks.searchModel, () => {
+watch(store.delayedBooks.searchModel, () => {
     store.fetchDelayedBooks();
-}, { deep: true });
+}, { deep: true, immediate: true });
 </script>
 
 <template>
@@ -25,7 +22,8 @@ watch(() => store.delayedBooks.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.delayedBooks.searchModel.title"
-        @keyup="(event: any) => store.delayedBooks.searchModel.title = event?.target?.value"
+        @valueChanged="(value: string) => store.delayedBooks.searchModel.title = value"
+        placeholder='Search book...'
     />
 
     <DelayedBooks :books="store.delayedBooks.data" />

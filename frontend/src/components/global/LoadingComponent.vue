@@ -30,8 +30,7 @@
     width: 100%;
     height: 100%;
     position: fixed;
-    background-color: black;
-    opacity: .2;
+    background-color: rgba(60, 60, 60, 0.5);
 }
 .lds-ellipsis {
     display: inline-block;

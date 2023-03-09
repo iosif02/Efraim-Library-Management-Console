@@ -23,6 +23,16 @@ class EntityController extends Controller
         $this->entityService = $entityService;
     }
 
+    public function GetEntities(): Response|Application|ResponseFactory
+    {
+        $result = $this->entityService->GetEntities();
+        if(!$result) {
+            return response(false, 400);
+        }
+
+        return response($result, 200);
+    }
+
     public function SearchAuthors(AuthorSearchRequest $request): Response|Application|ResponseFactory
     {
         $validated = $request->validated();

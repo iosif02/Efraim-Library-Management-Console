@@ -5,17 +5,14 @@ import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = useBooksStore();
-if(!store.popularBooks?.data.length) {
-    store.fetchPopularBooks();
-}
 
 var changePage = (page: number) => {
     store.popularBooksChangePage(page);
 }
 
 watch(() => store.popularBooks.searchModel, async () => {
-    await store.fetchPopularBooks();
-}, { deep: true });
+    store.fetchPopularBooks();
+}, { deep: true, immediate: true});
 </script>
 
 <template>
@@ -25,7 +22,8 @@ watch(() => store.popularBooks.searchModel, async () => {
 
     <SearchBar
         :defaultValue="store.popularBooks.searchModel.title"
-        @keyup="(event: any) => store.popularBooks.searchModel.title = event?.target?.value"
+        @valueChanged="(value: string) => store.popularBooks.searchModel.title = value"
+        placeholder='Search book...'
     />
 
     <PopularBooks :books="store.popularBooks.data" />

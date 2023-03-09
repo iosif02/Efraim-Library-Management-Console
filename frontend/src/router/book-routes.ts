@@ -6,6 +6,7 @@ import CategoriesViewVue from "@/views/Pages/Books/CategoriesView.vue";
 import CreateBookViewVue from "@/views/Pages/Books/CreateBookView.vue";
 import BookDetailsViewVue from "@/views/Pages/Books/BookDetailsView.vue";
 import UpdateBookViewVue from "@/views/Pages/Books/UpdateBookView.vue";
+import BorrowBookViewVue from "@/views/Pages/Books/BorrowBookView.vue";
 
 export default
 {
@@ -50,6 +51,12 @@ export default
             name: "editBook",
             component: UpdateBookViewVue,   
             props: true,
-        }
+        },
+        {
+            path: "/borrow-book/:id",
+            name: "borrowBook",
+            component: BorrowBookViewVue,
+            props: true,
+        },
     ]
 };

@@ -17,6 +17,19 @@ class EntityService implements IEntityService
         $this->entityRepository = $entityRepository;
     }
 
+    public function GetEntities(): array
+    {
+        $publishers = $this->entityRepository->GetPublishers();
+        $authors = $this->entityRepository->GetAuthors();
+        $categories = $this->entityRepository->GetCategories();
+
+        return [
+            "publishers" => $publishers,
+            "authors" => $authors,
+            "categories" => $categories
+        ];
+    }
+
     public function SearchAuthors(array $filters): ?LengthAwarePaginator
     {
         try {

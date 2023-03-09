@@ -4,15 +4,32 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
 const props = defineProps({
   defaultValue: {
     type: String
+  },
+  route: {
+    type: String
+  },
+  placeholder: {
+    type: String
   }
 })
 let searchValue = props?.defaultValue;
+
+const emit = defineEmits(['valueChanged'])
+
+var timer = 0;
+var textSearch = () => {
+  clearTimeout(timer)
+
+  timer = setTimeout(() => {
+    emit.call(this, 'valueChanged', searchValue);
+  }, 400)
+}
 </script>
 
 <template>
   <div class="search-container">
     <SearchIcon />
-    <input v-model="searchValue" class="search" type="text" placeholder="Search books...">
+    <input v-model="searchValue" class="search" type="text" :placeholder="placeholder" @keyup="textSearch">
   </div>
 </template>
 

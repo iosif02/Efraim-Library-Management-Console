@@ -6,6 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IEntityService
 {
+    public function GetEntities(): array;
     public function SearchAuthors(array $filters): ?LengthAwarePaginator;
     public function AddAuthor(array $fields): bool;
     public function UpdateAuthor(array $fields): bool;
