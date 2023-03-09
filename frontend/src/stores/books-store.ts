@@ -23,10 +23,6 @@ export const useBooksStore = defineStore('useBooksStore', {
       data: [] as DelayedBookModel[]
     },
     bookDetails: new BookModel(),
-    // books: {
-    //   searchModel: new SearchBookModel(),
-    //   data: [] as BookModel[]
-    // }
 	}),
   getters: {
 
@@ -136,15 +132,12 @@ export const useBooksStore = defineStore('useBooksStore', {
     },
     async popularBooksChangePage(page: number) {
       this.popularBooks.searchModel.pagination.page = page;
-      // this.fetchPopularBooks();
     },
     async delayedBooksChangePage(page: number) {
       this.delayedBooks.searchModel.pagination.page = page;
-      // this.fetchDelayedBooks();
     },
     async booksHomeChangePage(page: number) {
       this.homepage.searchModel.pagination.page = page;
-      // this.searchBooks();
     }
   },
 })

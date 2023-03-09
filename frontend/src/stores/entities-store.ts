@@ -23,6 +23,11 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
             data: [] as CategoryModel[],
             searchModel: new SearchCategoryModel(),
         },
+        entities: {
+            publishers: [] as PublisherModel[],
+            authors: [] as AuthorModel[],
+            categories: [] as CategoryModel[],
+        }
     }),
     getters: {
 
@@ -30,7 +35,6 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
     actions: {
         async fetchAuthors() {
             try {
-                this.authors.searchModel.getAll = true;
                 let authors = await axios.post("/entities/authors/search", this.authors.searchModel);
                 if(authors?.data) {
                     this.authors.data = authors.data.data;
@@ -43,7 +47,6 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
         },
         async fetchPublishers() {
             try {
-                this.publishers.searchModel.getAll = true;
                 let publishers = await axios.post("/entities/publishers/search", this.publishers.searchModel);
                 if(publishers?.data) {
                     this.publishers.data = publishers.data.data;
@@ -56,21 +59,31 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
           },
           async fetchCategories() {
             try {
-                this.categories.searchModel.getAll = true;
                 let books = await axios.post("/entities/categories/search", this.categories.searchModel);
-              if(books?.data) {
-                this.authors.searchModel.getAll = true;
-                this.categories.data = books.data.data;
-                this.categories.searchModel.pagination.total = books.data.total ?? 1;
-                this.categories.searchModel.pagination.last_page = books.data.last_page ?? 1;
-              }
+                if(books?.data) {
+                    this.categories.data = books.data.data;
+                    this.categories.searchModel.pagination.total = books.data.total ?? 1;
+                    this.categories.searchModel.pagination.last_page = books.data.last_page ?? 1;
+                }
             } catch(ex) {
               console.error("Request error: " + ex);
             }
         },
-        async categoriesChangePage(page: number) {
+        fetchEntities() {
+            this.isLoading = true;
+            axios.get("/entities")
+            .then(result => {
+                if(!result.data) return;
+
+                this.entities.publishers = result.data?.publishers;
+                this.entities.authors = result.data?.authors;
+                this.entities.categories = result.data?.categories;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
+        },
+        categoriesChangePage(page: number) {
             this.categories.searchModel.pagination.page = page;
-            // this.fetchCategories();
         },
     }
 })

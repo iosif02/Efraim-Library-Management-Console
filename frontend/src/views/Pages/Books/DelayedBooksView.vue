@@ -5,15 +5,12 @@ import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = useBooksStore();
-// if(!store.delayedBooks.data.length) {
-//     store.fetchDelayedBooks();
-// }
 
 var changePage = (page: number) => {
     store.delayedBooksChangePage(page);
 }
 
-watch(() => store.delayedBooks.searchModel, () => {
+watch(store.delayedBooks.searchModel, () => {
     store.fetchDelayedBooks();
 }, { deep: true, immediate: true });
 </script>

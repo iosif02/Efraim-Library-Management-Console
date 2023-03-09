@@ -6,21 +6,33 @@ use App\Models\Author;
 use App\Models\Category;
 use App\Models\Publisher;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
 class EntityRepository implements IEntityRepository
 {
+    public function GetPublishers(): Collection
+    {
+        return Publisher::select('id', 'name')->get();
+    }
+
+    public function GetAuthors(): Collection
+    {
+        return Author::select('id', 'name')->get();
+    }
+
+    public function GetCategories(): Collection
+    {
+        return Category::select('id', 'name')->get();
+    }
+
     public function SearchAuthors(array $filters): ?LengthAwarePaginator
     {
         $query = Author::select('id', 'name');
 
         if(isset($filters['name']) && $filters['name'] != '') {
             $query->where('name', 'like', '%'.$filters['name'].'%');
-        }
-
-        if(isset($filters['getAll']) && $filters['getAll']) {
-            $filters['pagination'] = ['per_page' => 9999999, 'page' => 1];
         }
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
@@ -69,10 +81,6 @@ class EntityRepository implements IEntityRepository
             $query->where('name', 'like', '%'.$filters['name'].'%');
         }
 
-        if(isset($filters['getAll']) && $filters['getAll']) {
-            $filters['pagination'] = ['per_page' => 9999999, 'page' => 1];
-        }
-
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
@@ -117,10 +125,6 @@ class EntityRepository implements IEntityRepository
 
         if(isset($filters['name']) && $filters['name'] != '') {
             $query->where('name', 'like', '%'.$filters['name'].'%');
-        }
-
-        if(isset($filters['getAll']) && $filters['getAll']) {
-            $filters['pagination'] = ['per_page' => 9999999, 'page' => 1];
         }
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);

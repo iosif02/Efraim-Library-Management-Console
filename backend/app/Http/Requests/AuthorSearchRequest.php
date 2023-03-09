@@ -26,7 +26,6 @@ class AuthorSearchRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string',
-            'getAll' => 'required|boolean',
             'pagination' => 'required',
             'pagination.per_page' => 'required|integer',
             'pagination.page' => 'required|integer',

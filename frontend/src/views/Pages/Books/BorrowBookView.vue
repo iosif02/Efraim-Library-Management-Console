@@ -20,11 +20,11 @@ const UsersStore = useUsersStore();
 BooksStore.fetchBookDetails(props.id ?? "");
 
 var changePage = (page: number) => {
-    UsersStore.userChangePage(page);
+  UsersStore.userChangePage(page);
 }
 
 watch(UsersStore.users.searchModel, () => {
-    UsersStore.fetchUsers();
+  UsersStore.fetchUsers();
 }, { deep: true, immediate: true });
 
 </script>
@@ -47,7 +47,6 @@ watch(UsersStore.users.searchModel, () => {
           </div>
       </div>
   </div>
-    
 
   <SearchBar
       :defaultValue="UsersStore.users.searchModel.name"

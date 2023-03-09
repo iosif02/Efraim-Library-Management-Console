@@ -16,14 +16,8 @@ const props = defineProps({
 const entitiesStore = useEntitiesStore();
 const booksStore = useBooksStore();
 
-if(!entitiesStore.authors.data.length) {
-    entitiesStore.fetchAuthors();
-}
-if(!entitiesStore.categories.data.length) {
-    entitiesStore.fetchCategories();
-}
-if(!entitiesStore.publishers.data.length) {
-    entitiesStore.fetchPublishers();
+if(!entitiesStore.entities.publishers.length) {
+    entitiesStore.fetchEntities();
 }
 
 const validateForm = yup.object({
@@ -61,17 +55,17 @@ const selectedPublisher = ref<PublisherModel>();
 
 var searchAuthors = (event: any) => {
     watchEffect(() => {
-        filteredAuthors.value = entitiesStore.authors.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 var searchCategories = (event: any) => {
     watchEffect(() => {
-        filteredCategories.value = entitiesStore.categories.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 var searchPublishers = (event: any) => {
     watchEffect(() => {
-        filteredPublishers.value = entitiesStore.publishers.data.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 
