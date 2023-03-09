@@ -22,7 +22,8 @@ watch(store.categories.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.categories.searchModel.name"
-        @keyup="(event: any) => store.categories.searchModel.name = event?.target?.value"
+        @valueChanged="(value: string) => store.categories.searchModel.name = value"
+        placeholder='Search book...'
     />
 
     <Categories :categories="store.categories.data" />

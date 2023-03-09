@@ -7,15 +7,29 @@ const props = defineProps({
   },
   route: {
     type: String
+  },
+  placeholder: {
+    type: String
   }
 })
 let searchValue = props?.defaultValue;
+
+const emit = defineEmits(['valueChanged'])
+
+var timer = 0;
+var textSearch = () => {
+  clearTimeout(timer)
+
+  timer = setTimeout(() => {
+    emit.call(this, 'valueChanged', searchValue);
+  }, 400)
+}
 </script>
 
 <template>
   <div class="search-container">
     <SearchIcon />
-    <input v-model="searchValue" class="search" type="text" :placeholder="route == 'borrowBook' ? 'Search user...' : 'Search book...'">
+    <input v-model="searchValue" class="search" type="text" :placeholder="placeholder" @keyup="textSearch">
   </div>
 </template>
 

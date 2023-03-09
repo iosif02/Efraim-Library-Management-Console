@@ -50,8 +50,8 @@ watch(UsersStore.users.searchModel, () => {
 
   <SearchBar
       :defaultValue="UsersStore.users.searchModel.name"
-      @keyup="(event: any) => UsersStore.users.searchModel.name = event?.target?.value"
-      :route="'borrowBook'"
+      @valueChanged="(value: string) => UsersStore.users.searchModel.name = value"
+      placeholder="Search user..."
   />
 
   <UsersComponent :users="UsersStore.users.data"/>

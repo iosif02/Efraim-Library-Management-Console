@@ -11,7 +11,7 @@ var changePage = (page: number) => {
 }
 
 watch(() => store.popularBooks.searchModel, async () => {
-     store.fetchPopularBooks();
+    store.fetchPopularBooks();
 }, { deep: true, immediate: true});
 </script>
 
@@ -22,7 +22,8 @@ watch(() => store.popularBooks.searchModel, async () => {
 
     <SearchBar
         :defaultValue="store.popularBooks.searchModel.title"
-        @keyup="(event: any) => store.popularBooks.searchModel.title = event?.target?.value"
+        @valueChanged="(value: string) => store.popularBooks.searchModel.title = value"
+        placeholder='Search book...'
     />
 
     <PopularBooks :books="store.popularBooks.data" />

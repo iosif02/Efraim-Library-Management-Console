@@ -24,7 +24,8 @@ watch(() => store.homepage.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.homepage.searchModel.title"
-        @keyup="(event: any) => store.homepage.searchModel.title = event?.target?.value"
+        @valueChanged="(value: any) => store.homepage.searchModel.title = value"
+        placeholder='Search book...'
     />
 
     <div v-if="!store.homepage.searchModel.title">

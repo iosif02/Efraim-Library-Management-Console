@@ -22,7 +22,8 @@ watch(store.delayedBooks.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.delayedBooks.searchModel.title"
-        @keyup="(event: any) => store.delayedBooks.searchModel.title = event?.target?.value"
+        @valueChanged="(value: string) => store.delayedBooks.searchModel.title = value"
+        placeholder='Search book...'
     />
 
     <DelayedBooks :books="store.delayedBooks.data" />
