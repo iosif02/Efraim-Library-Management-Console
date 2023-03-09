@@ -69,7 +69,9 @@ var onSubmit = (book: any) => {
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
     book.authors = book.authors.map((x: any) => x.id);
-    booksStore.createBook(book);
+    booksStore.createBook(book).then((result: any) => {
+        console.log(result);
+    });
 }
 
 </script>

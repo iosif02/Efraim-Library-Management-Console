@@ -13,22 +13,20 @@ export const useUsersStore = defineStore('useUsersStore', {
         },
     }),
     actions: {
-        async fetchUsers() {
-            try {
-                this.isLoading = true;
-                let users = await axios.post("/user/users", this.users.searchModel);
-                if(users?.data) {
-                    this.users.data = users.data.data;
-                    this.users.searchModel.pagination.total = users.data.total ?? 1;
-                    this.users.searchModel.pagination.last_page = users.data.last_page ?? 1;
-                    this.isLoading = false;
-                }
-            } catch(ex) {
-                this.isLoading = false;
-                console.error("Request error: " + ex);
-            }
+        fetchUsers() {
+            this.isLoading = true;
+            axios.post("/user/users", this.users.searchModel)
+            .then(result => {
+                if(!result.data) return;
+
+                this.users.data = result.data.data;
+                this.users.searchModel.pagination.total = result.data.total ?? 1;
+                this.users.searchModel.pagination.last_page = result.data.last_page ?? 1;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
         },
-        async userChangePage(page: number) {
+        userChangePage(page: number) {
             this.users.searchModel.pagination.page = page;
         },
     }

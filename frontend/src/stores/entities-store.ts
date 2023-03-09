@@ -33,41 +33,44 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
 
     },
     actions: {
-        async fetchAuthors() {
-            try {
-                let authors = await axios.post("/entities/authors/search", this.authors.searchModel);
-                if(authors?.data) {
-                    this.authors.data = authors.data.data;
-                    this.authors.searchModel.pagination.total = authors.data.total ?? 1;
-                    this.authors.searchModel.pagination.last_page = authors.data.last_page ?? 1;
-                }
-            } catch(ex) {
-                console.error("Request error: " + ex);
-            }
+        fetchAuthors() {
+            this.isLoading = true;
+            axios.post("/entities/authors/search", this.authors.searchModel)
+            .then(result => {
+                if(!result.data) return;
+
+                this.authors.data = result.data.data;
+                this.authors.searchModel.pagination.total = result.data.total ?? 1;
+                this.authors.searchModel.pagination.last_page = result.data.last_page ?? 1;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
         },
-        async fetchPublishers() {
-            try {
-                let publishers = await axios.post("/entities/publishers/search", this.publishers.searchModel);
-                if(publishers?.data) {
-                    this.publishers.data = publishers.data.data;
-                    this.publishers.searchModel.pagination.total = publishers.data.total ?? 1;
-                    this.publishers.searchModel.pagination.last_page = publishers.data.last_page ?? 1;
-                }
-            } catch(ex) {
-                console.error("Request error: " + ex);
-            }
+        fetchPublishers() {
+            this.isLoading = true;
+            axios.post("/entities/publishers/search", this.publishers.searchModel)
+            .then(result => {
+                if(!result.data) return;
+
+                this.publishers.data = result.data.data;
+                this.publishers.searchModel.pagination.total = result.data.total ?? 1;
+                this.publishers.searchModel.pagination.last_page = result.data.last_page ?? 1;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
           },
-          async fetchCategories() {
-            try {
-                let books = await axios.post("/entities/categories/search", this.categories.searchModel);
-                if(books?.data) {
-                    this.categories.data = books.data.data;
-                    this.categories.searchModel.pagination.total = books.data.total ?? 1;
-                    this.categories.searchModel.pagination.last_page = books.data.last_page ?? 1;
-                }
-            } catch(ex) {
-              console.error("Request error: " + ex);
-            }
+        fetchCategories() {
+            this.isLoading = true;
+            axios.post("/entities/categories/search", this.categories.searchModel)
+            .then(result => {
+                if(!result.data) return;
+
+                this.categories.data = result.data.data;
+                this.categories.searchModel.pagination.total = result.data.total ?? 1;
+                this.categories.searchModel.pagination.last_page = result.data.last_page ?? 1;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
         },
         fetchEntities() {
             this.isLoading = true;
@@ -84,6 +87,12 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
         },
         categoriesChangePage(page: number) {
             this.categories.searchModel.pagination.page = page;
+        },
+        publishersChangePage(page: number) {
+            this.publishers.searchModel.pagination.page = page;
+        },
+        authorsChangePage(page: number) {
+            this.authors.searchModel.pagination.page = page;
         },
     }
 })
