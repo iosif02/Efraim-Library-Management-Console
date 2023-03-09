@@ -13,8 +13,8 @@ if(!store.homepage.isFetched){
   store.fetchHomepage();
 }
 
-watch(() => store.homepage.searchModel, async () => {
-  await store.searchBooks();
+watch(() => store.homepage.searchModel, () => {
+  store.searchBooks();
 }, { deep: true });
 </script>
 

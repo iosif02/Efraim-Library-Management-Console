@@ -4,6 +4,9 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
 const props = defineProps({
   defaultValue: {
     type: String
+  },
+  route: {
+    type: String
   }
 })
 let searchValue = props?.defaultValue;
@@ -12,7 +15,7 @@ let searchValue = props?.defaultValue;
 <template>
   <div class="search-container">
     <SearchIcon />
-    <input v-model="searchValue" class="search" type="text" placeholder="Search books...">
+    <input v-model="searchValue" class="search" type="text" :placeholder="route == 'borrowBook' ? 'Search user...' : 'Search book...'">
   </div>
 </template>
 

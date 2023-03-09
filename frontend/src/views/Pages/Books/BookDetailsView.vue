@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
 import router from '@/router';
+import { RouterLink } from "vue-router";
 import { useBooksStore } from '@/stores/books-store';
 
 const props = defineProps({
@@ -59,7 +60,9 @@ var onReturn = (transactionId: number) => {
     </div>
   </div>
 
-  <button class="btn w-100">Borrow</button>
+  <RouterLink :to="{ name: 'borrowBook', params: { id: props.id }}">
+    <button class="btn w-100">Borrow</button>
+  </RouterLink>
 
 </template>
 

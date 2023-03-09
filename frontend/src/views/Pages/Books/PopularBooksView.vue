@@ -5,9 +5,9 @@ import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = useBooksStore();
-if(!store.popularBooks?.data.length) {
-    store.fetchPopularBooks();
-}
+// if(!store.popularBooks?.data.length) {
+//     store.fetchPopularBooks();
+// }
 
 var changePage = (page: number) => {
     store.popularBooksChangePage(page);
@@ -15,7 +15,7 @@ var changePage = (page: number) => {
 
 watch(() => store.popularBooks.searchModel, async () => {
     await store.fetchPopularBooks();
-}, { deep: true });
+}, { deep: true, immediate: true});
 </script>
 
 <template>

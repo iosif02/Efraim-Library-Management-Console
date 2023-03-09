@@ -5,9 +5,9 @@ import { useBooksStore } from '@/stores/books-store';
 import { watch } from 'vue';
 
 const store = useBooksStore();
-if(!store.delayedBooks.data.length) {
-    store.fetchDelayedBooks();
-}
+// if(!store.delayedBooks.data.length) {
+//     store.fetchDelayedBooks();
+// }
 
 var changePage = (page: number) => {
     store.delayedBooksChangePage(page);
@@ -15,7 +15,7 @@ var changePage = (page: number) => {
 
 watch(() => store.delayedBooks.searchModel, () => {
     store.fetchDelayedBooks();
-}, { deep: true });
+}, { deep: true, immediate: true });
 </script>
 
 <template>

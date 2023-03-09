@@ -5,9 +5,9 @@ import { useEntitiesStore } from '@/stores/entities-store';
 import { watch } from 'vue';
 
 const store = useEntitiesStore();
-if(!store.categories?.data?.length) {
-    store.fetchCategories();
-}
+// if(!store.categories?.data?.length) {
+//     store.fetchCategories();
+// }
 
 var changePage = (page: number) => {
     store.categoriesChangePage(page);
@@ -15,7 +15,7 @@ var changePage = (page: number) => {
 
 watch(() => store.categories.searchModel, async () => {
     await store.fetchCategories();
-}, { deep: true });
+}, { deep: true, immediate: true });
 </script>
 
 <template>

@@ -70,7 +70,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
         },
         async categoriesChangePage(page: number) {
             this.categories.searchModel.pagination.page = page;
-            this.fetchCategories();
+            // this.fetchCategories();
         },
     }
 })

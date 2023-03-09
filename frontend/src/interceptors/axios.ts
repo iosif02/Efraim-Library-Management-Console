@@ -22,5 +22,11 @@ axios.interceptors.response.use(function(response) {
 	} else {
 		NotificationHelper.NotifyError("Error occurred. Please contact the administrator!");
 	}
+	if(error.response.status == 401) {
+		localStorage.removeItem('bearerToken');
+		localStorage.removeItem('userDetails');
+		window.location = '/login';
+	}
+	console.log(error, error.response.status == 401)
 	return Promise.reject(error);
 });
