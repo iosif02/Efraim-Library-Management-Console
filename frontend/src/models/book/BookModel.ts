@@ -1,7 +1,7 @@
 import CategoryModel from "@/models/book/CategoryModel";
 import type AuthorModel from "@/models/entities/AuthorModel";
-import PublisherModel from "../entities/PublisherModel";
-import type TransactionModel from "./TransactionModel";
+import PublisherModel from "@/models/entities/PublisherModel";
+import type TransactionModel from "@/models/book/TransactionModel";
 
 export default class BookModel {
     id: number = 0;

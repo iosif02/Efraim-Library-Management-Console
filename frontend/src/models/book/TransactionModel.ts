@@ -1,4 +1,4 @@
-import UserDetailsModel from "../user/UserDetailsModel";
+import UserDetailsModel from "@/models/user/UserDetailsModel";
 
 export default class TransactionModel {
     id: number = 0;
