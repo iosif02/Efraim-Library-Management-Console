@@ -13,7 +13,11 @@ defineProps({
 
 <template>
     <div class="users">
-        <div v-for="(user, index) in users" class="user-section" :class="{ 'borderTop': index != 0, 'paddingTop': index != 0}" :key="index" >
+        <div 
+            v-for="(user, index) in users" class="user-section" 
+            :class="{ 'borderTop': index != 0, 'paddingTop': index != 0}" 
+            :key="index" @click="$emit('openModal', user.id)"
+        >
             <div class="right-section">
                 <div class="user-image">
                     <img :src="user.user_details?.photo_url ?? '/img/user.jpg'" alt="user-image">

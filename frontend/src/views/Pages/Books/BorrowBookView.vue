@@ -3,8 +3,9 @@ import router from '@/router';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useUsersStore } from '@/stores/user-store';
-import { watch } from 'vue';
+import { watch, ref, watchEffect } from 'vue';
 import UsersComponent from '@/components/books/UsersComponent.vue';
+import BorrowBookModel from "@/models/book/BorrowBookModel";
 
 const props = defineProps({
   id: String
@@ -27,10 +28,40 @@ watch(UsersStore.users.searchModel, () => {
   UsersStore.fetchUsers();
 }, { deep: true, immediate: true });
 
+const showModal = ref<boolean>(false);
+let userId = 0;
+
+var openModal = (selectedUserId: number) => {
+  watchEffect(() => {
+    showModal.value = true
+  });
+  userId = selectedUserId;
+}
+
+var borrowBook = () => {
+  let borrowModel = new BorrowBookModel();
+  borrowModel.book_id = parseInt(props.id || '');
+  borrowModel.user_id = userId;
+  BooksStore.borrowBook(borrowModel)
+  .then(() =>{
+    watchEffect(() => {
+      showModal.value = false
+    });
+    UsersStore.fetchUsers();
+  });
+}
+
+var hideModal = () => {
+  watchEffect(() => {
+    showModal.value = false
+  });
+}
 </script>
 
 <template>
   <Loading v-if="BooksStore.isLoading || UsersStore.isLoading" />
+
+  <Modal v-if="showModal == true" @submit="borrowBook" @cancel="hideModal" />
 
   <GoBack goBackText="Back"/>
 
@@ -54,7 +85,7 @@ watch(UsersStore.users.searchModel, () => {
       placeholder="Search user..."
   />
 
-  <UsersComponent :users="UsersStore.users.data"/>
+  <UsersComponent :users="UsersStore.users.data" @openModal="(userId) => openModal(userId)"/>
 
   <Pagination
         :current-page="UsersStore.users.searchModel.pagination.page"

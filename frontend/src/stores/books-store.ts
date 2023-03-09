@@ -4,6 +4,7 @@ import HomepageViewModel from "@/models/book/HomepageViewModel";
 import SearchBookModel from "@/models/book/SearchBookModel";
 import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
+import type BorrowBookModel from "@/models/book/BorrowBookModel";
 
 export const useBooksStore = defineStore('useBooksStore', {
   state: () => ({
@@ -114,6 +115,15 @@ export const useBooksStore = defineStore('useBooksStore', {
     returnBook(transactionId: number){
       this.isLoading = true;
       axios.post("/books/return/" + transactionId)
+      .then(result => {
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    async borrowBook(borrowModel: BorrowBookModel) {
+      this.isLoading = true;
+      return axios.post("/books/borrow", borrowModel)
       .then(result => {
         return result.data;
       })

@@ -16,6 +16,7 @@ import "primeicons/primeicons.css";
 import GoBackVue from "./components/global/GoBackComponent.vue";
 import Loading from '@/components/global/LoadingComponent.vue';
 import SearchBar from '@/components/global/SearchBarComponent.vue';
+import Modal from '@/components/global/ModalComponent.vue';
 
 const app = createApp(App);
 
@@ -27,6 +28,7 @@ app.use(Notifications);
 app.component('GoBack', GoBackVue);
 app.component('Loading', Loading);
 app.component('SearchBar', SearchBar);
+app.component('Modal', Modal);
 
 app.component('AutoComplete', AutoComplete);
 
