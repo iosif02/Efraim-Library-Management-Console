@@ -73,8 +73,9 @@ class UserRepository implements IUserRepository
         try {
             DB::beginTransaction();
             $user = User::find($fields['userId']);
-            if($user)
-                $user->fill($fields)->update();
+            if(!$user)
+                return false;
+            $user->fill($fields)->update();
             $user->UserDetails->fill($fields)->update();
 
             DB::commit();
@@ -92,8 +93,9 @@ class UserRepository implements IUserRepository
         try {
             DB::beginTransaction();
 
-            User::find($userId)->UserDetails->delete();
-            User::destroy($userId);
+            $user = User::find($userId);
+            $user->UserDetails()->delete();
+            $user->delete();
 
             DB::commit();
         } catch (Exception $exception) {

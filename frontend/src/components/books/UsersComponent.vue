@@ -16,7 +16,8 @@ defineProps({
         <div 
             v-for="(user, index) in users" class="user-section" 
             :class="{ 'borderTop': index != 0, 'paddingTop': index != 0}" 
-            :key="index" @click="$emit('openModal', user.id)"
+            @click="$emit('openModal', user.id)"
+            :key="index" 
         >
             <div class="right-section">
                 <div class="user-image">

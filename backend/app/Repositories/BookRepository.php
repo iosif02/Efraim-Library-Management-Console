@@ -21,7 +21,6 @@ class BookRepository implements IBookRepository
             DB::beginTransaction();
 
             $book = Book::create($fields);
-
             $book->Authors()->attach($fields['authors']);
 
             DB::commit();
@@ -60,8 +59,10 @@ class BookRepository implements IBookRepository
         try {
             DB::beginTransaction();
 
-            Book::find($bookId)->Authors()->detach();
-            Book::destroy($bookId);
+            $book = Book::find($bookId);
+            $book->Authors()->detach();
+            $book->Transaction()->delete();
+            $book->delete();
 
             DB::commit();
         } catch (Exception $exception) {

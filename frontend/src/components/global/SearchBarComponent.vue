@@ -5,9 +5,6 @@ const props = defineProps({
   defaultValue: {
     type: String
   },
-  route: {
-    type: String
-  },
   placeholder: {
     type: String
   }

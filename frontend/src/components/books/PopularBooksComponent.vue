@@ -14,8 +14,8 @@ defineProps({
 <template>
     <div class="books">
         <template v-for="book in books">
-            <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" style="text-decoration: none;">
-                <div class="book">
+            <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" style="text-decoration: none;" class="book">
+                <!-- <div class="book"> -->
                     <img :src="book.image" alt="">
                     <div class="details">
                         <div class="title">{{ book.title }}</div>
@@ -25,7 +25,7 @@ defineProps({
                             <span class="category-name">{{ book.category?.name }}</span>
                         </div>
                     </div>
-                </div>
+                <!-- </div> -->
             </RouterLink>
         </template>
     </div>
@@ -37,14 +37,17 @@ defineProps({
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
-.books .book:nth-child(n + 1) {
-    justify-self: center;
-}
-.books .book:nth-child(n + 2) {
-    justify-self: right;
-}
 .book {
     width: 98px;
+}
+.books .book:nth-child(3n + 2),
+.books .book:last-child:nth-child(3n + 2) {
+    justify-self: center;
+}
+
+.books .book:nth-child(3n),
+.books .book:last-child:nth-child(3n) {
+    justify-self: right;
 }
 img {
     width: 100%;

@@ -30,109 +30,107 @@ class BookController extends Controller
         return response()->json($result, 200);
     }
 
-    public function SearchDelayedBooks(BookSearchRequest $request): Response|Application|ResponseFactory
+    public function SearchDelayedBooks(BookSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchDelayedBooks($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
-
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
-    public function SearchRecommendedBooks(BookSearchRequest $request): Response|Application|ResponseFactory
+    public function SearchRecommendedBooks(BookSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchRecommendedBooks($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
-
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
-    public function SearchPopularBooks(BookSearchRequest $request): Response|Application|ResponseFactory
+    public function SearchPopularBooks(BookSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchPopularBooks($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
-    public function AddBook(AddBookRequest $request): Response|Application|ResponseFactory
+    public function AddBook(AddBookRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->AddBook($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response(true, 200);
+        return response()->json(true, 200);
     }
 
-    public function UpdateBook(UpdateBookRequest $request): Response|Application|ResponseFactory
+    public function UpdateBook(UpdateBookRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->UpdateBook($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response(true, 200);
+        return response()->json(true, 200);
     }
 
-    public function DeleteBook(int $bookId): Response|Application|ResponseFactory
+    public function DeleteBook(int $bookId): JsonResponse
     {
         $result = $this->bookService->DeleteBook($bookId);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response(true, 200);
+        return response()->json(true, 200);
     }
 
-    public function GetBook(int $bookId): Response|Application|ResponseFactory
+    public function GetBook(int $bookId): JsonResponse
     {
         $result = $this->bookService->GetBookById($bookId);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
-    public function SearchBooks(BookSearchRequest $request): Response|Application|ResponseFactory
+    public function SearchBooks(BookSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchBooks($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
-    public function BorrowBook(BorrowBookRequest $request): Response|Application|ResponseFactory
+    public function BorrowBook(BorrowBookRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->BorrowBook($validated);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response(true, 200);
+        return response()->json(true, 200);
     }
 
-    public function ReturnBook(int $transactionId): Response|Application|ResponseFactory
+    public function ReturnBook(int $transactionId): JsonResponse
     {
         $result = $this->bookService->ReturnBook($transactionId);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'test'], 500);
         }
 
-        return response(true, 200);
+        return response()->json(true, 200);
     }
 }
