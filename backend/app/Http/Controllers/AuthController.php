@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Interfaces\IAuthService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use JetBrains\PhpStorm\ArrayShape;
 
 class AuthController extends Controller
@@ -20,33 +17,33 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function Register(RegisterRequest $request): Response|Application|ResponseFactory
+    public function Register(RegisterRequest $request): JsonResponse
     {
         $fields = $request->validated();
         $result = $this->authService->Register($fields);
         if(!$result) {
-            return response(false, 400);
+            return response()->json(['message' => 'Failed to create the account. Please contact the administrator!'], 500);
         }
 
-        return response(true, 201);
+        return response()->json(true, 200);
     }
 
-    public function Login(LoginRequest $request): Response|Application|ResponseFactory
+    public function Login(LoginRequest $request): JsonResponse
     {
         $fields = $request->validated();
         $result = $this->authService->Login($fields);
-        if(!$result) {
-            return response(false, 401);
+        if(!$result || isset($result['error'])) {
+            return response()->json(['message' => $result['error'] ?? 'Failed to login. Please contact the administrator!'], 500);
         }
 
-        return response($result, 200);
+        return response()->json($result, 200);
     }
 
     #[ArrayShape(['message' => "string"])]
-    public function Logout(Request $request): Response|Application|ResponseFactory
+    public function Logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();
 
-        return response(true, 201);
+        return response()->json(true, 201);
     }
 }
