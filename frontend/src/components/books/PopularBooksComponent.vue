@@ -15,7 +15,6 @@ defineProps({
     <div class="books">
         <template v-for="book in books">
             <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" class="book">
-                <!-- <div class="book"> -->
                     <img :src="book.image" alt="">
                     <div class="details">
                         <div class="title">{{ book.title }}</div>
@@ -25,7 +24,6 @@ defineProps({
                             <span class="category-name">{{ book.category?.name }}</span>
                         </div>
                     </div>
-                <!-- </div> -->
             </RouterLink>
         </template>
     </div>
@@ -33,26 +31,23 @@ defineProps({
 
 <style scoped>
 .books {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 .book {
-    width: 98px;
+    width: 100%;
+    max-width: 98px;
     overflow: hidden;
-    max-width: calc(100% / 3 - 14px);
     text-decoration: none
 }
-.books .book:nth-child(3n + 2),
-.books .book:last-child:nth-child(3n + 2) {
-    justify-self: center;
-}
+    .books .book:nth-child(3n + 2){
+        justify-self: center;
+    }
 
-.books .book:nth-child(3n),
-.books .book:last-child:nth-child(3n) {
-    justify-self: right;
-}
+    .books .book:nth-child(3n){
+        justify-self: end;
+    }
 img {
     width: 100%;
     height: 128px;
@@ -80,5 +75,8 @@ img {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 98px;
+}
+.books .book:last-child{
+    align-self: flex-start;
 }
 </style>
