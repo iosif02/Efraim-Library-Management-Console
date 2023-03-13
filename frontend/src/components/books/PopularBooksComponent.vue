@@ -14,7 +14,7 @@ defineProps({
 <template>
     <div class="books">
         <template v-for="book in books">
-            <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" style="text-decoration: none;" class="book">
+            <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" class="book">
                 <!-- <div class="book"> -->
                     <img :src="book.image" alt="">
                     <div class="details">
@@ -33,12 +33,16 @@ defineProps({
 
 <style scoped>
 .books {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 .book {
     width: 98px;
+    overflow: hidden;
+    max-width: calc(100% / 3 - 14px);
+    text-decoration: none
 }
 .books .book:nth-child(3n + 2),
 .books .book:last-child:nth-child(3n + 2) {

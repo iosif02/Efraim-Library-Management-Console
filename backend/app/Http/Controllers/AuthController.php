@@ -22,7 +22,7 @@ class AuthController extends Controller
         $fields = $request->validated();
         $result = $this->authService->Register($fields);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to create the account. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -32,8 +32,8 @@ class AuthController extends Controller
     {
         $fields = $request->validated();
         $result = $this->authService->Login($fields);
-        if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+        if(!$result || isset($result['error'])) {
+            return response()->json(['message' => $result['error'] ?? 'Failed to login. Please contact the administrator!'], 500);
         }
 
         return response()->json($result, 200);

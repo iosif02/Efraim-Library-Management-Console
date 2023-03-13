@@ -24,7 +24,7 @@ class UserController extends Controller
         $validated = $request->validated();
         $result = $this->userService->GetUsers($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to get the users. Please contact the administrator!'], 500);
         }
 
         return response()->json($result, 200);
@@ -35,7 +35,7 @@ class UserController extends Controller
         $validated = $request->validated();
         $result = $this->userService->AddUser($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to add the user. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -46,7 +46,7 @@ class UserController extends Controller
         $validated = $request->validated();
         $result = $this->userService->UpdateUser($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to update the user. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         $result = $this->userService->DeleteUser($userId);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to delete the user. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);

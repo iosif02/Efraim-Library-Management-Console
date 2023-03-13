@@ -39,7 +39,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->SearchAuthors($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to search the author. Please contact the administrator!'], 500);
         }
 
         return response()->json($result, 200);
@@ -50,7 +50,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->AddAuthor($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to add the author. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -61,7 +61,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->UpdateAuthor($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to update the author. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -71,7 +71,7 @@ class EntityController extends Controller
     {
         $result = $this->entityService->DeleteAuthor($authorId);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to delete the author. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -82,7 +82,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->SearchPublisher($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to search the publisher. Please contact the administrator!'], 500);
         }
 
         return response()->json($result, 200);
@@ -93,7 +93,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->AddPublisher($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to add the publisher. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -104,7 +104,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->UpdatePublisher($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to update the publisher. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -114,7 +114,7 @@ class EntityController extends Controller
     {
         $result = $this->entityService->DeletePublisher($publisherId);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to delete the publisher. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -125,7 +125,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->SearchCategories($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to search the category. Please contact the administrator!'], 500);
         }
         return response()->json($result, 200);
     }
@@ -135,7 +135,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->AddCategory($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to add the category. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -146,7 +146,7 @@ class EntityController extends Controller
         $validated = $request->validated();
         $result = $this->entityService->UpdateCategory($validated);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to update the category. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);
@@ -156,7 +156,7 @@ class EntityController extends Controller
     {
         $result = $this->entityService->DeleteCategory($categoryId);
         if(!$result) {
-            return response()->json(['message' => 'test'], 500);
+            return response()->json(['message' => 'Failed to delete the category. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);

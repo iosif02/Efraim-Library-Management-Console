@@ -34,7 +34,7 @@ class AuthService implements IAuthService
         try {
             $user = $this->userRepository->GetUserByEmail($fields['email']);
             if(!$user || !Hash::check($fields['password'], $user->password)) {
-                return null;
+                return ['error' => 'Email or password is incorrect!'];
             }
 
             $token = $user->createToken('myapptoken')->plainTextToken;
