@@ -23,7 +23,7 @@ watch(store.categories.searchModel, () => {
     <SearchBar
         :defaultValue="store.categories.searchModel.name"
         @valueChanged="(value: string) => store.categories.searchModel.name = value"
-        placeholder='Search book...'
+        placeholder='Search category...'
     />
 
     <Categories :categories="store.categories.data" />
