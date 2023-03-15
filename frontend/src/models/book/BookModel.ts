@@ -1,4 +1,4 @@
-import CategoryModel from "@/models/book/CategoryModel";
+import CategoryModel from "@/models/entities/CategoryModel";
 import type AuthorModel from "@/models/entities/AuthorModel";
 import PublisherModel from "@/models/entities/PublisherModel";
 import type TransactionModel from "@/models/book/TransactionModel";

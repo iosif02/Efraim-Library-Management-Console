@@ -6,7 +6,7 @@ import { useBooksStore } from '@/stores/books-store';
 const store = useBooksStore();
 
 var changePage = (page: number) => {
-    store.booksHomeChangePage(page);
+    store.homepage.searchModel.pagination.page = page;
 }
 </script>
 

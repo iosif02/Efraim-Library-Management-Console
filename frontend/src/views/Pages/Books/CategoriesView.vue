@@ -7,7 +7,7 @@ import { watch } from 'vue';
 const store = useEntitiesStore();
 
 var changePage = (page: number) => {
-    store.categoriesChangePage(page);
+    store.categories.searchModel.pagination.page = page;
 }
 
 watch(store.categories.searchModel, () => {

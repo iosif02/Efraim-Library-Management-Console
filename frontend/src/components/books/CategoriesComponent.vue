@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type CategoryModel from '@/models/book/CategoryModel';
+import type CategoryModel from '@/models/entities/CategoryModel';
 import type { PropType } from 'vue'
 
 defineProps({
@@ -12,10 +12,14 @@ defineProps({
 
 <template>
     <div class="categories">
-        <div v-for="(category, index) in categories" class="category" :key="index">
-            <div class="book-title">{{ category.number }} {{ category.name }}</div>
-            <div class="book-number">{{ category.book_count }} books</div>
-        </div>
+        <template v-for="category in categories">
+            <RouterLink :to="{ name: 'categoryBook', params: { id: category.id} }" style="text-decoration: none;">
+                <div  class="category" >
+                    <div class="book-title">{{ category.number }} {{ category.name }}</div>
+                    <div class="book-number">{{ category.book_count }} books</div>
+                </div>
+            </RouterLink>
+        </template>
     </div>
 </template>
 

@@ -32,20 +32,22 @@ let delayedDays = (date: string) => {
 </script>
 
 <template>
-    <template v-for="currentBook in props?.books">
-        <RouterLink :to="{ name: 'bookDetails', params: { id: currentBook.book.id} }" style="text-decoration: none;">
-            <div class="book">
-                <img :src="currentBook.book.image" alt="">
-                <div class="details">
-                    <div class="top-section">
-                        <p class="name">{{ currentBook.user.name }}</p>
-                        <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
+    <div class="delayedBooks">
+        <template v-for="currentBook in props?.books">
+            <RouterLink :to="{ name: 'bookDetails', params: { id: currentBook.book.id} }" style="text-decoration: none;">
+                <div class="book">
+                    <img :src="currentBook.book.image" alt="">
+                    <div class="details">
+                        <div class="top-section">
+                            <p class="name">{{ currentBook.user.name }}</p>
+                            <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
+                        </div>
+                        <div class="book-title">{{ currentBook.book.title }}</div>
                     </div>
-                    <div class="book-title">{{ currentBook.book.title }}</div>
                 </div>
-            </div>
-        </RouterLink>
-    </template>
+            </RouterLink>
+        </template>
+    </div>
 </template>
 
 <style scoped>

@@ -24,6 +24,10 @@ export const useBooksStore = defineStore('useBooksStore', {
       searchModel: new SearchBookModel(),
       data: [] as DelayedBookModel[]
     },
+    categoryBooks: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    },    
     bookDetails: new BookModel(),
 	}),
   getters: {
@@ -95,6 +99,19 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
+    searchCategoryBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.categoryBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.categoryBooks.data = result.data.data;
+          this.categoryBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.categoryBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
     async createBook(book: BookModel) {
       this.isLoading = true;
       return axios.post("/books/add", book)
@@ -143,14 +160,5 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    popularBooksChangePage(page: number) {
-      this.popularBooks.searchModel.pagination.page = page;
-    },
-    delayedBooksChangePage(page: number) {
-      this.delayedBooks.searchModel.pagination.page = page;
-    },
-    booksHomeChangePage(page: number) {
-      this.homepage.searchModel.pagination.page = page;
-    }
   },
 })

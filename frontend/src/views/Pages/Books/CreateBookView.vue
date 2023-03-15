@@ -5,7 +5,7 @@ import { ref, watchEffect } from 'vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useEntitiesStore } from '@/stores/entities-store';
 import type AuthorModel from '@/models/entities/AuthorModel';
-import type CategoryModel from '@/models/book/CategoryModel';
+import type CategoryModel from '@/models/entities/CategoryModel';
 import type PublisherModel from '@/models/entities/PublisherModel';
 import router from '@/router';
 
