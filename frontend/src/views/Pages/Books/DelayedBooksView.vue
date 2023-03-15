@@ -7,7 +7,7 @@ import { watch } from 'vue';
 const store = useBooksStore();
 
 var changePage = (page: number) => {
-    store.delayedBooksChangePage(page);
+    store.delayedBooks.searchModel.pagination.page = page;
 }
 
 watch(store.delayedBooks.searchModel, () => {

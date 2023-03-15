@@ -6,7 +6,6 @@ import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 import type BorrowBookModel from "@/models/book/BorrowBookModel";
 import NotificationHelper from "@/helpers/NotificationHelper";
-import type CategoryModel from "@/models/entities/CategoryModel";
 
 export const useBooksStore = defineStore('useBooksStore', {
   state: () => ({
@@ -160,18 +159,6 @@ export const useBooksStore = defineStore('useBooksStore', {
       })
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
-    },
-    popularBooksChangePage(page: number) {
-      this.popularBooks.searchModel.pagination.page = page;
-    },
-    delayedBooksChangePage(page: number) {
-      this.delayedBooks.searchModel.pagination.page = page;
-    },
-    booksHomeChangePage(page: number) {
-      this.homepage.searchModel.pagination.page = page;
-    },
-    categoryBooksChangePage(page: number) {
-      this.categoryBooks.searchModel.pagination.page = page;
     },
   },
 })

@@ -7,7 +7,7 @@ import { watch } from 'vue';
 const store = useBooksStore();
 
 var changePage = (page: number) => {
-    store.popularBooksChangePage(page);
+    store.popularBooks.searchModel.pagination.page = page;
 }
 
 watch(() => store.popularBooks.searchModel, () => {

@@ -85,14 +85,5 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);
         },
-        categoriesChangePage(page: number) {
-            this.categories.searchModel.pagination.page = page;
-        },
-        publishersChangePage(page: number) {
-            this.publishers.searchModel.pagination.page = page;
-        },
-        authorsChangePage(page: number) {
-            this.authors.searchModel.pagination.page = page;
-        },
     }
 })

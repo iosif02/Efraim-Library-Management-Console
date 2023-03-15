@@ -100,7 +100,7 @@ class BookController extends Controller
         return response()->json($result, 200);
     }
 
-    public function SearchBooks(BookCategorySearchRequest $request): JsonResponse
+    public function SearchBooks(BookSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchBooks($validated);

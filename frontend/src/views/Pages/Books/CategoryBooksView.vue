@@ -15,12 +15,14 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 
 const store = useBooksStore();
 
+store.categoryBooks.searchModel.category = parseInt(props.id || '')
+
 var changePage = (page: number) => {
-    store.categoryBooksChangePage(page);
+    store.categoryBooks.searchModel.pagination.page = page;
 }
 
+
 watch(() => store.categoryBooks.searchModel, () => {
-    store.categoryBooks.searchModel.category = parseInt(props.id || '')
     store.searchCategoryBooks();
 }, { deep: true, immediate: true});
 </script>
@@ -28,7 +30,7 @@ watch(() => store.categoryBooks.searchModel, () => {
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack go-back-text="Popular Books" />
+    <GoBack go-back-text="Category Book" />
 
     <SearchBar
         :defaultValue="store.categoryBooks.searchModel.title"
