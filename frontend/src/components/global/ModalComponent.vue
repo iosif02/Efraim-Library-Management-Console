@@ -1,14 +1,27 @@
 <script setup lang="ts">
-
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  action: {
+    type: String,
+    required: true
+  }
+})
 </script>
 
 <template>
     <div class="overlay">
         <div class="modal">
-            <p class="modal-title">Borrow Confirmation</p>
-            <p class="description">Are you sure you want to borrow this book?</p>
+            <p class="modal-title">{{ props.title }}</p>
+            <p class="description">{{ props.description }}</p>
 
-            <button class="btn w-100 confrim" @click="$emit('submit')">Borrow</button>
+            <button class="btn w-100 confrim" @click="$emit('submit')">{{ props.action }}</button>
             <button class="btn w-100 cancel" @click="$emit('cancel')">Cancel</button>
         </div>
     </div>

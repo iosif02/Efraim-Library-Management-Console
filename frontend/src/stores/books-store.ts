@@ -5,6 +5,7 @@ import SearchBookModel from "@/models/book/SearchBookModel";
 import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 import type BorrowBookModel from "@/models/book/BorrowBookModel";
+import NotificationHelper from "@/helpers/NotificationHelper";
 
 export const useBooksStore = defineStore('useBooksStore', {
   state: () => ({
@@ -98,15 +99,27 @@ export const useBooksStore = defineStore('useBooksStore', {
       this.isLoading = true;
       return axios.post("/books/add", book)
       .then(result => {
+        NotificationHelper.NotifySuccess('Book was created with scucces!')
         return result.data;
       })
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    updateBook(book: BookModel) {
+    async updateBook(book: BookModel) {
       this.isLoading = true;
-      axios.post("/books/update", book)
+      return axios.post("/books/update", book)
       .then(result => {
+        NotificationHelper.NotifySuccess('Book was edited with scucces!')
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    async deleteBook(bookId: number) {
+      this.isLoading = true;
+      return axios.delete("/books/delete/" + bookId)
+      .then(result => {
+        NotificationHelper.NotifySuccess('Book was deleted with scucces!')
         return result.data;
       })
       .catch(error => console.error("Request error: " + error))

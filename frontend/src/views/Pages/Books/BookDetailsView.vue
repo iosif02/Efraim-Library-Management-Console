@@ -3,6 +3,7 @@ import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
 import router from '@/router';
 import { RouterLink } from "vue-router";
 import { useBooksStore } from '@/stores/books-store';
+import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
   id: String
@@ -19,12 +20,50 @@ var onReturn = (transactionId: number) => {
   store.returnBook(transactionId);
   store.fetchBookDetails(props.id ?? "");
 }
+const showModal = ref<boolean>(false);
+
+var deleteBook = () => {
+  watchEffect(() => {
+    showModal.value = false;
+  });
+  store.deleteBook(parseInt(props.id || ''))
+  .then(result => {
+    if(result){
+      store.searchBooks();
+      router.back();
+    }
+  });
+}
+
+var hideModal = () => {
+  watchEffect(() => {
+    showModal.value = false;
+  });
+}
+
+var openModal = () => {
+  watchEffect(() => {
+    showModal.value = true;
+  });
+}
+
 </script>
 
 <template>
   <Loading v-if="store.isLoading" />
 
-  <GoBack goBackText="Back"/>
+  <Modal 
+    v-if="showModal" 
+    title="Delete Confirmation"
+    description="Are you sure you want to delete this book?"
+    action="Delete"
+    @submit="deleteBook" 
+    @cancel="hideModal" 
+  />
+
+  <GoBack goBackText="Back">
+    <button @click="openModal" class="btnEdit">delete</button>
+  </GoBack>
   
   <div class="image-book">
     <div class="image">
@@ -95,6 +134,7 @@ var onReturn = (transactionId: number) => {
   font-size: 20px;
   color: black;
   line-height: 32px;
+  text-align: center;
 }
 .book-author{
   font-family: 'Roboto-500';
@@ -169,15 +209,15 @@ var onReturn = (transactionId: number) => {
     top: -8px;
 }
 .status::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 5px;
-    height: 5px;
-    background: #76CE9F;
-    border-radius: 50%;
-    left: 10px;
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  background: #76CE9F;
+  border-radius: 50%;
+  left: 10px;
 }
 .transaction-name{
   font-family: 'Roboto-500';
@@ -216,8 +256,17 @@ var onReturn = (transactionId: number) => {
   text-decoration-line: underline;
   color: #76CECB;
 }
-/* .btn{
-  width: 100%;
-  height: 50px;
-} */
+.btnEdit{
+  width: 69px;
+  height: 24px;
+  background: #CE7679;
+  border-radius: 7px;
+  border: none;
+
+  font-family: 'Roboto-400';
+  font-style: normal;
+  font-size: 14px;
+  line-height: 15px;
+  color: #FFFFFF;
+}
 </style>

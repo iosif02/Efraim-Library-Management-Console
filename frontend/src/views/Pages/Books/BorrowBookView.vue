@@ -33,7 +33,7 @@ let userId = 0;
 
 var openModal = (selectedUserId: number) => {
   watchEffect(() => {
-    showModal.value = true
+    showModal.value = true;
   });
   userId = selectedUserId;
 }
@@ -42,18 +42,19 @@ var borrowBook = () => {
   let borrowModel = new BorrowBookModel();
   borrowModel.book_id = parseInt(props.id || '');
   borrowModel.user_id = userId;
+  watchEffect(() => {
+    showModal.value = false;
+  });
   BooksStore.borrowBook(borrowModel)
-  .then(() =>{
-    watchEffect(() => {
-      showModal.value = false
-    });
-    UsersStore.fetchUsers();
+  .then(result =>{
+    if(result)
+      UsersStore.fetchUsers();
   });
 }
 
 var hideModal = () => {
   watchEffect(() => {
-    showModal.value = false
+    showModal.value = false;
   });
 }
 </script>
@@ -61,7 +62,14 @@ var hideModal = () => {
 <template>
   <Loading v-if="BooksStore.isLoading || UsersStore.isLoading" />
 
-  <Modal v-if="showModal == true" @submit="borrowBook" @cancel="hideModal" />
+  <Modal 
+    v-if="showModal" 
+    title="Borrow Confirmation"
+    description="Are you sure you want to borrow this book?"
+    action="Borrow"
+    @submit="borrowBook" 
+    @cancel="hideModal" 
+  />
 
   <GoBack goBackText="Back"/>
 

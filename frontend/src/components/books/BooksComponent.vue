@@ -129,4 +129,10 @@ img {
     position: relative;
     bottom: -10px;
 }
+.title, .author, .category{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
+}
 </style>
