@@ -10,7 +10,7 @@ var changePage = (page: number) => {
     store.popularBooksChangePage(page);
 }
 
-watch(() => store.popularBooks.searchModel, async () => {
+watch(() => store.popularBooks.searchModel, () => {
     store.fetchPopularBooks();
 }, { deep: true, immediate: true});
 </script>

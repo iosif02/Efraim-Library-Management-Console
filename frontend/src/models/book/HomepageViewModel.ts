@@ -1,4 +1,4 @@
-import type CategoryModel from "@/models/book/CategoryModel";
+import type CategoryModel from "@/models/entities/CategoryModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 import type BookModel from "@/models/book/BookModel";
 

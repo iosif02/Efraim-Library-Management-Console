@@ -6,6 +6,7 @@ import BookModel from "@/models/book/BookModel";
 import type DelayedBookModel from "@/models/book/DelayedBookModel";
 import type BorrowBookModel from "@/models/book/BorrowBookModel";
 import NotificationHelper from "@/helpers/NotificationHelper";
+import type CategoryModel from "@/models/entities/CategoryModel";
 
 export const useBooksStore = defineStore('useBooksStore', {
   state: () => ({
@@ -24,6 +25,10 @@ export const useBooksStore = defineStore('useBooksStore', {
       searchModel: new SearchBookModel(),
       data: [] as DelayedBookModel[]
     },
+    categoryBooks: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    },    
     bookDetails: new BookModel(),
 	}),
   getters: {
@@ -95,6 +100,19 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
+    searchCategoryBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.categoryBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.categoryBooks.data = result.data.data;
+          this.categoryBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.categoryBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
     async createBook(book: BookModel) {
       this.isLoading = true;
       return axios.post("/books/add", book)
@@ -151,6 +169,9 @@ export const useBooksStore = defineStore('useBooksStore', {
     },
     booksHomeChangePage(page: number) {
       this.homepage.searchModel.pagination.page = page;
-    }
+    },
+    categoryBooksChangePage(page: number) {
+      this.categoryBooks.searchModel.pagination.page = page;
+    },
   },
 })

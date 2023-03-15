@@ -104,6 +104,10 @@ class BookRepository implements IBookRepository
                 'Transaction' => fn($query) => $query->where('is_returned', 0)
             ]);
 
+        if(isset($filters['category']) && $filters['category'] != 0){
+            $book->where('category_id', $filters['category']);
+        }
+
         if(isset($filters['title']) && $filters['title'] != '') {
             $book->where('title', 'like', '%'.$filters['title'].'%');
         }

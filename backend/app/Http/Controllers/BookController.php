@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddBookRequest;
+use App\Http\Requests\BookCategorySearchRequest;
 use App\Http\Requests\BookSearchRequest;
 use App\Http\Requests\BorrowBookRequest;
 use App\Http\Requests\UpdateBookRequest;
@@ -99,7 +100,7 @@ class BookController extends Controller
         return response()->json($result, 200);
     }
 
-    public function SearchBooks(BookSearchRequest $request): JsonResponse
+    public function SearchBooks(BookCategorySearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->bookService->SearchBooks($validated);

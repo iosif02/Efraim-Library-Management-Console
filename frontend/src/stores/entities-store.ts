@@ -4,7 +4,7 @@ import type AuthorModel from "@/models/entities/AuthorModel";
 import SearchAuthorModel from "@/models/entities/SearchAuthorModel";
 import type PublisherModel from "@/models/entities/PublisherModel";
 import SearchPublisherModel from "@/models/entities/SearchPublisherModel";
-import type CategoryModel from "@/models/book/CategoryModel";
+import type CategoryModel from "@/models/entities/CategoryModel";
 import SearchCategoryModel from "@/models/entities/SearchCategoryModel";
 
 export const useEntitiesStore = defineStore('useEntitiesStore', {
