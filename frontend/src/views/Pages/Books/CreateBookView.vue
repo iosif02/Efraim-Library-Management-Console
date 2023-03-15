@@ -7,6 +7,7 @@ import { useEntitiesStore } from '@/stores/entities-store';
 import type AuthorModel from '@/models/entities/AuthorModel';
 import type CategoryModel from '@/models/book/CategoryModel';
 import type PublisherModel from '@/models/entities/PublisherModel';
+import router from '@/router';
 
 const entitiesStore = useEntitiesStore();
 const booksStore = useBooksStore();
@@ -18,9 +19,9 @@ if(!entitiesStore.entities.publishers.length) {
 const validateForm = yup.object({
     title: yup.string().required(),
     category: yup.object().nullable().required(),
-    quantity: yup.string().required(),
-    year: yup.string(),
-    price: yup.string(),
+    quantity: yup.number().required(),
+    year: yup.number(),
+    price: yup.number(),
     image: yup.string(),
     publisher: yup.object(),
     authors: yup.array<AuthorModel>(),
@@ -69,8 +70,9 @@ var onSubmit = (book: any) => {
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
     book.authors = book.authors.map((x: any) => x.id);
-    booksStore.createBook(book).then((result: any) => {
-        console.log(result);
+    booksStore.createBook(book).then(result => {
+        if(result)
+            router.back()
     });
 }
 

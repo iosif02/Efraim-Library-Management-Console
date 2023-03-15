@@ -16,6 +16,9 @@ defineProps({
             <ChevronLeftIcon class="icon" />
             <span class="title">{{ goBackText }}</span>
         </span>
+        <div class="right">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
@@ -29,6 +32,8 @@ defineProps({
   margin-left: 10px;
 }
 .back-button {
+    display: flex;
+    justify-content: space-between;
     margin: 30px 0 24px 0;
 }
 </style>

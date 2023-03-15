@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <notifications />
+  <notifications style="z-index: 10;"/>
   <Suspense>
     <RouterView />
   </Suspense>
@@ -32,5 +32,8 @@ html,body {
   src: local("Roboto-500"),
   url(./fonts/Roboto/Roboto-Medium.ttf) format("truetype");
   color: #2B2E3C;
+}
+.text-color{
+  color: black !important;
 }
 </style>

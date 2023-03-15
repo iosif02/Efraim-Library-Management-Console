@@ -75,7 +75,13 @@ var onSubmit = (book: any) => {
     book.publisher_id = book.publisher?.id;
     book.authors = book.authors.map((x: AuthorModel) => x?.pivot?.author_id ?? x.id);
     book.bookId = props.id
-    booksStore.updateBook(book);
+    booksStore.updateBook(book)
+    .then(result => {
+        if(result){
+            booksStore.searchBooks();
+            router.back();
+        }
+    });
 }
 
 if(!props.id || props.id == '0' || !parseInt(props.id)){
