@@ -4,7 +4,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useUsersStore } from '@/stores/user-store';
 import { watch, ref, watchEffect } from 'vue';
-import UsersComponent from '@/components/books/UsersComponent.vue';
+import UsersComponent from '@/components/users/UsersComponent.vue';
 import BorrowBookModel from "@/models/book/BorrowBookModel";
 
 const props = defineProps({

@@ -6,7 +6,7 @@ import TopMenu from "@/components/global/TopMenuComponent.vue";
 <template>
   <div class="layout">
     <div class="content">
-      <TopMenu />
+      <!-- <TopMenu /> -->
 
       <router-view v-slot="{ Component }">
         <!-- <keep-alive> -->
