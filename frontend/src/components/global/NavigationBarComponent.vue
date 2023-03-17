@@ -10,7 +10,7 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
   <div class="navbar">
     <div class="navbar-items">
       <RouterLink :to="{ name: 'home', replace: true }" class="link">
-        <HomeIcon color="red" />
+        <HomeIcon />
         <div class="tab-name">Home</div>
       </RouterLink>
 
