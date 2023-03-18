@@ -21,7 +21,6 @@ var changePage = (page: number) => {
     store.categoryBooks.searchModel.pagination.page = page;
 }
 
-
 watch(() => store.categoryBooks.searchModel, () => {
     store.searchCategoryBooks();
 }, { deep: true, immediate: true});

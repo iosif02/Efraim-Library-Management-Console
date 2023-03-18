@@ -53,9 +53,6 @@ watch(() => store.homepage.searchModel, () => {
 </template>
 
 <style scoped>
-.spacer {
-  margin-bottom: .8rem;
-}
 .delayed-books, .popular-books {
     margin-bottom: 30px;
 }

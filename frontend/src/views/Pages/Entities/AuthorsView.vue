@@ -3,7 +3,7 @@
 
 <template>
 	<div>
-    Profile
+    Authors
 	</div>
 </template>
 

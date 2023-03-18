@@ -6,7 +6,7 @@ defineProps({
     goBackText: {
         type: String,
         required: true
-    }
+    },
 })
 </script>
 
@@ -34,6 +34,6 @@ defineProps({
 .back-button {
     display: flex;
     justify-content: space-between;
-    margin: 30px 0 24px 0;
+    margin-bottom: 24px 
 }
 </style>

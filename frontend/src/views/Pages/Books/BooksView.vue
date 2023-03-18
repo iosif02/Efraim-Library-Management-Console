@@ -3,7 +3,7 @@
 
 <template>
 	<div>
-        Authors
+    Books
 	</div>
 </template>
 

@@ -3,24 +3,30 @@ import { RouterLink } from "vue-router";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
 import BooksIcon from "@/components/icons/BooksIcon.vue";
 import ProfileIcon from "@/components/icons/ProfileIcon.vue";
+import EntityIcon from "@/components/icons/EntityIcon.vue";
 </script>
 
 <template>
   <div class="navbar">
     <div class="navbar-items">
-      <RouterLink :to="{ name: 'home' }" class="link">
+      <RouterLink :to="{ name: 'home', replace: true }" class="link">
         <HomeIcon />
         <div class="tab-name">Home</div>
       </RouterLink>
 
-      <RouterLink :to="{ name: 'books' }" class="link">
+      <RouterLink :to="{ name: 'book', replace: true }" class="link">
         <BooksIcon />
         <div class="tab-name">Books</div>
       </RouterLink>
 
-      <RouterLink :to="{ name: 'profile' }" class="link">
+      <RouterLink :to="{ name: 'entity', replace: true} " class="link">
+        <EntityIcon />
+        <div class="tab-name">Entities</div>
+      </RouterLink>
+
+      <RouterLink :to="{ name: 'user', replace: true }" class="link">
         <ProfileIcon />
-        <div class="tab-name">Profile</div>
+        <div class="tab-name">Users</div>
       </RouterLink>
     </div>
   </div>
@@ -37,14 +43,21 @@ import ProfileIcon from "@/components/icons/ProfileIcon.vue";
   display: block;
   text-align: center;
 }
-.link:hover .tab-name {
-  color: #76CECB;
-}
-.link:hover svg path {
+.router-link-active:not(:nth-child(3)) svg path,
+.router-link-active div
+{
   fill: #76CECB;
+  color: #76CECB
 }
-.router-link-exact-active {
-  color: red  ;
+
+.router-link-active:nth-child(3) svg path:nth-child(1){
+  stroke: #76CECB;
+}
+
+.router-link-active:nth-child(3) svg path:nth-child(3),
+.router-link-active:nth-child(3) svg path:nth-child(5)
+{
+  fill: #76CECB;
 }
 .navbar {
   position:fixed;

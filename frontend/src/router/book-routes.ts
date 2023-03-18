@@ -8,18 +8,19 @@ import BookDetailsViewVue from "@/views/Pages/Books/BookDetailsView.vue";
 import UpdateBookViewVue from "@/views/Pages/Books/UpdateBookView.vue";
 import BorrowBookViewVue from "@/views/Pages/Books/BorrowBookView.vue";
 import CategoryBooksViewVue from "@/views/Pages/Books/CategoryBooksView.vue";
+import BooksViewVue from "@/views/Pages/Books/BooksView.vue";
 
 export default
 {
     path: "/",
-    name: "home",
+    name: "book",
     component: MainLayout,
     redirect: { name: 'books' },
     children: [
         {
             path: "/books",
             name: "books",
-            component: BooksHomeViewVue
+            component: BooksViewVue
         },
         {
             path: "/delayed-books",
