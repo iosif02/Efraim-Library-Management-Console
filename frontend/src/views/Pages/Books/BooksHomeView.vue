@@ -6,16 +6,12 @@ import Categories from '@/components/books/CategoriesComponent.vue';
 import TitleSection from "@/components/global/TitleSectionComponent.vue";
 import SearchBooksHomeView from '@/views/Pages/Books/SearchBooksHomeView.vue';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
-import { watch } from 'vue';
 
 const store = useBooksStore();
 if(!store.homepage.isFetched){
   store.fetchHomepage();
 }
 
-watch(() => store.homepage.searchModel, () => {
-  store.searchBooks();
-}, { deep: true });
 </script>
 
 <template>
@@ -24,7 +20,7 @@ watch(() => store.homepage.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.homepage.searchModel.title"
-        @valueChanged="(value: any) => store.homepage.searchModel.title = value"
+        @valueChanged="(value: any) => (store.homepage.searchModel.title = value, store.homepage.searchModel.pagination.page = 0, store.searchBooks())"
         placeholder='Search book...'
     />
 

@@ -140,19 +140,26 @@ class BookService implements IBookService
         return $result;
     }
 
-    public function BorrowBook(array $fields): bool
+    public function BorrowBook(array $fields)
     {
         try {
             $fields['borrow_date'] = Carbon::today();
             $fields['return_date'] = Carbon::today()->addWeeks(2);
             $fields['is_returned'] = false;
 
+            $book = $this->bookRepository->checkStatus($fields['book_id']);
+            if($book->status == 0)
+                return ['error' => 'Book is unavailable!', 'status' => false];
+            $user = $this->bookRepository->checkUser($fields['user_id']);
+            if($user->transaction_count >= 2)
+                return ['error' => 'User has 2 borrowed book already!', 'status' => false];
+
             $result = $this->bookRepository->BorrowBook($fields);
         } catch (Exception $exception) {
             Log::error('Borrow book error: ' . $exception->getMessage());
-            return false;
+            return ['status' => false];
         }
-        return $result;
+        return ['status' => $result];
     }
 
     public function ReturnBook(int $transactionId): bool
