@@ -14,7 +14,8 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 }
 
 const store = useBooksStore();
-store.fetchBookDetails(props.id ?? "");
+if(store.bookDetails.id != parseInt(props.id || ''))
+  store.fetchBookDetails(props.id ?? "");
 
 var onReturn = (transactionId: number) => {
   store.returnBook(transactionId);
@@ -100,7 +101,7 @@ var openModal = () => {
   </div>
 
   <RouterLink :to="{ name: 'borrowBook', params: { id: props.id }}">
-    <button class="btn w-100">Borrow</button>
+    <button class="btn w-100" :disabled="store.bookDetails.status == 0 ?? false" >Borrow</button>
   </RouterLink>
 
 </template>

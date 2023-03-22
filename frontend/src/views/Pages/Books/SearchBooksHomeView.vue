@@ -5,9 +5,6 @@ import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();
 
-var changePage = (page: number) => {
-    store.homepage.searchModel.pagination.page = page;
-}
 </script>
 
 <template>
@@ -21,7 +18,7 @@ var changePage = (page: number) => {
     <Pagination
         :current-page="store.homepage.searchModel.pagination.page"
         :last-page="store.homepage.searchModel.pagination.last_page"
-        @change-page="changePage"
+        @change-page="(page: number) => (store.homepage.searchModel.pagination.page = page, store.searchBooks())"
     />
 </template>
 

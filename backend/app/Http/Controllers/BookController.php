@@ -114,8 +114,8 @@ class BookController extends Controller
     {
         $validated = $request->validated();
         $result = $this->bookService->BorrowBook($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to borrow the book. Please contact the administrator!'], 500);
+        if(!$result || !$result['status']) {
+            return response()->json(['message' => $result['error'] ?? 'Failed to borrow the book. Please contact the administrator!'], 500);
         }
 
         return response()->json(true, 200);

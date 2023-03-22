@@ -2,17 +2,11 @@
 import Categories from '@/components/books/CategoriesComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
-import { watch } from 'vue';
 
 const store = useEntitiesStore();
-
-var changePage = (page: number) => {
-    store.categories.searchModel.pagination.page = page;
-}
-
-watch(store.categories.searchModel, () => {
+if(!store.categories.data.length)
     store.fetchCategories();
-}, { deep: true, immediate: true });
+
 </script>
 
 <template>
@@ -22,7 +16,7 @@ watch(store.categories.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.categories.searchModel.name"
-        @valueChanged="(value: string) => store.categories.searchModel.name = value"
+        @valueChanged="(value: string) => (store.categories.searchModel.name = value, store.categories.searchModel.pagination.page = 0, store.fetchCategories())"
         placeholder='Search category...'
     />
 
@@ -31,6 +25,6 @@ watch(store.categories.searchModel, () => {
     <Pagination
         :current-page="store.categories.searchModel.pagination.page"
         :last-page="store.categories.searchModel.pagination.last_page"
-        @change-page="changePage"
+        @change-page="(page: number) => (store.categories.searchModel.pagination.page = page, store.fetchCategories())"
     />
 </template>

@@ -6,10 +6,6 @@ import AuthorIcon from '@/components/icons/AuthorIcon.vue';
 <template>
   <div class="Entities">
 
-    <GoBack goBackText="Back" :route="true">
-      <p class="title">Entities</p>
-    </GoBack>
-
     <div class="container">
       <AuthorIcon />
       <p class="container-title">Author</p>

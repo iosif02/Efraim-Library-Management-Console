@@ -13,11 +13,17 @@ const props = defineProps({
   id: String,
 })
 
-const entitiesStore = useEntitiesStore();
-const booksStore = useBooksStore();
+if(!props.id || props.id == '0' || !parseInt(props.id)){
+  router.back();
+}
 
-if(!entitiesStore.entities.publishers.length) {
-    entitiesStore.fetchEntities();
+const EntitiesStore = useEntitiesStore();
+const BooksStore = useBooksStore();
+
+BooksStore.fetchBookDetails(props.id ?? "");
+
+if(!EntitiesStore.entities.publishers.length) {
+    EntitiesStore.fetchEntities();
 }
 
 const validateForm = yup.object({
@@ -55,17 +61,17 @@ const selectedPublisher = ref<PublisherModel>();
 
 var searchAuthors = (event: any) => {
     watchEffect(() => {
-        filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredAuthors.value = EntitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 var searchCategories = (event: any) => {
     watchEffect(() => {
-        filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredCategories.value = EntitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 var searchPublishers = (event: any) => {
     watchEffect(() => {
-        filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredPublishers.value = EntitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
     });
 }
 
@@ -75,32 +81,26 @@ var onSubmit = (book: any) => {
     book.publisher_id = book.publisher?.id;
     book.authors = book.authors.map((x: AuthorModel) => x?.pivot?.author_id ?? x.id);
     book.bookId = props.id
-    booksStore.updateBook(book)
+    BooksStore.updateBook(book)
     .then(result => {
         if(result){
-            booksStore.searchBooks();
+            BooksStore.searchBooks();
             router.back();
         }
     });
 }
 
-if(!props.id || props.id == '0' || !parseInt(props.id)){
-  router.back();
-}
-
-booksStore.fetchBookDetails(props.id ?? "");
-
 </script>
 
 <template>
     
-    <Loading v-if="booksStore.isLoading" />
+    <Loading v-if="BooksStore.isLoading" />
 
     <GoBack go-back-text="Back" />
 
-    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="booksStore.bookDetails" ref="myForm">
+    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="BooksStore.bookDetails" ref="myForm">
         <div class="form-group image">
-            <img :src="imgSrc?.toString() || booksStore.bookDetails.image" v-if="imgSrc?.toString() || booksStore.bookDetails.image " />
+            <img :src="imgSrc?.toString() || BooksStore.bookDetails.image" v-if="imgSrc?.toString() || BooksStore.bookDetails.image " />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>

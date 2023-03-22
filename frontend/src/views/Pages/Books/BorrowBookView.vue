@@ -3,7 +3,7 @@ import router from '@/router';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useUsersStore } from '@/stores/user-store';
-import { watch, ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import UsersComponent from '@/components/users/UsersComponent.vue';
 import BorrowBookModel from "@/models/book/BorrowBookModel";
 
@@ -11,22 +11,20 @@ const props = defineProps({
   id: String
 })
 
-if(!props.id || props.id == '0' || !parseInt(props.id)){
+if(!props.id || props.id == '0' || !parseInt(props.id))
   router.back();
-}
 
 const BooksStore = useBooksStore();
 const UsersStore = useUsersStore();
 
-BooksStore.fetchBookDetails(props.id ?? "");
+if(BooksStore.bookDetails.id != parseInt(props.id || ''))
+  BooksStore.fetchBookDetails(props.id ?? "");
 
-var changePage = (page: number) => {
-  UsersStore.userChangePage(page);
-}
-
-watch(UsersStore.users.searchModel, () => {
+if(!UsersStore.users.data.length)
   UsersStore.fetchUsers();
-}, { deep: true, immediate: true });
+
+if(BooksStore.bookDetails.status == 0)
+  router.replace({ name: 'bookDetails' });
 
 const showModal = ref<boolean>(false);
 let userId = 0;
@@ -74,32 +72,32 @@ var hideModal = () => {
   <GoBack goBackText="Back"/>
 
   <div class="image-section">
-      <div class="image">
-          <img :src="BooksStore.bookDetails.image" alt="book">
-      </div>
-      <div class="details-section">
-          <p class="book-title">{{ BooksStore.bookDetails.title }}</p>
-          <p class="book-author">{{ BooksStore.bookDetails.authors?.[0]?.name }}</p>
-          <div class="book-category">
-              <span>({{ BooksStore.bookDetails.category?.number }})</span>
-              <p>{{ BooksStore.bookDetails.category?.name }}</p>
-          </div>
-      </div>
+    <div class="image">
+        <img :src="BooksStore.bookDetails.image" alt="book">
+    </div>
+    <div class="details-section">
+        <p class="book-title">{{ BooksStore.bookDetails.title }}</p>
+        <p class="book-author">{{ BooksStore.bookDetails.authors?.[0]?.name }}</p>
+        <div class="book-category">
+            <span>({{ BooksStore.bookDetails.category?.number }})</span>
+            <p>{{ BooksStore.bookDetails.category?.name }}</p>
+        </div>
+    </div>
   </div>
 
   <SearchBar
-      :defaultValue="UsersStore.users.searchModel.name"
-      @valueChanged="(value: string) => UsersStore.users.searchModel.name = value"
-      placeholder="Search user..."
+    :defaultValue="UsersStore.users.searchModel.name"
+    @valueChanged="(value: string) => (UsersStore.users.searchModel.name = value, UsersStore.users.searchModel.pagination.page = 0, UsersStore.fetchUsers())"
+    placeholder="Search user..."
   />
 
   <UsersComponent :users="UsersStore.users.data" @openModal="(userId) => openModal(userId)"/>
 
   <Pagination
-        :current-page="UsersStore.users.searchModel.pagination.page"
-        :last-page="UsersStore.users.searchModel.pagination.last_page"
-        @change-page="changePage"
-    />
+    :current-page="UsersStore.users.searchModel.pagination.page"
+    :last-page="UsersStore.users.searchModel.pagination.last_page"
+    @change-page="(page: number) => (UsersStore.users.searchModel.pagination.page = page, UsersStore.fetchUsers())"
+  />
 
 </template>
 

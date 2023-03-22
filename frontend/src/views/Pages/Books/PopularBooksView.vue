@@ -2,17 +2,11 @@
 import PopularBooks from '@/components/books/PopularBooksComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
-import { watch } from 'vue';
 
 const store = useBooksStore();
-
-var changePage = (page: number) => {
-    store.popularBooks.searchModel.pagination.page = page;
-}
-
-watch(() => store.popularBooks.searchModel, () => {
+if(!store.popularBooks.data.length)
     store.fetchPopularBooks();
-}, { deep: true, immediate: true});
+
 </script>
 
 <template>
@@ -22,7 +16,7 @@ watch(() => store.popularBooks.searchModel, () => {
 
     <SearchBar
         :defaultValue="store.popularBooks.searchModel.title"
-        @valueChanged="(value: string) => store.popularBooks.searchModel.title = value"
+        @valueChanged="(value: string) => (store.popularBooks.searchModel.title = value, store.popularBooks.searchModel.pagination.page = 0, store.fetchPopularBooks())"
         placeholder='Search book...'
     />
 
@@ -31,6 +25,6 @@ watch(() => store.popularBooks.searchModel, () => {
     <Pagination
         :current-page="store.popularBooks.searchModel.pagination.page"
         :last-page="store.popularBooks.searchModel.pagination.last_page"
-        @change-page="changePage"
+        @change-page="(page: number) => (store.popularBooks.searchModel.pagination.page = page, store.fetchPopularBooks())"
     />
 </template>

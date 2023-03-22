@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Book;
 use App\Models\Transactions;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -181,6 +182,18 @@ class BookRepository implements IBookRepository
         }
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+    }
+
+    public function CheckIfBookIsAvailable(int $bookId): bool
+    {
+        $book = Book::select('id', 'quantity')->withCount('Transaction')->find($bookId)->append('status');
+        return $book->status > 0;
+    }
+
+    public function CheckIfUserCanBorrowBook(int $userId): bool
+    {
+        $user = User::select('id')->withCount('Transaction')->find($userId);
+        return $user->transaction_count < 2;
     }
 
     public function BorrowBook(array $fields): bool
