@@ -20,7 +20,6 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 const EntitiesStore = useEntitiesStore();
 const BooksStore = useBooksStore();
 
-// if(BooksStore.bookDetails.id != parseInt(props.id || ''))
 BooksStore.fetchBookDetails(props.id ?? "");
 
 if(!EntitiesStore.entities.publishers.length) {

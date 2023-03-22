@@ -17,8 +17,8 @@ interface IBookRepository
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator;
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator;
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator;
-    public function CheckIfBookIsAvailable(int $bookId): Book;
-    public function CheckIfUserCanBorrowBook(int $userId): User;
+    public function CheckIfBookIsAvailable(int $bookId): bool;
+    public function CheckIfUserCanBorrowBook(int $userId): bool;
     public function BorrowBook(array $fields): bool;
     public function ReturnBook(int $transactionId): bool;
 

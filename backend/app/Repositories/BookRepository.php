@@ -184,14 +184,20 @@ class BookRepository implements IBookRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
-    public function CheckIfBookIsAvailable(int $bookId): Book
+    public function CheckIfBookIsAvailable(int $bookId): bool
     {
-        return Book::select('id', 'quantity')->withCount('Transaction')->find($bookId)->append('status');
+        $book = Book::select('id', 'quantity')->withCount('Transaction')->find($bookId)->append('status');
+        if($book->status == 0)
+            return false;
+        return true;
     }
 
-    public function CheckIfUserCanBorrowBook(int $userId): User
+    public function CheckIfUserCanBorrowBook(int $userId): bool
     {
-        return User::select('id')->withCount('Transaction')->find($userId);
+        $user = User::select('id')->withCount('Transaction')->find($userId);
+        if($user->transaction_count >= 2)
+            return false;
+        return true;
     }
 
     public function BorrowBook(array $fields): bool
