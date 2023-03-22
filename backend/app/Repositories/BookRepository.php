@@ -187,17 +187,13 @@ class BookRepository implements IBookRepository
     public function CheckIfBookIsAvailable(int $bookId): bool
     {
         $book = Book::select('id', 'quantity')->withCount('Transaction')->find($bookId)->append('status');
-        if($book->status == 0)
-            return false;
-        return true;
+        return $book->status > 0;
     }
 
     public function CheckIfUserCanBorrowBook(int $userId): bool
     {
         $user = User::select('id')->withCount('Transaction')->find($userId);
-        if($user->transaction_count >= 2)
-            return false;
-        return true;
+        return $user->transaction_count <= 2;
     }
 
     public function BorrowBook(array $fields): bool
