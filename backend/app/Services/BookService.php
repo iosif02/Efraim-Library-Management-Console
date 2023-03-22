@@ -147,10 +147,10 @@ class BookService implements IBookService
             $fields['return_date'] = Carbon::today()->addWeeks(2);
             $fields['is_returned'] = false;
 
-            $book = $this->bookRepository->checkStatus($fields['book_id']);
+            $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
             if($book->status == 0)
                 return ['error' => 'Book is unavailable!', 'status' => false];
-            $user = $this->bookRepository->checkUser($fields['user_id']);
+            $user = $this->bookRepository->CheckIfUserCanBorrowBook($fields['user_id']);
             if($user->transaction_count >= 2)
                 return ['error' => 'User has 2 borrowed book already!', 'status' => false];
 
