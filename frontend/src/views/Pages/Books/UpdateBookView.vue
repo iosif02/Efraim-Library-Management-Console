@@ -13,8 +13,15 @@ const props = defineProps({
   id: String,
 })
 
+if(!props.id || props.id == '0' || !parseInt(props.id)){
+  router.back();
+}
+
 const EntitiesStore = useEntitiesStore();
 const BooksStore = useBooksStore();
+
+// if(BooksStore.bookDetails.id != parseInt(props.id || ''))
+BooksStore.fetchBookDetails(props.id ?? "");
 
 if(!EntitiesStore.entities.publishers.length) {
     EntitiesStore.fetchEntities();
@@ -83,13 +90,6 @@ var onSubmit = (book: any) => {
         }
     });
 }
-
-if(!props.id || props.id == '0' || !parseInt(props.id)){
-  router.back();
-}
-
-if(BooksStore.bookDetails.id != parseInt(props.id || ''))
-    BooksStore.fetchBookDetails(props.id ?? "");
 
 </script>
 
