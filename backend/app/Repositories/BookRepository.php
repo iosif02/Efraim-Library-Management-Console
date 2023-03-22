@@ -193,7 +193,7 @@ class BookRepository implements IBookRepository
     public function CheckIfUserCanBorrowBook(int $userId): bool
     {
         $user = User::select('id')->withCount('Transaction')->find($userId);
-        return $user->transaction_count <= 2;
+        return $user->transaction_count < 2;
     }
 
     public function BorrowBook(array $fields): bool
