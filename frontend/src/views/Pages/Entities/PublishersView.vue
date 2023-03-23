@@ -17,7 +17,6 @@ var deletePublisher = () => {
   watchEffect(() => {
     showModal.value = false;
   });
-  console.log(publisherId);
   store.deletePublisher(publisherId)
   .then(result => {
     if(result){

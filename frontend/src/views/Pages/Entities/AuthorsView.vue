@@ -17,7 +17,6 @@ var deleteAuthor = () => {
   watchEffect(() => {
     showModal.value = false;
   });
-  console.log(authorId);
   store.deleteAuthor(authorId)
   .then(result => {
     if(result){

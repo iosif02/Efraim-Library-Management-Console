@@ -17,7 +17,6 @@ var deleteCategory = () => {
   watchEffect(() => {
     showModal.value = false;
   });
-  console.log(categoryId);
   store.deleteCategory(categoryId)
   .then(result => {
     if(result){

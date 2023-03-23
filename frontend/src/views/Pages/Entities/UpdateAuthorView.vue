@@ -43,7 +43,7 @@ var onSubmit = (author: any) => {
       <Field name="name" />
       <ErrorMessage name="name" />
     </div>
-    <input value="Create" type="submit" class="btn w-100">
+    <input value="Edit" type="submit" class="btn w-100">
   </Form>
 </template>
 
