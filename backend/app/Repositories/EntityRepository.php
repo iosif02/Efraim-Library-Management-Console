@@ -27,9 +27,14 @@ class EntityRepository implements IEntityRepository
         return Category::select('id', 'name')->get();
     }
 
+    public function GetAuthorById(int $authorId): ?Author
+    {
+        return Author::select('id', 'name')->find($authorId);
+    }
+
     public function SearchAuthors(array $filters): ?LengthAwarePaginator
     {
-        $query = Author::select('id', 'name');
+        $query = Author::select('id', 'name')->withCount('Book');
 
         if(isset($filters['name']) && $filters['name'] != '') {
             $query->where('name', 'like', '%'.$filters['name'].'%');
@@ -73,9 +78,14 @@ class EntityRepository implements IEntityRepository
         return true;
     }
 
+    public function GetPublisherById(int $publisherId): ?Publisher
+    {
+        return Publisher::select('id', 'name', 'city')->find($publisherId);
+    }
+
     public function SearchPublisher(array $filters): ?LengthAwarePaginator
     {
-        $query = Publisher::select('id', 'name');
+        $query = Publisher::select('id', 'name')->withCount('Book');
 
         if(isset($filters['name']) && $filters['name'] != '') {
             $query->where('name', 'like', '%'.$filters['name'].'%');
@@ -117,6 +127,11 @@ class EntityRepository implements IEntityRepository
             return false;
         }
         return true;
+    }
+
+    public function GetCategoryById(int $categoryId): ?Category
+    {
+        return Category::select('id', 'name', 'description', 'number')->find($categoryId);
     }
 
     public function SearchCategories(array $filters): ?LengthAwarePaginator

@@ -8,7 +8,7 @@ export default
         {
             path: "/users",
             name: "users",
-            component: () => import("@/views/Pages/Users/ProfileView.vue")
+            component: () => import("@/views/Pages/Users/UserView.vue")
         },
         {
             path: "/readers",

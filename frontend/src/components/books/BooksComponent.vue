@@ -30,9 +30,9 @@ defineProps({
                                     <span class="category-number">({{ book.category?.number }})</span>
                                     <span class="category-name">{{ book.category?.name }}</span>
                                 </div>
-                                <div class="btnLink">
+                                <div class="btn-link">
                                     <RouterLink :to="{ name: 'editBook', params: { id: book.id } }">
-                                        <button class="btnEdit">Edit</button>
+                                        <button class="btn-edit">Edit</button>
                                     </RouterLink>
                                 </div>
                             </div>
@@ -112,20 +112,7 @@ img {
     flex-direction: row;
     justify-content: space-between;
 }
-.btnEdit{
-    width: 69px;
-    height: 24px;
-    background: #76CECB;
-    border-radius: 7px;
-    border: none;
-
-    font-family: 'Roboto-400';
-    font-style: normal;
-    font-size: 14px;
-    line-height: 15px;
-    color: #FFFFFF;
-}
-.btnLink{
+.btn-link{
     position: relative;
     bottom: -10px;
 }
