@@ -14,8 +14,7 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 }
 
 const store = useBooksStore();
-if(store.bookDetails.id != parseInt(props.id || ''))
-  store.fetchBookDetails(props.id ?? "");
+store.fetchBookDetails(props.id ?? "");
 
 var onReturn = (transactionId: number) => {
   store.returnBook(transactionId);
@@ -63,7 +62,8 @@ var openModal = () => {
   />
 
   <GoBack goBackText="Back">
-    <button @click="openModal" class="btnEdit">delete</button>
+    <button @click="router.push({ name: 'editBook', params: { id: props.id } })" class="btn-edit">Edit</button>
+    <button @click="openModal" class="btn-delete">Delete</button>
   </GoBack>
   
   <div class="image-book">
@@ -101,7 +101,13 @@ var openModal = () => {
   </div>
 
   <RouterLink :to="{ name: 'borrowBook', params: { id: props.id }}">
-    <button class="btn w-100" :disabled="store.bookDetails.status == 0 ?? false" >Borrow</button>
+    <button 
+      class="btn w-100" 
+      :disabled="store.bookDetails.status == 0 ?? false"
+      :class="{'disabled': store.bookDetails.status == 0}"
+    >
+      Borrow
+    </button>
   </RouterLink>
 
 </template>
@@ -257,17 +263,8 @@ var openModal = () => {
   text-decoration-line: underline;
   color: #76CECB;
 }
-.btnEdit{
-  width: 69px;
-  height: 24px;
-  background: #CE7679;
-  border-radius: 7px;
-  border: none;
-
-  font-family: 'Roboto-400';
-  font-style: normal;
-  font-size: 14px;
-  line-height: 15px;
-  color: #FFFFFF;
+.disabled{
+  background-color: #999;
+  border-color: #999;
 }
 </style>

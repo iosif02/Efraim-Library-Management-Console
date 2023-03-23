@@ -1,23 +1,26 @@
 <script setup lang="ts">
 import AuthorIcon from '@/components/icons/AuthorIcon.vue';
+import { RouterLink } from "vue-router";
 
 </script>
 
 <template>
   <div class="Entities">
 
-    <div class="container">
+    <RouterLink :to="{ name: 'author' }" class="container">
       <AuthorIcon />
-      <p class="container-title">Author</p>
-    </div>
-    <div class="container">
+      <p class="container-title">Authors</p>
+    </RouterLink>
+
+    <RouterLink :to="{ name: 'category' }" class="container">
       <AuthorIcon />
-      <p class="container-title">Category</p>
-    </div>
-    <div class="container">
+      <p class="container-title">Categories</p>
+    </RouterLink>
+
+    <RouterLink :to="{ name: 'publisher' }" class="container">
       <AuthorIcon />
-      <p class="container-title">Publisher</p>
-    </div>
+      <p class="container-title">Publishers</p>
+    </RouterLink>
 
   </div>
 </template>
@@ -32,6 +35,7 @@ import AuthorIcon from '@/components/icons/AuthorIcon.vue';
   color: #000000;
 }
 .container{
+  text-decoration: none;
   display: flex;
   flex-direction: row;
   align-items: center;

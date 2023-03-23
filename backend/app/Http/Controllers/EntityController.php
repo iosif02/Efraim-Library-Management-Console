@@ -33,7 +33,15 @@ class EntityController extends Controller
 
         return response()->json($result, 200);
     }
+    public function GetAuthor(int $authorId): JsonResponse
+    {
+        $result = $this->entityService->GetAuthorById($authorId);
+        if(!$result) {
+            return response()->json(['message' => 'Failed to get the author. Please contact the administrator!'], 500);
+        }
 
+        return response()->json($result, 200);
+    }
     public function SearchAuthors(AuthorSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -77,6 +85,16 @@ class EntityController extends Controller
         return response()->json(true, 200);
     }
 
+    public function GetPublisher(int $publisherId): JsonResponse
+    {
+        $result = $this->entityService->GetPublisherById($publisherId);
+        if(!$result) {
+            return response()->json(['message' => 'Failed to get the publisher. Please contact the administrator!'], 500);
+        }
+
+        return response()->json($result, 200);
+    }
+
     public function SearchPublisher(AuthorSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -118,6 +136,16 @@ class EntityController extends Controller
         }
 
         return response()->json(true, 200);
+    }
+
+    public function GetCategory(int $categoryId): JsonResponse
+    {
+        $result = $this->entityService->GetCategoryById($categoryId);
+        if(!$result) {
+            return response()->json(['message' => 'Failed to get the category. Please contact the administrator!'], 500);
+        }
+
+        return response()->json($result, 200);
     }
 
     public function SearchCategories(AuthorSearchRequest $request): JsonResponse

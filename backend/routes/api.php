@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/', [EntityController::class, 'GetEntities']);
 
         Route::prefix('authors')->group(function (){
+            Route::get('/{authorId}', [EntityController::class, 'GetAuthor']);
             Route::post('/search', [EntityController::class, 'SearchAuthors']);
             Route::post('/add-author', [EntityController::class, 'AddAuthor']);
             Route::post('/update-author', [EntityController::class, 'UpdateAuthor']);
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('publishers')->group(function (){
+            Route::get('/{publisherId}', [EntityController::class, 'GetPublisher']);
             Route::post('/search', [EntityController::class, 'SearchPublisher']);
             Route::post('/add-publisher', [EntityController::class, 'AddPublisher']);
             Route::post('/update-publisher', [EntityController::class, 'UpdatePublisher']);
@@ -58,6 +60,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('categories')->group(function (){
+            Route::get('/{categoryId}', [EntityController::class, 'GetCategory']);
             Route::post('/search', [EntityController::class, 'SearchCategories']);
             Route::post('/add-category', [EntityController::class, 'AddCategory']);
             Route::post('/update-category', [EntityController::class, 'UpdateCategory']);

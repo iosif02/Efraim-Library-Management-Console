@@ -1,0 +1,81 @@
+<script setup lang="ts">
+import Pagination from '@/components/global/PaginationComponent.vue';
+import CategoriesComponent from '@/components/entities/CategoriesComponent.vue';
+import { useEntitiesStore } from '@/stores/entities-store';
+import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
+import { ref, watchEffect } from 'vue';
+
+const store = useEntitiesStore();
+if (!store.publishers.data.length)
+  store.fetchPublishers();
+
+let publisherId = 0;
+
+const showModal = ref<boolean>(false);
+
+var deletePublisher = () => {
+  watchEffect(() => {
+    showModal.value = false;
+  });
+  console.log(publisherId);
+  store.deletePublisher(publisherId)
+  .then(result => {
+    if(result){
+      store.fetchPublishers();
+    }
+  });
+}
+
+var hideModal = () => {
+  watchEffect(() => {
+    showModal.value = false;
+  });
+}
+
+var openModal = (selectedPublisherId: number) => {
+  publisherId = selectedPublisherId;
+  watchEffect(() => {
+    showModal.value = true;
+  });
+}
+
+</script>
+
+<template>
+  <Loading v-if="store.isLoading" />
+
+  <Modal 
+    v-if="showModal" 
+    title="Delete Confirmation"
+    description="Are you sure you want to delete this publisher?"
+    action="Delete"
+    @submit="deletePublisher" 
+    @cancel="hideModal" 
+  />
+
+	<div>
+    <GoBack goBackText="Publishers"/>
+	</div>
+
+  <SearchBar
+    :defaultValue="store.publishers.searchModel.name"
+    @valueChanged="(value: string) => (store.publishers.searchModel.name = value, store.publishers.searchModel.pagination.page = 0, store.fetchPublishers())"
+    placeholder='Search publisher...'
+  />
+
+  <CategoriesComponent :categories="store.publishers.data" routeName="editPublisher" @openModal="(selectedPublisherId) => openModal(selectedPublisherId)"/>
+
+  <Pagination
+    :current-page="store.publishers.searchModel.pagination.page"
+    :last-page="store.publishers.searchModel.pagination.last_page"
+    @change-page="(page: number) => (store.publishers.searchModel.pagination.page = page, store.fetchPublishers())"
+  />
+
+  <CreateButtonComponent routeName="createPublisher"/>
+</template>
+
+<style scoped>
+.spacer {
+  margin-bottom: .8rem;
+}
+</style>

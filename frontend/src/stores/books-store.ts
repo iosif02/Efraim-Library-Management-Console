@@ -133,7 +133,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    async deleteBook(bookId: number) {
+    async deleteBook(bookId: Number) {
       this.isLoading = true;
       return axios.delete("/books/delete/" + bookId)
       .then(result => {
@@ -143,7 +143,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    returnBook(transactionId: number){
+    returnBook(transactionId: Number){
       this.isLoading = true;
       axios.post("/books/return/" + transactionId)
       .then(result => {

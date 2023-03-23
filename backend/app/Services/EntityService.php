@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Interfaces\IEntityService;
+use App\Models\Author;
+use App\Models\Category;
+use App\Models\Publisher;
 use App\Repositories\IEntityRepository;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -28,6 +31,11 @@ class EntityService implements IEntityService
             "authors" => $authors,
             "categories" => $categories
         ];
+    }
+
+    public function GetAuthorById(int $authorId): ?Author
+    {
+        return $this->entityRepository->GetAuthorById($authorId);
     }
 
     public function SearchAuthors(array $filters): ?LengthAwarePaginator
@@ -78,6 +86,11 @@ class EntityService implements IEntityService
         return $result;
     }
 
+    public function GetPublisherById(int $publisherId): ?Publisher
+    {
+        return $this->entityRepository->GetPublisherById($publisherId);
+    }
+
     public function SearchPublisher(array $filters): ?LengthAwarePaginator
     {
         try {
@@ -124,6 +137,11 @@ class EntityService implements IEntityService
         }
 
         return $result;
+    }
+
+    public function GetCategoryById(int $categoryId): ?Category
+    {
+        return $this->entityRepository->GetCategoryById($categoryId);
     }
 
     public function SearchCategories(array $filters): ?LengthAwarePaginator
