@@ -1,14 +1,16 @@
+import BooksHomeView from "@/views/Pages/Books/BooksHomeView.vue";
+import MainLayout from "@/views/Layouts/MainLayout.vue"
 export default
 {
     path: "/",
     name: "home",
     redirect: { name: 'homepage' },
-    component: () => import("@/views/Layouts/MainLayout.vue"),
+    component: MainLayout,
     children: [
         {
             path: "/home-page",
             name: "homepage",
-            component: () => import("@/views/Pages/Books/BooksHomeView.vue")   
+            component: BooksHomeView,   
         }
     ]
 }

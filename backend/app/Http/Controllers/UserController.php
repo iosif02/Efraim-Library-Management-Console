@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserSearchRequest;
 use App\Interfaces\IUserService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -19,10 +16,20 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function GetUsers(UserSearchRequest $request): JsonResponse
+    public function GetUser(int $userId): JsonResponse
+    {
+        $result = $this->userService->GetUserById($userId);
+        if(!$result) {
+            return response()->json(['message' => 'Failed to get the user. Please contact the administrator!'], 500);
+        }
+
+        return response()->json($result, 200);
+    }
+
+    public function SearchUsers(UserSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $result = $this->userService->GetUsers($validated);
+        $result = $this->userService->SearchUsers($validated);
         if(!$result) {
             return response()->json(['message' => 'Failed to get the users. Please contact the administrator!'], 500);
         }
@@ -41,7 +48,7 @@ class UserController extends Controller
         return response()->json(true, 200);
     }
 
-    public function UpdateUser(AddUserRequest $request): JsonResponse
+    public function UpdateUser(UpdateUserRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->userService->UpdateUser($validated);

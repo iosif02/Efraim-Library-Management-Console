@@ -47,4 +47,12 @@ class   BorrowBookRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'user_id.unique' => 'This user has borrowed the book already!',
+        ];
+    }
+
 }
