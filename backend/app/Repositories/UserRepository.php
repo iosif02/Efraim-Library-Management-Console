@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +32,16 @@ class UserRepository implements IUserRepository
         return User::where('email', $email)->first();
     }
 
-    public function GetUsers(array $filters): ?LengthAwarePaginator
+    public function GetUserById(int $userId): ?User
+    {
+        return User::select('id', 'name', 'email')
+            ->with([
+                'UserDetails' =>
+                    fn($query) => $query->select('user_id' ,'identity_number', 'first_name', 'last_name', 'address', 'phone', 'occupation', 'birth_date')
+            ])->find($userId);
+    }
+
+    public function SearchUsers(array $filters): ?LengthAwarePaginator
     {
         $query = User::select('id', 'name')
             ->with([
@@ -55,6 +65,7 @@ class UserRepository implements IUserRepository
         try {
             DB::beginTransaction();
 
+            $fields['password'] = bcrypt($fields['password']);
             $user = User::create($fields);
             $user->UserDetails()->create($fields);
 
@@ -72,6 +83,9 @@ class UserRepository implements IUserRepository
     {
         try {
             DB::beginTransaction();
+
+            if(isset($fields['password']))
+                $fields['password'] = bcrypt($fields['password']);
             $user = User::find($fields['userId']);
             if(!$user)
                 return false;

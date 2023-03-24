@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\IUserService;
+use App\Models\User;
 use App\Repositories\IUserRepository;
 use Carbon\Carbon;
 use Exception;
@@ -17,15 +18,20 @@ class UserService implements IUserService
         $this->userRepository = $userRepository;
     }
 
-    public function GetUsers(array $filters): ?LengthAwarePaginator
+    public function GetUserById(int $userId): ?User
     {
-        return $this->userRepository->GetUsers($filters);
+        return $this->userRepository->GetUserById($userId);
+    }
+
+    public function SearchUsers(array $filters): ?LengthAwarePaginator
+    {
+        return $this->userRepository->SearchUsers($filters);
     }
 
     public function AddUser(array $fields): bool
     {
         try {
-            $fields['birth_date'] = Carbon::parse($fields['birth_date']);
+//            $fields['birth_date'] = Carbon::parse($fields['birth_date']);
             $result = $this->userRepository->AddUser($fields);
         } catch (Exception $exception) {
             Log::error('Add user error: ' . $exception->getMessage());
@@ -38,7 +44,7 @@ class UserService implements IUserService
     public function UpdateUser(array $fields): bool
     {
         try {
-            $fields['birth_date'] = Carbon::parse($fields['birth_date']);
+//            $fields['birth_date'] = Carbon::parse($fields['birth_date']);
             $result = $this->userRepository->UpdateUser($fields);
         } catch (Exception $exception) {
             Log::error('Update user error: ' . $exception->getMessage());

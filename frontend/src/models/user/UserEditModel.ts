@@ -1,6 +1,9 @@
-export default class UserDetailsModel {
-	user_id: number = 0
-    identity_number: number = 0
+export default class UserEditModel {
+    id: number = 0;
+	name: string = "";
+    email: string = "";
+    password: string = "";
+    identity_number: number = 0;
     first_name: string = "";
     last_name: string = "";
     address: string = "";

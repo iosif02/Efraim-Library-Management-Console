@@ -266,5 +266,6 @@ var openModal = () => {
 .disabled{
   background-color: #999;
   border-color: #999;
+  opacity: 0.5;
 }
 </style>
