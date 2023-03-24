@@ -23,8 +23,8 @@ if(BooksStore.bookDetails.id != parseInt(props.id || ''))
 if(!UsersStore.users.data.length)
   UsersStore.fetchUsers();
 
-if(BooksStore.bookDetails.status == 0)
-  router.replace({ name: 'bookDetails' });
+// if(BooksStore.bookDetails.status == 0)
+//   router.replace({ name: 'bookDetails' });
 
 const showModal = ref<boolean>(false);
 let userId = 0;
