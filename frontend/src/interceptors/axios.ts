@@ -25,7 +25,7 @@ axios.interceptors.response.use(function(response) {
 	if(error.response.status == 401) {
 		localStorage.removeItem('bearerToken');
 		localStorage.removeItem('userDetails');
-		window.location = '/login';
+		(window as Window).location = '/login';
 	}
 	return Promise.reject(error);
 });
