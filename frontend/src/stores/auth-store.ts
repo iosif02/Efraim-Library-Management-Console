@@ -4,12 +4,13 @@ import { config } from "@/../env.d";
 import type RegisterModel from "@/models/auth/RegisterModel";
 import NotificationHelper from "@/helpers/NotificationHelper";
 import type LoginModel from "@/models/auth/LoginModel";
+import UserModel from "@/models/user/UserModel";
 
 export const authStore = defineStore('authStore', {
   	state: () => ({
 		isAuthenticated: false,
 		bearerToken: "",
-		userDetails: ""
+		userDetails: new UserModel()
 	}),
 	getters: {
 	},
@@ -47,21 +48,27 @@ export const authStore = defineStore('authStore', {
 		loadUserDetailsFromStorage() {
 			let userDetails = localStorage.getItem("userDetails");
 			if(userDetails) {
-				this.$state.userDetails = userDetails;
-				this.$state.isAuthenticated = true;
+				this.userDetails = JSON.parse(userDetails);
+				this.isAuthenticated = true;
 			}
 
-			return this.$state.isAuthenticated;
+			return this.isAuthenticated;
 		},
 		async logout() {
 			try {
 				await axios.post(config.apiUrl + "/logout");
-				localStorage.removeItem('bearerToken');
-				localStorage.removeItem('userDetails');
+				this.removeUserDetailsFromStorage();
 				return true;
 			} catch(ex) {
 				console.error("Request error: " + ex);
 			}
+		},
+		removeUserDetailsFromStorage() {
+			localStorage.removeItem('bearerToken');
+			localStorage.removeItem('userDetails');
+			this.userDetails = new UserModel();
+			this.isAuthenticated = false;
+			this.bearerToken = "";
 		}
   	},
 })

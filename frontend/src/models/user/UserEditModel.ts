@@ -3,6 +3,7 @@ export default class UserEditModel {
 	name: string = "";
     email: string = "";
     password: string = "";
+    is_admin: boolean = false;
     identity_number: number = 0;
     first_name: string = "";
     last_name: string = "";

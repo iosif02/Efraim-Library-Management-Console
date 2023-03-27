@@ -28,6 +28,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email,' .request('userId'),
             'password' => 'nullable|string',
+            'is_admin' => 'required|boolean',
             'identity_number' => 'required|regex:/^(\d{13})$/',
             'first_name' => 'required|string',
             'last_name' => 'required|string',

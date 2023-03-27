@@ -23,6 +23,7 @@ export const useUsersStore = defineStore('useUsersStore', {
                 if(!result.data) return;
 
                 this.user = result.data;
+                console.log(this.user)
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);
@@ -36,6 +37,8 @@ export const useUsersStore = defineStore('useUsersStore', {
                 this.users.data = result.data.data;
                 this.users.searchModel.pagination.total = result.data.total ?? 1;
                 this.users.searchModel.pagination.last_page = result.data.last_page ?? 1;
+
+                console.log(this.users.data);
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);
