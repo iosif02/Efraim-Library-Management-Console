@@ -71,10 +71,11 @@ var onSubmit = (book: any) => {
     book.publisher_id = book.publisher?.id;
     book.authors = book.authors.map((x: any) => x.id);
     booksStore.createBook(book).then(result => {
-        if(result)
+        if(result){
             if(booksStore.homepage.searchModel.title != "")
                 booksStore.searchBooks();
             router.back()
+        }
     });
 }
 
