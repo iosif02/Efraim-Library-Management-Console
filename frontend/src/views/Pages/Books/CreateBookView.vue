@@ -72,6 +72,7 @@ var onSubmit = (book: any) => {
     book.authors = book.authors.map((x: any) => x.id);
     booksStore.createBook(book).then(result => {
         if(result)
+            booksStore.searchBooks();
             router.back()
     });
 }
