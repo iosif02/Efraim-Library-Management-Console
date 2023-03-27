@@ -30,6 +30,7 @@ const validateForm = yup.object({
 
 var onSubmit = (user: any) => {
   user.password ?? delete user.password;
+  user.is_admin = store.user.is_admin;
   user.userId = props.id
   store.updateUser(user)
   .then(result => {
@@ -85,7 +86,7 @@ var onSubmit = (user: any) => {
     </div>
     <div class="form-group">
       <label for="phone">Phone</label>
-      <Field name="phone" type="number" maxlength="2"/>
+      <Field name="phone" type="number" />
       <ErrorMessage name="phone" />
     </div>
     <div class="form-group">
@@ -98,12 +99,20 @@ var onSubmit = (user: any) => {
       <Field name="birth_date" type="date" />
       <ErrorMessage name="birth_date" />
     </div>
+    <div class="form-group checkbox">
+      <label for="is_admin">Admin: </label>
+      <input type="checkbox" value="true" :checked="store.user.is_admin" name="is_admin" v-model="store.user.is_admin"/>
+    </div>
     <input value="Edit" type="submit" class="btn w-100">
   </Form>
 </template>
 
 <style scoped>
-.spacer {
-  margin-bottom: .8rem;
+.checkbox{
+  display: flex;
+  flex-direction: row;
+}
+.checkbox label{
+  margin-right: 10px;
 }
 </style>

@@ -34,7 +34,7 @@ class UserRepository implements IUserRepository
 
     public function GetUserById(int $userId): ?User
     {
-        return User::select('id', 'name', 'email')
+        return User::select('id', 'name', 'email', 'is_admin')
             ->with([
                 'UserDetails' =>
                     fn($query) => $query->select('user_id' ,'identity_number', 'first_name', 'last_name', 'address', 'phone', 'occupation', 'birth_date')
@@ -43,7 +43,7 @@ class UserRepository implements IUserRepository
 
     public function SearchUsers(array $filters): ?LengthAwarePaginator
     {
-        $query = User::select('id', 'name')
+        $query = User::select('id', 'name', 'is_admin')
             ->with([
                 'UserDetails' => fn($query) => $query->select('id', 'user_id', 'first_name', 'last_name')
             ])
