@@ -55,7 +55,8 @@ class UserRepository implements IUserRepository
             })
             ->withCount([
                 'Transaction' => fn($query) => $query->where('is_returned', false),
-            ]);
+            ])
+            ->where('is_admin', false);
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
