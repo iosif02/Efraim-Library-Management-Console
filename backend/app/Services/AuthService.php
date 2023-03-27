@@ -36,6 +36,8 @@ class AuthService implements IAuthService
             if(!$user || !Hash::check($fields['password'], $user->password)) {
                 return ['error' => 'Email or password is incorrect!'];
             }
+            if($user->is_admin == 0)
+                return ['error' => 'You are not authorized to perform this action!'];
 
             $token = $user->createToken('myapptoken')->plainTextToken;
         } catch(Exception $exception) {
