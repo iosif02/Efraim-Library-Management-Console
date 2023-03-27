@@ -23,7 +23,6 @@ export const useUsersStore = defineStore('useUsersStore', {
                 if(!result.data) return;
 
                 this.user = result.data;
-                console.log(this.user);
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);

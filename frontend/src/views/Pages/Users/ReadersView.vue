@@ -30,7 +30,6 @@ var deleteUser = () => {
     if(result)
     store.fetchUsers();
   });
-  console.log(userId)
 }
 
 var hideModal = () => {
@@ -46,7 +45,7 @@ var hideModal = () => {
   <Modal 
     v-if="showModal" 
     title="Delete Confirmation"
-    description="Are you sure you want to borrow this book?"
+    description="Are you sure you want to delete this user?"
     action="Delete"
     @submit="deleteUser" 
     @cancel="hideModal" 
