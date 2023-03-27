@@ -86,7 +86,9 @@ class UserRepository implements IUserRepository
 
             if(isset($fields['password']))
                 $fields['password'] = bcrypt($fields['password']);
+
             $user = User::find($fields['userId']);
+
             if(!$user)
                 return false;
             $user->fill($fields)->update();

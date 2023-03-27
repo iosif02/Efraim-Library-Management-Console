@@ -108,7 +108,6 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.categoryBooks.data = result.data.data;
           this.categoryBooks.searchModel.pagination.total = result.data.total ?? 1;
           this.categoryBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
-          console.log(result.data.data)
       })
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);

@@ -100,7 +100,7 @@ var onSubmit = (book: any) => {
 
     <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="BooksStore.bookDetails" ref="myForm">
         <div class="form-group image">
-            <img :src="imgSrc?.toString() || BooksStore.bookDetails.image" v-if="imgSrc?.toString() || BooksStore.bookDetails.image " />
+            <img :src="imgSrc?.toString() || BooksStore.bookDetails.image || 'img/book.webp'" v-if="imgSrc?.toString() || BooksStore.bookDetails.image " />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>
