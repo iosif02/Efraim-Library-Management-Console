@@ -20,18 +20,18 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const store = authStore();
+  store.loadUserDetailsFromStorage();
+  let authPage = to.name == 'login' ||  to.name == 'register';
 
-  if (to.name !== 'login' && to.name !== 'register') {
-    store.loadUserDetailsFromStorage();
-    if(!store.isAuthenticated) {
-      return { name: 'login' }
-    }
+  // if(!authPage && store.isAuthenticated && !store.userDetails.is_admin) {
+  //   store.removeUserDetailsFromStorage();
+  //   return { name: 'login' }
+  // }
+  if (!authPage && !store.isAuthenticated) {
+    return { name: 'login' }
   }
-  if (to.name == 'login' ||  to.name == 'register') {
-    store.loadUserDetailsFromStorage();
-    if(store.isAuthenticated) {
-      return { name: 'home' }
-    }
+  if (authPage && store.isAuthenticated) {
+    return { name: 'home' }
   }
 })
 

@@ -23,7 +23,7 @@ Route::post('register', [AuthController::class, 'Register']);
 Route::post('login', [AuthController::class, 'Login']);
 Route::post('logout', [AuthController::class, 'Logout']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
     Route::prefix('books')->group(function () {
         Route::get('/homepage', [BookController::class, 'GetHomepage']);
         Route::post('/delayed-books', [BookController::class, 'SearchDelayedBooks']);

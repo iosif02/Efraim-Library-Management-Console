@@ -18,8 +18,8 @@ async function login(model: any): Promise<void> {
 }
 
 const validateForm = yup.object({
-  email: yup.string().required().email(),
-  password: yup.string().required().min(8),
+	email: yup.string().required().email(),
+	password: yup.string().required().min(8),
 });
 </script>
 
