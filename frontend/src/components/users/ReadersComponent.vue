@@ -26,11 +26,11 @@ defineProps({
                     <img :src="user.user_details?.photo_url ?? '/img/user.jpg'" alt="user-image">
                 </div>
                 <div class="about-section">
-                    <p class="user-name">{{ user.user_details?.first_name + ' ' + user.user_details?.last_name}}</p>
+                    <p class="user-name">{{ user.first_name + ' ' + user.last_name}}</p>
                     <p class="user-status">{{ user.transaction_count }} book</p>
                 </div>
             </div>
-            <div>
+            <div class="container-btn">
                 <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: user.id } })">Edit</button>
                 <button class="btn-delete" @click="$emit('openModal', user.id)">Delete</button>
             </div>
@@ -95,5 +95,9 @@ defineProps({
 .paddingTop{
     padding-top: 18px;
     box-sizing: content-box;
+}
+.container-btn{
+    display: flex;
+    flex-wrap: nowrap;
 }
 </style>

@@ -56,7 +56,7 @@ class Book extends Model
 
     public function getStatusAttribute()
     {
-        return $this->quantity - $this->transaction_count;
+        return $this->attributes['quantity'] - $this->attributes['transaction_count'];
     }
 
 }

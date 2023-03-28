@@ -23,6 +23,8 @@ return new class extends Migration
             $table->dateTime('borrow_date');
             $table->boolean('is_returned')->default(false);
             $table->dateTime('return_date');
+            $table->string('lender_name', 64);
+            $table->string('receiver_name', 64);
             $table->timestamps();
         });
     }

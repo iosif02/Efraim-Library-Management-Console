@@ -146,6 +146,7 @@ class BookService implements IBookService
             $fields['borrow_date'] = Carbon::today();
             $fields['return_date'] = Carbon::today()->addWeeks(2);
             $fields['is_returned'] = false;
+            $fields['lender_name'] = request()->user()->first_name . ' ' . request()->user()->last_name;
 
             $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
             if(!$book)

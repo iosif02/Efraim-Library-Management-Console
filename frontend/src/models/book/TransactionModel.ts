@@ -1,10 +1,12 @@
-import UserDetailsModel from "@/models/user/UserDetailsModel";
+import UserModel from "@/models/user/UserModel";
 
 export default class TransactionModel {
     id: number = 0;
     borrow_date: string = "";
     is_returned: boolean = false;
     return_date: string = "";
+    lender_name: string = "";
+    receiver_name: string = "";
 
-    user_details: UserDetailsModel = new UserDetailsModel()
+    user: UserModel = new UserModel()
 }

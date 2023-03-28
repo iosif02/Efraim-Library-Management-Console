@@ -89,13 +89,13 @@ var openModal = () => {
   <div class="borrow-book" v-for="transaction in store.bookDetails.transaction">
     <div>
       <div class="row">
-        <p class="transaction-name">{{ transaction.user_details?.first_name + ' ' + transaction.user_details?.last_name }}</p>
+        <p class="transaction-name">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
         <StatusBookComponent :status="store.bookDetails.status"/>
       </div>
       <p class="transaction-date">{{ transaction.borrow_date + ' - ' + transaction.return_date }}</p>
     </div> 
     <div class="row">
-      <p class="transaction-voluntary">Processed by <span>Adelina Oprea</span></p>
+      <p class="transaction-voluntary">Processed by <span>{{ transaction.lender_name }}</span></p>
       <p class="transaction-return" @click="onReturn(transaction.id)">Return</p>
     </div>
   </div>

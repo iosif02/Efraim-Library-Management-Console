@@ -16,7 +16,6 @@ const store = useUsersStore();
 store.fetchSelectedUser(props.id || '')
 
 const validateForm = yup.object({
-    name: yup.string().required(),
     email: yup.string().required().email(),
     password: yup.string().min(8),
     identity_number: yup.number().required(),
@@ -49,11 +48,6 @@ var onSubmit = (user: any) => {
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details}" class="form-control">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <Field name="name" />
-      <ErrorMessage name="name" />
-    </div>
     <div class="form-group">
       <label for="email">Email</label>
       <Field name="email" />
