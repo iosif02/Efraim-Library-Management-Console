@@ -10,14 +10,17 @@ class FileService implements IFileService
 {
     public function StoreFile(UploadedFile|string $file): string
     {
+        $app_url = config('app.app_url') . '/';
         if(is_string($file)) {
-            $name = 'images/' . uniqid() . '.png';
-            return $this->base64_to_jpeg($file, $name);
+            $extension = explode('/', mime_content_type($file))[1];
+            $name = 'images/' . uniqid() . '.' . $extension;
+            $fileName = $this->base64_to_jpeg($file, $name);
         } else {
             $fileName = $file->getFilename().'.'.$file->extension();
             Storage::disk('public')->put($fileName, $file->getContent());
-            return $fileName;
         }
+
+        return $app_url . $fileName;
     }
 
     public function base64_to_jpeg($base64_string, $output_file) {
