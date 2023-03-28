@@ -15,7 +15,7 @@ class Transactions extends Model
     protected $casts = [
         'is_returned' => 'boolean',
     ];
-    protected $fillable = ['borrow_date', 'is_returned', 'return_date', 'book_id', 'user_id'];
+    protected $fillable = ['borrow_date', 'is_returned', 'return_date', 'book_id', 'user_id', 'lender_name', 'receiver_name'];
 
     public function Book(): BelongsTo
     {
@@ -34,9 +34,9 @@ class Transactions extends Model
 
 //    protected $appends = ['delayed'];
 
-    public function getDelayedAttribute()
+    public function getDelayedAttribute(): int
     {
-        $start = strtotime($this->return_date);
+        $start = strtotime($this->attributes['return_date']);
         $end = strtotime(date('Y-m-d H:s:i'));
         return (int)(($start - $end)/86400);
     }

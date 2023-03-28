@@ -34,29 +34,28 @@ class UserRepository implements IUserRepository
 
     public function GetUserById(int $userId): ?User
     {
-        return User::select('id', 'name', 'email', 'is_admin')
+        return User::select('id', 'email', 'is_admin', 'first_name', 'last_name')
             ->with([
                 'UserDetails' =>
-                    fn($query) => $query->select('user_id' ,'identity_number', 'first_name', 'last_name', 'address', 'phone', 'occupation', 'birth_date')
+                    fn($query) => $query->select('user_id' ,'identity_number', 'address', 'phone', 'occupation', 'birth_date')
             ])->find($userId);
     }
 
     public function SearchUsers(array $filters): ?LengthAwarePaginator
     {
-        $query = User::select('id', 'name', 'is_admin')
-            ->with([
-                'UserDetails' => fn($query) => $query->select('id', 'user_id', 'first_name', 'last_name')
-            ])
-            ->whereHas('UserDetails', function ($query) use ($filters) {
-                if(isset($filters['name']) && $filters['name'] != '') {
+
+        $query = User::select('id', 'is_admin', 'first_name', 'last_name');
+
+            if(isset($filters['name']) && $filters['name'] != ''){
+                $query->where(function ($query) use ($filters) {
                     $query->where('first_name', 'like', '%'.$filters['name'].'%')
-                        ->orwhere('last_name', 'like', '%'.$filters['name'].'%');
-                }
-            })
-            ->withCount([
+                        ->orWhere('last_name', 'like', '%'.$filters['name'].'%');
+                });
+            }
+
+            $query->withCount([
                 'Transaction' => fn($query) => $query->where('is_returned', false),
-            ])
-            ->where('is_admin', false);
+            ])->where('is_admin', false);;
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }

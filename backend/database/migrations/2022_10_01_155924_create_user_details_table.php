@@ -18,8 +18,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('identity_number', 16);
-            $table->string('first_name', 16);
-            $table->string('last_name', 16);
             $table->string('address', 16);
             $table->string('phone', 16);
             $table->string('occupation');

@@ -25,7 +25,6 @@ class AddUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string',
             'is_admin' => 'required|boolean',

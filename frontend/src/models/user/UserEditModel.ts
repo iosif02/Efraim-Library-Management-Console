@@ -1,6 +1,5 @@
 export default class UserEditModel {
     id: number = 0;
-	name: string = "";
     email: string = "";
     password: string = "";
     is_admin: boolean = false;

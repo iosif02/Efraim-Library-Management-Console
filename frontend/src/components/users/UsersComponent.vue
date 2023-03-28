@@ -24,7 +24,7 @@ defineProps({
                     <img :src="user.user_details?.photo_url ?? '/img/user.jpg'" alt="user-image">
                 </div>
                 <div class="about-section">
-                    <p class="user-name">{{ user.user_details?.first_name + ' ' + user.user_details?.last_name}}</p>
+                    <p class="user-name">{{ user.first_name + ' ' + user.last_name}}</p>
                     <p class="user-status">{{ user.transaction_count }} book</p>
                 </div>
             </div>

@@ -39,7 +39,7 @@ let delayedDays = (date: string) => {
                     <img :src="currentBook.book.image || 'img/book.webp'" alt="">
                     <div class="details">
                         <div class="top-section">
-                            <p class="name">{{ currentBook.user.name }}</p>
+                            <p class="name">{{ currentBook.user.first_name }} {{ currentBook.user.last_name }}</p>
                             <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
                         </div>
                         <div class="book-title">{{ currentBook.book.title }}</div>
@@ -72,9 +72,13 @@ let delayedDays = (date: string) => {
     width: calc(100% - 48px);
 }
 .name {
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Roboto-500';
     color: #2B2E3C;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
 }
 img {
     height: 40px;

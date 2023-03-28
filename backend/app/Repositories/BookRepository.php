@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -82,10 +83,10 @@ class BookRepository implements IBookRepository
             'Authors' => fn($query) => $query->select('name'),
             'Publisher' => fn($query) => $query->select('id', 'name'),
             'Transaction' => function ($query){
-                $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned')
+                $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned', 'lender_name')
                     ->where('is_returned', false);
             },
-            'Transaction.UserDetails' => fn($query) => $query->select('id', 'user_id', 'first_name', 'last_name')
+            'Transaction.User' => fn($query) => $query->select('id', 'first_name', 'last_name')
         ])
         ->withCount([
             'Transaction' => function ($query){
@@ -130,7 +131,7 @@ class BookRepository implements IBookRepository
             ->where('return_date', '<', date('y-m-d'))->where('is_returned', false)
             ->with([
                 'Book' => fn($query) => $query->select('id', 'title', 'category_id', 'image'),
-                'User' => fn($query) => $query->select('id', 'name'),
+                'User' => fn($query) => $query->select('id', 'first_name', 'last_name'),
                 'Book.Category' => fn($query) => $query->select('id', 'name', 'number', 'description')
             ])
             ->whereHas('Book', function ($query) use ($filters) {
@@ -212,6 +213,7 @@ class BookRepository implements IBookRepository
         try {
             $transaction = Transactions::find($transactionId);
             $transaction->is_returned = true;
+            $transaction->receiver_name = request()->user()->first_name . ' ' . request()->user()->last_name;
             $transaction->update();
         } catch (Exception $exception) {
             Log::error('Return book error: ' . $exception->getMessage());
@@ -219,4 +221,5 @@ class BookRepository implements IBookRepository
         }
         return true;
     }
+
 }
