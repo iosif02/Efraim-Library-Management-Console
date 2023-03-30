@@ -76,7 +76,7 @@ class User extends Authenticatable
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->attributes['first_name'] . ' ' . $this->attributes['last_name'],
+            get: fn () => ucfirst($this->attributes['first_name']) . ' ' . ucfirst($this->attributes['last_name']),
         );
     }
 
