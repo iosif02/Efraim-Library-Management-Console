@@ -116,7 +116,7 @@ class BookRepository implements IBookRepository
 
         $books = $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 
-        // TODO: get delayed directly from query, do not manipulate the data
+        // TODO: get status directly from query, do not manipulate the data
         $books->getCollection()->transform(function ($book) {
             $book->append('status');
             return $book;
@@ -213,7 +213,7 @@ class BookRepository implements IBookRepository
         try {
             $transaction = Transactions::find($transactionId);
             $transaction->is_returned = true;
-            $transaction->receiver_name = request()->user()->first_name . ' ' . request()->user()->last_name;
+            $transaction->receiver_name = Auth::user()->full_Name;
             $transaction->update();
         } catch (Exception $exception) {
             Log::error('Return book error: ' . $exception->getMessage());

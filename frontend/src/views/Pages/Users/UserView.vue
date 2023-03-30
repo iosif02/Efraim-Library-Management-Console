@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AuthorIcon from '@/components/icons/AuthorIcon.vue';
+import ReaderIcon from '@/components/icons/ReaderIcon.vue';
 import { RouterLink } from "vue-router";
 
 </script>
@@ -8,7 +9,7 @@ import { RouterLink } from "vue-router";
   <div class="Entities">
 
     <RouterLink :to="{ name: 'readers' }" class="container">
-      <AuthorIcon />
+      <ReaderIcon />
       <p class="container-title">Readers</p>
     </RouterLink>
 

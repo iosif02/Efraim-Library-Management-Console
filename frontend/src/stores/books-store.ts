@@ -142,9 +142,9 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    returnBook(transactionId: Number){
+    async returnBook(transactionId: Number){
       this.isLoading = true;
-      axios.post("/books/return/" + transactionId)
+      return axios.post("/books/return/" + transactionId)
       .then(result => {
         return result.data;
       })

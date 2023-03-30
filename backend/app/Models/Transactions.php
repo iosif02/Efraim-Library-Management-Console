@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,11 +35,15 @@ class Transactions extends Model
 
 //    protected $appends = ['delayed'];
 
-    public function getDelayedAttribute(): int
+    protected function delayed(): Attribute
     {
-        $start = strtotime($this->attributes['return_date']);
-        $end = strtotime(date('Y-m-d H:s:i'));
-        return (int)(($start - $end)/86400);
+        return Attribute::make(
+            get: function() {
+                $start = strtotime($this->attributes['return_date']);
+                $end = strtotime(date('Y-m-d H:s:i'));
+                return (int)(($start - $end)/86400);
+            },
+        );
     }
 
 }
