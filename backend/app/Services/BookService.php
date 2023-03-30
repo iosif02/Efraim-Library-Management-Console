@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -143,10 +144,11 @@ class BookService implements IBookService
     public function BorrowBook(array $fields): array
     {
         try {
+
             $fields['borrow_date'] = Carbon::today();
             $fields['return_date'] = Carbon::today()->addWeeks(2);
             $fields['is_returned'] = false;
-            $fields['lender_name'] = request()->user()->first_name . ' ' . request()->user()->last_name;
+            $fields['lender_name'] = Auth::user()->fullName;
 
             $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
             if(!$book)
