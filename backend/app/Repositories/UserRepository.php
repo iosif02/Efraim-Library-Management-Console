@@ -34,7 +34,7 @@ class UserRepository implements IUserRepository
 
     public function GetUserById(int $userId): ?User
     {
-        return User::select('id', 'email', 'is_admin', 'first_name', 'last_name')
+        return User::select('id', 'email', 'first_name', 'last_name')
             ->with([
                 'UserDetails' =>
                     fn($query) => $query->select('user_id' ,'identity_number', 'address', 'phone', 'occupation', 'birth_date')
@@ -43,8 +43,10 @@ class UserRepository implements IUserRepository
 
     public function SearchUsers(array $filters): ?LengthAwarePaginator
     {
-
-        $query = User::select('id', 'is_admin', 'first_name', 'last_name');
+        $query = User::select('id', 'first_name', 'last_name')
+            ->whereDoesntHave('Roles', function ($query) {
+                $query->where('name', 'admin');
+            });
 
             if(isset($filters['name']) && $filters['name'] != ''){
                 $query->where(function ($query) use ($filters) {
@@ -53,9 +55,9 @@ class UserRepository implements IUserRepository
                 });
             }
 
-            $query->withCount([
-                'Transaction' => fn($query) => $query->where('is_returned', false),
-            ])->where('is_admin', false);;
+        $query->withCount([
+            'Transaction' => fn($query) => $query->where('is_returned', false),
+        ]);
 
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
@@ -68,6 +70,7 @@ class UserRepository implements IUserRepository
             $fields['password'] = bcrypt($fields['password']);
             $user = User::create($fields);
             $user->UserDetails()->create($fields);
+//            $user->Roles()->attach($fields['roles']);
 
             DB::commit();
         } catch (Exception $exception) {
@@ -93,6 +96,7 @@ class UserRepository implements IUserRepository
                 return false;
             $user->fill($fields)->update();
             $user->UserDetails->fill($fields)->update();
+//            $user->Roles()->sync($fields['roles']);
 
             DB::commit();
         } catch (Exception $exception) {
@@ -111,6 +115,7 @@ class UserRepository implements IUserRepository
 
             $user = User::find($userId);
             $user->UserDetails()->delete();
+//            $user->Roles()->detach();
             $user->delete();
 
             DB::commit();

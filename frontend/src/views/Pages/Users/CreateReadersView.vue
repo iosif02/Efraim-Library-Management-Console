@@ -19,7 +19,6 @@ const validateForm = yup.object({
 });
 
 var onSubmit = (user: any) => {
-  user.is_admin = Boolean(user.is_admin)
   store.createUser(user)
   .then(result => {
     if(result)
@@ -81,11 +80,6 @@ var onSubmit = (user: any) => {
       <label for="birth_date">Birth date</label>
       <Field name="birth_date" type="date" />
       <ErrorMessage name="birth_date" />
-    </div>
-    <div class="form-group checkbox">
-      <label for="is_admin">Admin: </label>
-      <Field name="is_admin" type="checkbox" value="true" />
-      <ErrorMessage name="is_admin" />
     </div>
     <input value="Create" type="submit" class="btn w-100">
   </Form>
