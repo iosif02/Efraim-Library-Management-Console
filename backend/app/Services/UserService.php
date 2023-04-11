@@ -31,7 +31,6 @@ class UserService implements IUserService
     public function AddUser(array $fields): bool
     {
         try {
-//            $fields['birth_date'] = Carbon::parse($fields['birth_date']);
             $result = $this->userRepository->AddUser($fields);
         } catch (Exception $exception) {
             Log::error('Add user error: ' . $exception->getMessage());

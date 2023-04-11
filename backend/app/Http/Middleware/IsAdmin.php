@@ -19,7 +19,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()->is_admin == 1) {
+        if($request) {
             return $next($request);
         }
 

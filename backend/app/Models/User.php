@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +24,6 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'is_admin',
         'password',
     ];
 
@@ -44,7 +44,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean',
     ];
 
     public function Transaction(): HasMany
@@ -55,6 +54,11 @@ class User extends Authenticatable
     public function UserDetails(): HasOne
     {
         return $this->hasOne(UserDetails::class);
+    }
+
+    public function Roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 
     protected function firstName(): Attribute
@@ -80,4 +84,10 @@ class User extends Authenticatable
         );
     }
 
+    public function hasPermission(string $currentPermission)
+    {
+        return $this->Roles->contains(function ($role) use ($currentPermission) {
+            return $role->Permissions->contains('name', $currentPermission);
+        });
+    }
 }
