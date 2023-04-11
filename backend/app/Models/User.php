@@ -84,7 +84,7 @@ class User extends Authenticatable
         );
     }
 
-    public function havePermission(string $currentPermission)
+    public function hasPermission(string $currentPermission)
     {
         return $this->Roles->contains(function ($role) use ($currentPermission) {
             return $role->Permissions->contains('name', $currentPermission);
