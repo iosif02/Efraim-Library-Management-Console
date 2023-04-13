@@ -4,7 +4,6 @@ import NotificationHelper from "@/helpers/NotificationHelper";
 
 const token = localStorage.getItem('bearerToken');
 axios.interceptors.request.use(function (axiosConfig) {
-	axiosConfig.baseURL = config.apiUrl;
 	axiosConfig.headers = {
 		Authorization: `Bearer ${token}`,
 		Accept: 'application/json'
@@ -30,4 +29,5 @@ axios.interceptors.response.use(function(response) {
 	return Promise.reject(error);
 });
 
+axios.defaults.baseURL = config.apiUrl;
 axios.defaults.withCredentials = true;

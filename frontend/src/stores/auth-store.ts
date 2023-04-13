@@ -16,24 +16,32 @@ export const authStore = defineStore('authStore', {
 	},
   	actions: {
 		async register(user: RegisterModel) {
-				try {
-					await axios.get(config.appUrl + "/sanctum/csrf-cookie");
-					let response = await axios.post(config.apiUrl + "/register", user);
-
-					if(response?.data == 1) {
-						NotificationHelper.NotifySuccess("The user was created. Please login!");
-						return true;
+			try {
+				const csrfToken = await axios.get(config.appUrl + "/sanctum/csrf-cookie");
+				let response = await axios.post(config.apiUrl + "/register", user, {
+					headers: {
+						'X-CSRF-TOKEN': csrfToken.data.csrfToken,
 					}
+				});
 
-					return false;
-				} catch(ex: any) {
-					console.error("Request error: " + ex);
+				if(response?.data == 1) {
+					NotificationHelper.NotifySuccess("The user was created. Please login!");
+					return true;
 				}
+
+				return false;
+			} catch(ex: any) {
+				console.error("Request error: " + ex);
+			}
 		},
 		async login(user: LoginModel) {
 			try {
-				await axios.get(config.appUrl + "/sanctum/csrf-cookie");
-				let response = await axios.post(config.apiUrl + "/login", user);
+				const csrfToken = await axios.get(config.appUrl + "/sanctum/csrf-cookie");
+				let response = await axios.post(config.apiUrl + "/login", user, {
+					headers: {
+						'X-CSRF-TOKEN': csrfToken.data.csrfToken,
+					}
+				});
 
 				if(response?.data?.token) {
 					localStorage.setItem("bearerToken", response.data.token);
