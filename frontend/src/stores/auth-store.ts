@@ -28,7 +28,7 @@ export const authStore = defineStore('authStore', {
 					NotificationHelper.NotifySuccess("The user was created. Please login!");
 					return true;
 				}
-
+				
 				return false;
 			} catch(ex: any) {
 				console.error("Request error: " + ex);
