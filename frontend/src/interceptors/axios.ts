@@ -29,3 +29,5 @@ axios.interceptors.response.use(function(response) {
 	}
 	return Promise.reject(error);
 });
+
+axios.defaults.withCredentials = true;

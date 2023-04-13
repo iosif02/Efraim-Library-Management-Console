@@ -17,6 +17,7 @@ export const authStore = defineStore('authStore', {
   	actions: {
 		async register(user: RegisterModel) {
 				try {
+					await axios.get(config.appUrl + "/sanctum/csrf-cookie");
 					let response = await axios.post(config.apiUrl + "/register", user);
 
 					if(response?.data == 1) {
@@ -31,6 +32,7 @@ export const authStore = defineStore('authStore', {
 		},
 		async login(user: LoginModel) {
 			try {
+				await axios.get(config.appUrl + "/sanctum/csrf-cookie");
 				let response = await axios.post(config.apiUrl + "/login", user);
 
 				if(response?.data?.token) {
