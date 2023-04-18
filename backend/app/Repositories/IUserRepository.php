@@ -8,6 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IUserRepository
 {
+    public function GetRoles();
     public function CreateUser(array $fields): bool;
     public function GetUserByEmail(string $email): ?User;
     public function GetUserById(int $userId): ?User;

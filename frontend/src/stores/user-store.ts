@@ -4,6 +4,7 @@ import UserModel from "@/models/user/UserModel";
 import SearchUserModel from "@/models/user/SearchUserModel";
 import NotificationHelper from "@/helpers/NotificationHelper";
 import type UserEditModel from "@/models/user/UserEditModel";
+import type RoleModel from "@/models/user/RoleModel";
 
 export const useUsersStore = defineStore('useUsersStore', {
     state: () => ({
@@ -14,6 +15,7 @@ export const useUsersStore = defineStore('useUsersStore', {
             searchModel: new SearchUserModel()
         },
         user: new UserModel(),
+        roles: [] as RoleModel[],
     }),
     actions: {
         fetchSelectedUser(userId: String) {
@@ -66,6 +68,17 @@ export const useUsersStore = defineStore('useUsersStore', {
             .then(result => {
                 NotificationHelper.NotifySuccess('User was deleted with scucces!')
                 return result.data;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
+        },
+        fetchRoles() {
+            this.isLoading = true;
+            axios.get("/users/roles")
+            .then(result => {
+                if(!result.data) return;
+
+                this.roles = result.data;
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);

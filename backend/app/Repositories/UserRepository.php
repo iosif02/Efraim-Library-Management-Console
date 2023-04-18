@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 
+use App\Models\Role;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -32,12 +33,18 @@ class UserRepository implements IUserRepository
         return User::where('email', $email)->first();
     }
 
+    public function GetRoles()
+    {
+       return Role::select('id', 'name')->get();
+    }
+
     public function GetUserById(int $userId): ?User
     {
         return User::select('id', 'email', 'first_name', 'last_name')
             ->with([
                 'UserDetails' =>
-                    fn($query) => $query->select('user_id' ,'identity_number', 'address', 'phone', 'occupation', 'birth_date')
+                    fn($query) => $query->select('user_id' ,'identity_number', 'address', 'phone', 'occupation', 'birth_date'),
+                'Roles'
             ])->find($userId);
     }
 
@@ -70,7 +77,7 @@ class UserRepository implements IUserRepository
             $fields['password'] = bcrypt($fields['password']);
             $user = User::create($fields);
             $user->UserDetails()->create($fields);
-//            $user->Roles()->attach($fields['roles']);
+            $user->Roles()->attach($fields['roles']);
 
             DB::commit();
         } catch (Exception $exception) {
@@ -96,7 +103,7 @@ class UserRepository implements IUserRepository
                 return false;
             $user->fill($fields)->update();
             $user->UserDetails->fill($fields)->update();
-//            $user->Roles()->sync($fields['roles']);
+            $user->Roles()->sync($fields['roles']);
 
             DB::commit();
         } catch (Exception $exception) {
@@ -115,7 +122,7 @@ class UserRepository implements IUserRepository
 
             $user = User::find($userId);
             $user->UserDetails()->delete();
-//            $user->Roles()->detach();
+            $user->Roles()->detach();
             $user->delete();
 
             DB::commit();

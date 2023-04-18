@@ -34,6 +34,7 @@ class UpdateUserRequest extends FormRequest
             'phone' => 'required|regex:/^(\d{10})$/',
             'occupation' => 'required|string',
             'birth_date' => 'required|date',
+            'roles' => 'required|array',
             'userId' => 'required|integer',
         ];
     }

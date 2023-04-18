@@ -3,8 +3,13 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import { useUsersStore } from '@/stores/user-store';
 import router from '@/router';
+import { ref, watchEffect } from 'vue';
+import type RoleModel from '@/models/user/RoleModel';
 
 const store = useUsersStore();
+if(!store.roles.length) {
+    store.fetchRoles();
+}
 
 const validateForm = yup.object({
     email: yup.string().required().email(),
@@ -19,6 +24,7 @@ const validateForm = yup.object({
 });
 
 var onSubmit = (user: any) => {
+  user.roles = user.roles.map((x: RoleModel) => x.id);
   store.createUser(user)
   .then(result => {
     if(result)
@@ -26,6 +32,16 @@ var onSubmit = (user: any) => {
       store.fetchUsers();
   });
 }
+
+const filteredRoles = ref<Array<RoleModel>>([]);
+const selectedRoles = ref<Array<RoleModel>>([]);
+
+var searchRoles = (event: any) => {
+  watchEffect(() => {
+      filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+  });
+}
+
 </script>
 
 <template>
@@ -80,6 +96,12 @@ var onSubmit = (user: any) => {
       <label for="birth_date">Birth date</label>
       <Field name="birth_date" type="date" />
       <ErrorMessage name="birth_date" />
+    </div>
+    <div class="form-group">
+      <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
+      <label for="authors">Roles</label>
+      <AutoComplete name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" />
+      <ErrorMessage name="roles" />
     </div>
     <input value="Create" type="submit" class="btn w-100">
   </Form>
