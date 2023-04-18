@@ -15,21 +15,20 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 }
 
 const store = useUsersStore();
+store.fetchSelectedUser(props.id || '');
 if(!store.roles.length) {
-    store.fetchRoles();
+  store.fetchRoles();
 }
-store.fetchSelectedUser(props.id || '')
-
 const validateForm = yup.object({
-    email: yup.string().required().email(),
-    password: yup.string().min(8),
-    identity_number: yup.number().required(),
-    first_name: yup.string().required(),
-    last_name: yup.string().required(),
-    address: yup.string().required(),
-    phone: yup.number().required(),
-    occupation: yup.string().required(),
-    birth_date: yup.date().required(),
+  email: yup.string().required().email(),
+  password: yup.string().min(8),
+  identity_number: yup.number().required(),
+  first_name: yup.string().required(),
+  last_name: yup.string().required(),
+  address: yup.string().required(),
+  phone: yup.number().required(),
+  occupation: yup.string().required(),
+  birth_date: yup.date().required(),
 });
 
 var onSubmit = (user: any) => {
@@ -49,7 +48,7 @@ const selectedRoles = ref<Array<RoleModel>>([]);
 
 var searchRoles = (event: any) => {
   watchEffect(() => {
-      filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+    filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));;
   });
 }
 
@@ -62,7 +61,7 @@ var searchRoles = (event: any) => {
     <GoBack goBackText="Category"/>
 	</div>
 
-  <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user}" class="form-control">
+  <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details}" class="form-control">
     <div class="form-group">
       <label for="email">Email</label>
       <Field name="email" />

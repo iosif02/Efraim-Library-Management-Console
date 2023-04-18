@@ -38,7 +38,7 @@ const selectedRoles = ref<Array<RoleModel>>([]);
 
 var searchRoles = (event: any) => {
   watchEffect(() => {
-      filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+      filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));
   });
 }
 
