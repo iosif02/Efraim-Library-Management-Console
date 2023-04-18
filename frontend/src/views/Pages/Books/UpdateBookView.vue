@@ -61,7 +61,7 @@ const selectedPublisher = ref<PublisherModel>();
 
 var searchAuthors = (event: any) => {
     watchEffect(() => {
-        filteredAuthors.value = EntitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        filteredAuthors.value = EntitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
     });
 }
 var searchCategories = (event: any) => {
