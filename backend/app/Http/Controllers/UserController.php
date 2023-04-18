@@ -16,6 +16,16 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    public function GetRoles(): JsonResponse
+    {
+        $result = $this->userService->GetRoles();
+        if(!$result) {
+            return response()->json(['message' => 'Failed to get the roles. Please contact the administrator!'], 500);
+        }
+
+        return response()->json($result, 200);
+    }
+
     public function GetUser(int $userId): JsonResponse
     {
         $result = $this->userService->GetUserById($userId);

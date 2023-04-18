@@ -79,7 +79,7 @@ var onSubmit = (book: any) => {
     imgSrc.value ? book.image = imgSrc.value : delete book.image;
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
-    book.authors = book.authors.map((x: AuthorModel) => x?.pivot?.author_id ?? x.id);
+    book.authors = book.authors.map((x: AuthorModel) => x.id);
     book.bookId = props.id
     BooksStore.updateBook(book)
     .then(result => {

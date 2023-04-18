@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IUserService
 {
+    public function GetRoles();
     public function SearchUsers(array $filters): ?LengthAwarePaginator;
     public function GetUserById(int $userId): ?User;
     public function AddUser(array $fields): bool;

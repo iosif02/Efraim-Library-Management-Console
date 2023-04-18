@@ -69,7 +69,7 @@ var onSubmit = (book: any) => {
     book.image = imgSrc.value;
     book.category_id = book.category?.id;
     book.publisher_id = book.publisher?.id;
-    book.authors = book.authors.map((x: any) => x.id);
+    book.authors = book.authors.map((x: AuthorModel) => x.id);
     booksStore.createBook(book).then(result => {
         if(result){
             if(booksStore.homepage.searchModel.title != "")

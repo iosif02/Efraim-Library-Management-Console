@@ -1,4 +1,5 @@
 import UserDetailsModel from "@/models/user/UserDetailsModel";
+import type RoleModel from '@/models/user/RoleModel';
 
 export default class UserModel {
 	id: number = 0;
@@ -8,5 +9,6 @@ export default class UserModel {
     last_name: string = "";
     transaction_count: number = 0;
 
+    roles: RoleModel[] = [];
     user_details: UserDetailsModel = new UserDetailsModel()
 }

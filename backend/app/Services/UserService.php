@@ -18,6 +18,11 @@ class UserService implements IUserService
         $this->userRepository = $userRepository;
     }
 
+    public function GetRoles()
+    {
+        return $this->userRepository->GetRoles();
+    }
+
     public function GetUserById(int $userId): ?User
     {
         return $this->userRepository->GetUserById($userId);

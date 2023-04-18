@@ -3,6 +3,8 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import { useUsersStore } from '@/stores/user-store';
 import router from '@/router';
+import { ref, watchEffect } from 'vue';
+import type RoleModel from '@/models/user/RoleModel';
 
 const props = defineProps({
   id: String
@@ -13,6 +15,9 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 }
 
 const store = useUsersStore();
+if(!store.roles.length) {
+    store.fetchRoles();
+}
 store.fetchSelectedUser(props.id || '')
 
 const validateForm = yup.object({
@@ -30,6 +35,7 @@ const validateForm = yup.object({
 var onSubmit = (user: any) => {
   user.password ?? delete user.password;
   user.userId = props.id
+  user.roles = user.roles.map((x: RoleModel) => x.id);
   store.updateUser(user)
   .then(result => {
     if(result)
@@ -37,6 +43,16 @@ var onSubmit = (user: any) => {
       store.fetchUsers();
   });
 }
+
+const filteredRoles = ref<Array<RoleModel>>([]);
+const selectedRoles = ref<Array<RoleModel>>([]);
+
+var searchRoles = (event: any) => {
+  watchEffect(() => {
+      filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+  });
+}
+
 </script>
 
 <template>
@@ -46,7 +62,7 @@ var onSubmit = (user: any) => {
     <GoBack goBackText="Category"/>
 	</div>
 
-  <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details}" class="form-control">
+  <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user}" class="form-control">
     <div class="form-group">
       <label for="email">Email</label>
       <Field name="email" />
@@ -91,6 +107,12 @@ var onSubmit = (user: any) => {
       <label for="birth_date">Birth date</label>
       <Field name="birth_date" type="date" />
       <ErrorMessage name="birth_date" />
+    </div>
+    <div class="form-group">
+      <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
+      <label for="authors">Roles</label>
+      <AutoComplete name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" />
+      <ErrorMessage name="roles" />
     </div>
     <input value="Edit" type="submit" class="btn w-100">
   </Form>

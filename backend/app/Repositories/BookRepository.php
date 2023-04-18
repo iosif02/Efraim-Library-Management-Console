@@ -80,7 +80,7 @@ class BookRepository implements IBookRepository
     {
         return Book::with([
             'Category' => fn($query) => $query->select('id', 'name', 'number'),
-            'Authors' => fn($query) => $query->select('name'),
+            'Authors',
             'Publisher' => fn($query) => $query->select('id', 'name'),
             'Transaction' => function ($query){
                 $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned', 'lender_name')
