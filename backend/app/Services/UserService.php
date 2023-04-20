@@ -28,10 +28,10 @@ class UserService implements IUserService
      */
     public function GetUserDetailsById(int $userId): User
     {
-        $result = $this->userRepository->GetUserDetailsById($userId);
-        if(!$result)
+        $user = $this->userRepository->GetUserDetailsById($userId);
+        if(!$user)
             throw new CustomException('User not found. Please contact the administrator');
-        return $result;
+        return $user;
     }
 
     public function SearchUsers(array $filters): ?LengthAwarePaginator

@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Interfaces\IBookService;
 use App\Interfaces\IFileService;
 use App\Models\Book;
+use App\Models\Transactions;
 use App\Repositories\IBookRepository;
 use App\Repositories\IEntityRepository;
 use Carbon\Carbon;
@@ -43,137 +45,101 @@ class BookService implements IBookService
 
     public function AddBook(array $fields): bool
     {
-        try {
-            $imageName = $this->fileService->StoreFile($fields['image']);
-            $fields['image'] = $imageName;
-            $result = $this->bookRepository->AddBook($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $imageName = $this->fileService->StoreFile($fields['image']);
+        $fields['image'] = $imageName;
+        return $this->bookRepository->AddBook($fields);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function UpdateBook(array $fields): bool
     {
-        try {
-            if(!$fields['bookId'])
-                throw new Exception('bookId is required!');
+        $book = $this->bookRepository->GetBookById($fields['bookId']);
+        if(!$book)
+            throw new CustomException('Book not found!');
 
-            if(isset($fields['image']) && $fields['image'] != ''){
-                $imageName = $this->fileService->StoreFile($fields['image']);
-                $fields['image'] = $imageName;
-            }
-
-            $result = $this->bookRepository->UpdateBook($fields);
-        } catch (Exception $exception) {
-            Log::error('Update book error: ' . $exception->getMessage());
-            return false;
+        if(isset($fields['image']) && $fields['image'] != ''){
+            $imageName = $this->fileService->StoreFile($fields['image']);
+            $fields['image'] = $imageName;
         }
 
-        return $result;
+        return $this->bookRepository->UpdateBook($fields);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function DeleteBook(int $bookId): bool
     {
-        try {
-            if(!$bookId)
-                throw new Exception('bookId is required!');
+        $book = $this->bookRepository->GetBookById($bookId);
+        if(!$book)
+            throw new CustomException('Book not found!');
 
-            $result = $this->bookRepository->DeleteBook($bookId);
-        } catch (Exception $exception) {
-            Log::error('Delete book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        return $this->bookRepository->DeleteBook($bookId);
     }
 
-    public function GetBookById(int $bookId): ?Model
+    /**
+     * @throws CustomException
+     */
+    public function GetBookDetailsById(int $bookId): Model
     {
-        return $this->bookRepository->GetBookById($bookId);
+        $book = $this->bookRepository->GetBookDetailsById($bookId);
+        if(!$book)
+            throw new CustomException('Book not found!');
+
+        return $book;
     }
 
     public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->bookRepository->SearchBooks($filters);
-        } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
-            return null;
-        }
-
-        return $result;
+        return $this->bookRepository->SearchBooks($filters);
     }
 
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->bookRepository->SearchDelayedBooks($filters);
-        } catch (Exception $exception) {
-            Log::error('Search delayed book error: ' . $exception->getMessage());
-            return null;
-        }
-
-        return $result;
+        return $this->bookRepository->SearchDelayedBooks($filters);
     }
 
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->bookRepository->SearchPopularBooks($filters);
-        } catch (Exception $exception) {
-            Log::error('Search popular book error: ' . $exception->getMessage());
-            return null;
-        }
-        return $result;
+        return $this->bookRepository->SearchPopularBooks($filters);
     }
 
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->bookRepository->SearchRecommendedBooks($filters);
-        } catch (Exception $exception) {
-            Log::error('Search recommended book error: ' . $exception->getMessage());
-            return null;
-        }
-        return $result;
+        return $this->bookRepository->SearchRecommendedBooks($filters);
     }
 
-    public function BorrowBook(array $fields): array
+    /**
+     * @throws CustomException
+     */
+    public function BorrowBook(array $fields): Transactions
     {
-        try {
+        $fields['borrow_date'] = Carbon::today();
+        $fields['return_date'] = Carbon::today()->addWeeks(2);
+        $fields['is_returned'] = false;
+        $fields['lender_name'] = Auth::user()->fullName;
 
-            $fields['borrow_date'] = Carbon::today();
-            $fields['return_date'] = Carbon::today()->addWeeks(2);
-            $fields['is_returned'] = false;
-            $fields['lender_name'] = Auth::user()->fullName;
+        $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
+        if(!$book)
+            throw new CustomException('Book is unavailable!');
+        $user = $this->bookRepository->CheckIfUserCanBorrowBook($fields['user_id']);
+        if(!$user)
+            throw new CustomException('The user have 2 borrow book already!');
 
-            $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
-            if(!$book)
-                return ['error' => 'Book is unavailable!', 'status' => false];
-            $user = $this->bookRepository->CheckIfUserCanBorrowBook($fields['user_id']);
-            if(!$user)
-                return ['error' => 'User has 2 borrowed book already!', 'status' => false];
-
-            $result = $this->bookRepository->BorrowBook($fields);
-        } catch (Exception $exception) {
-            Log::error('Borrow book error: ' . $exception->getMessage());
-            return ['status' => false];
-        }
-        return ['status' => $result];
+        return $this->bookRepository->BorrowBook($fields);
     }
 
-    public function ReturnBook(int $transactionId): bool
+    /**
+     * @throws CustomException
+     */
+    public function ReturnBook(int $transactionId): Transactions
     {
-        try {
-            $result = $this->bookRepository->ReturnBook($transactionId);
-        } catch (Exception $exception) {
-            Log::error('Borrow book error: ' . $exception->getMessage());
-            return false;
-        }
-        return $result;
-    }
+        $transaction = $this->bookRepository->GetTransactionById($transactionId);
+        if(!$transaction)
+            throw new CustomException('Transaction not found!');
 
+        return $this->bookRepository->ReturnBook($transactionId);
+    }
 }

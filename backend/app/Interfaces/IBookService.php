@@ -2,9 +2,9 @@
 
 namespace App\Interfaces;
 
+use App\Models\Transactions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use JetBrains\PhpStorm\ArrayShape;
 
 interface IBookService
 {
@@ -12,11 +12,11 @@ interface IBookService
     public function AddBook(array $fields): bool;
     public function UpdateBook(array $fields): bool;
     public function DeleteBook(int $bookId): bool;
-    public function GetBookById(int $bookId): ?Model;
+    public function GetBookDetailsById(int $bookId): Model;
     public function SearchBooks(array $filters): ?LengthAwarePaginator;
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator;
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator;
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator;
-    public function BorrowBook(array $fields): array;
-    public function ReturnBook(int $transactionId): bool;
+    public function BorrowBook(array $fields): Transactions;
+    public function ReturnBook(int $transactionId): Transactions;
 }
