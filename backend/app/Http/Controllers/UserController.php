@@ -19,21 +19,17 @@ class UserController extends Controller
     public function GetRoles(): JsonResponse
     {
         $result = $this->userService->GetRoles();
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the roles. Please contact the administrator!'], 500);
-        }
-
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function GetUser(int $userId): JsonResponse
     {
         $result = $this->userService->GetUserById($userId);
         if(!$result) {
-            return response()->json(['message' => 'Failed to get the user. Please contact the administrator!'], 500);
+            return response()->json(['message' => 'Failed to get the user. Please contact the administrator!']);
         }
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function SearchUsers(UserSearchRequest $request): JsonResponse
@@ -41,10 +37,10 @@ class UserController extends Controller
         $validated = $request->validated();
         $result = $this->userService->SearchUsers($validated);
         if(!$result) {
-            return response()->json(['message' => 'Failed to get the users. Please contact the administrator!'], 500);
+            return response()->json(['message' => 'Failed to get the users. Please contact the administrator!']);
         }
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function AddUser(AddUserRequest $request): JsonResponse

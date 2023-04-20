@@ -6,7 +6,7 @@ namespace App\Repositories;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,16 +16,10 @@ class UserRepository implements IUserRepository
     /**
      * @throws Exception
      */
-    public function CreateUser(array $fields): bool
+    public function CreateUser(array $fields): User
     {
-        try {
-            $fields['password'] = bcrypt($fields['password']);
-            User::create($fields);
-        } catch (Exception $exception) {
-            Log::error('Add user error: ' . $exception->getMessage());
-            return false;
-        }
-        return true;
+        $fields['password'] = bcrypt($fields['password']);
+        return User::create($fields);
     }
 
     public function GetUserByEmail(string $email): ?User
@@ -33,7 +27,7 @@ class UserRepository implements IUserRepository
         return User::where('email', $email)->first();
     }
 
-    public function GetRoles()
+    public function GetRoles(): Collection
     {
        return Role::select('id', 'name')->get();
     }

@@ -17,7 +17,7 @@ defineProps({
         <template v-for="book in books" >
             <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" style="text-decoration: none;">
                 <div class="book">
-                    <img :src="book.image || 'img/book.webp'" alt="">
+                    <img :src="book.image || '/img/book.jpg'" alt="">
                     <div class="details">
                         <div class="top-section">
                             <div class="title">{{ book.title }}</div>

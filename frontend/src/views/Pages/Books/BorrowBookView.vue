@@ -73,7 +73,7 @@ var hideModal = () => {
 
   <div class="image-section">
     <div class="image">
-        <img :src="BooksStore.bookDetails.image || 'img/book.webp'" alt="book">
+        <img :src="BooksStore.bookDetails.image || '/img/book.jpg'" alt="book">
     </div>
     <div class="details-section">
         <p class="book-title">{{ BooksStore.bookDetails.title }}</p>

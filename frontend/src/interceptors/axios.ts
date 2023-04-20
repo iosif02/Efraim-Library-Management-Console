@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (axiosConfig) {
 axios.interceptors.response.use(function(response) {
 	return response;
 }, function(error) {
+	console.log(error);
 	if(error?.response?.data?.errors) {
 		NotificationHelper.NotifyFormValidation(error.response.data.errors);
 	} else {

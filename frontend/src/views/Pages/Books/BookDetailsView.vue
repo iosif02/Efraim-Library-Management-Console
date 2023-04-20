@@ -71,7 +71,7 @@ var openModal = () => {
   
   <div class="image-book">
     <div class="image">
-      <img :src="store.bookDetails.image || 'img/book.webp'" />
+      <img :src="store.bookDetails.image || '/img/book.jpg'" />
     </div>
     <p class="book-title">{{ store.bookDetails.title }}</p>
     <!-- TODO: show name of all authors -->
