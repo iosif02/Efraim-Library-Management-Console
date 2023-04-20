@@ -83,7 +83,7 @@ class UserRepository implements IUserRepository
             $user->Roles()->attach($fields['roles']);
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
             throw new CustomException('Failed to add the user. Please contact the administrator');

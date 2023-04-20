@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Interfaces\IEntityService;
 use App\Models\Author;
 use App\Models\Category;
@@ -33,161 +34,132 @@ class EntityService implements IEntityService
         ];
     }
 
-    public function GetAuthorById(int $authorId): ?Author
+    /**
+     * @throws CustomException
+     */
+    public function GetAuthorById(int $authorId): Author
     {
-        return $this->entityRepository->GetAuthorById($authorId);
+        $author = $this->entityRepository->GetAuthorById($authorId);
+        if(!$author)
+            throw new CustomException('Author not found!');
+        return $author;
     }
 
     public function SearchAuthors(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->entityRepository->SearchAuthors($filters);
-        } catch (Exception $exception) {
-            Log::error('Search authors error: ' . $exception->getMessage());
-            return null;
-        }
-
-        return $result;
+        return $this->entityRepository->SearchAuthors($filters);
     }
 
-    public function AddAuthor(array $fields): bool
+    public function AddAuthor(array $fields): Author
     {
-        try {
-            $result = $this->entityRepository->AddAuthor($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        return $this->entityRepository->AddAuthor($fields);
     }
 
-    public function UpdateAuthor(array $fields): bool
+    /**
+     * @throws CustomException
+     */
+    public function UpdateAuthor(array $fields): Author
     {
-        try {
-            $result = $this->entityRepository->UpdateAuthor($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $author = $this->entityRepository->GetAuthorById($fields['authorId']);
+        if(!$author)
+            throw new CustomException('Author not found!');
+        return $this->entityRepository->UpdateAuthor($fields);
     }
 
-    public function DeleteAuthor(int $authorId): bool
+    /**
+     * @throws CustomException
+     */
+    public function DeleteAuthor(int $authorId): int
     {
-        try {
-            $result = $this->entityRepository->DeleteAuthor($authorId);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $author = $this->entityRepository->GetAuthorById($authorId);
+        if(!$author)
+            throw new CustomException('Author not found!');
+        return $this->entityRepository->DeleteAuthor($authorId);
     }
 
-    public function GetPublisherById(int $publisherId): ?Publisher
+    /**
+     * @throws CustomException
+     */
+    public function GetPublisherById(int $publisherId): Publisher
     {
-        return $this->entityRepository->GetPublisherById($publisherId);
+        $publisher = $this->entityRepository->GetPublisherById($publisherId);
+        if(!$publisher)
+            throw new CustomException('Publisher not found');
+        return $publisher;
     }
 
     public function SearchPublisher(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->entityRepository->SearchPublisher($filters);
-        } catch (Exception $exception) {
-            Log::error('Search authors error: ' . $exception->getMessage());
-            return null;
-        }
-
-        return $result;
+        return $this->entityRepository->SearchPublisher($filters);
     }
 
-    public function AddPublisher(array $fields): bool
+    public function AddPublisher(array $fields): Publisher
     {
-        try {
-            $result = $this->entityRepository->AddPublisher($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        return $this->entityRepository->AddPublisher($fields);
     }
 
-    public function UpdatePublisher(array $fields): bool
+    /**
+     * @throws CustomException
+     */
+    public function UpdatePublisher(array $fields): Publisher
     {
-        try {
-            $result = $this->entityRepository->UpdatePublisher($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $publisher = $this->entityRepository->GetPublisherById($fields['publisherId']);
+        if(!$publisher)
+            throw new CustomException('Publisher not found');
+        return $this->entityRepository->UpdatePublisher($fields);
     }
 
-    public function DeletePublisher(int $publisherId): bool
+    /**
+     * @throws CustomException
+     */
+    public function DeletePublisher(int $publisherId): int
     {
-        try {
-            $result = $this->entityRepository->DeletePublisher($publisherId);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $publisher = $this->entityRepository->GetPublisherById($publisherId);
+        if(!$publisher)
+            throw new CustomException('Publisher not found');
+        return $this->entityRepository->DeletePublisher($publisherId);
     }
 
-    public function GetCategoryById(int $categoryId): ?Category
+    /**
+     * @throws CustomException
+     */
+    public function GetCategoryById(int $categoryId): Category
     {
-        return $this->entityRepository->GetCategoryById($categoryId);
+        $category = $this->entityRepository->GetCategoryById($categoryId);
+        if(!$category)
+            throw new CustomException('Category not found');
+        return $category;
     }
 
     public function SearchCategories(array $filters): ?LengthAwarePaginator
     {
-        try {
-            $result = $this->entityRepository->SearchCategories($filters);
-        } catch (Exception $exception) {
-            Log::error('Search book error: ' . $exception->getMessage());
-            return null;
-        }
-        return $result;
+        return $this->entityRepository->SearchCategories($filters);
     }
 
-    public function AddCategory(array $fields): bool
+    public function AddCategory(array $fields): Category
     {
-        try {
-            $result = $this->entityRepository->AddCategory($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        return $this->entityRepository->AddCategory($fields);
     }
 
-    public function UpdateCategory(array $fields): bool
+    /**
+     * @throws CustomException
+     */
+    public function UpdateCategory(array $fields): Category
     {
-        try {
-            $result = $this->entityRepository->UpdateCategory($fields);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $category = $this->entityRepository->GetCategoryById($fields['categoryId']);
+        if(!$category)
+            throw new CustomException('Category not found');
+        return $this->entityRepository->UpdateCategory($fields);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function DeleteCategory(int $categoryId): bool
     {
-        try {
-            $result = $this->entityRepository->DeleteCategory($categoryId);
-        } catch (Exception $exception) {
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $category = $this->entityRepository->GetCategoryById($categoryId);
+        if(!$category)
+            throw new CustomException('Category not found');
+        return $this->entityRepository->DeleteCategory($categoryId);
     }
 }
