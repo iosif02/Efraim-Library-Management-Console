@@ -12,6 +12,7 @@ interface IUserRepository
     public function GetUserByEmail(string $email): ?User;
     public function GetRoles(): Collection;
     public function GetUserById(int $userId): ?User;
+    public function GetUserDetailsById(int $userId): ?User;
     public function SearchUsers(array  $filters): ?LengthAwarePaginator;
     public function AddUser(array $fields): bool;
     public function UpdateUser(array $fields): bool;

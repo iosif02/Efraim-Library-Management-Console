@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/roles', [UserController::class, 'GetRoles']);
-        Route::get('/{userId}', [UserController::class, 'GetUser']);
+        Route::get('/{userId}', [UserController::class, 'GetUserDetails']);
         Route::post('search', [UserController::class, 'SearchUsers']);
         Route::post('/add-user', [UserController::class, 'AddUser']);
         Route::post('/update-user', [UserController::class, 'UpdateUser']);

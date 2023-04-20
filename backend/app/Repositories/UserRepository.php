@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 
+use App\Exceptions\CustomException;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
@@ -34,6 +35,11 @@ class UserRepository implements IUserRepository
 
     public function GetUserById(int $userId): ?User
     {
+        return User::find($userId);
+    }
+
+    public function GetUserDetailsById(int $userId): ?User
+    {
         return User::select('id', 'email', 'first_name', 'last_name')
             ->with([
                 'UserDetails' =>
@@ -63,6 +69,9 @@ class UserRepository implements IUserRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function AddUser(array $fields): bool
     {
         try {
@@ -77,12 +86,14 @@ class UserRepository implements IUserRepository
         } catch (Exception $exception) {
             DB::rollBack();
 
-            Log::error('Add user error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to add the user. Please contact the administrator');
         }
         return true;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function UpdateUser(array $fields): bool
     {
         try {
@@ -92,23 +103,22 @@ class UserRepository implements IUserRepository
                 $fields['password'] = bcrypt($fields['password']);
 
             $user = User::find($fields['userId']);
-
-            if(!$user)
-                return false;
             $user->fill($fields)->update();
             $user->UserDetails->fill($fields)->update();
             $user->Roles()->sync($fields['roles']);
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Update user error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to update the user. Please contact the administrator');
         }
         return true;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function DeleteUser(int $userId): bool
     {
         try {
@@ -120,11 +130,10 @@ class UserRepository implements IUserRepository
             $user->delete();
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Delete user error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to delete the user. Please contact the administrator');
         }
         return true;
     }

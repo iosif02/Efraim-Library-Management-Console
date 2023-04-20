@@ -11,7 +11,7 @@ interface IUserService
 {
     public function GetRoles(): Collection;
     public function SearchUsers(array $filters): ?LengthAwarePaginator;
-    public function GetUserById(int $userId): ?User;
+    public function GetUserDetailsById(int $userId): User;
     public function AddUser(array $fields): bool;
     public function UpdateUser(array $fields): bool;
     public function DeleteUser(int $userId): bool;
