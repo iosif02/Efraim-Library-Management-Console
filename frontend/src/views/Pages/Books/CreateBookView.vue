@@ -73,7 +73,7 @@ var onSubmit = (book: any) => {
     booksStore.createBook(book).then(result => {
         if(result){
             if(booksStore.homepage.searchModel.title != "")
-                booksStore.searchBooks();
+                booksStore.searchHomeBooks();
             router.back()
         }
     });

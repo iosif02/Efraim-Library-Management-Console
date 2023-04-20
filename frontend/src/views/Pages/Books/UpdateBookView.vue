@@ -84,7 +84,7 @@ var onSubmit = (book: any) => {
     BooksStore.updateBook(book)
     .then(result => {
         if(result){
-            BooksStore.searchBooks();
+            BooksStore.searchHomeBooks();
             router.back();
         }
     });

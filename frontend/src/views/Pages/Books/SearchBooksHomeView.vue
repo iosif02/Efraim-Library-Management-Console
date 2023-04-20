@@ -18,7 +18,7 @@ const store = useBooksStore();
     <Pagination
         :current-page="store.homepage.searchModel.pagination.page"
         :last-page="store.homepage.searchModel.pagination.last_page"
-        @change-page="(page: number) => (store.homepage.searchModel.pagination.page = page, store.searchBooks())"
+        @change-page="(page: number) => (store.homepage.searchModel.pagination.page = page, store.searchHomeBooks())"
     />
 </template>
 

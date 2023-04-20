@@ -27,7 +27,11 @@ export const useBooksStore = defineStore('useBooksStore', {
     categoryBooks: {
       searchModel: new SearchBookModel(),
       data: [] as BookModel[]
-    },    
+    },
+    books: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    }, 
     bookDetails: new BookModel(),
 	}),
   getters: {
@@ -75,18 +79,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    fetchBookDetails(bookId: String) {
-      this.isLoading = true;
-      axios.get("/books/" + bookId)
-      .then(result => {
-          if(!result.data) return;
-
-          this.bookDetails = result.data;
-      })
-      .catch(error => console.error("Request error: " + error))
-      .finally(() => this.isLoading = false);
-    },
-    searchBooks() {
+    searchHomeBooks() {
       this.isLoading = true;
       axios.post("/books/search", this.homepage.searchModel)
       .then(result => {
@@ -95,6 +88,30 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.homepage.data.books = result.data.data;
           this.homepage.searchModel.pagination.total = result.data.total ?? 1;
           this.homepage.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    searchBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.books.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.books.data = result.data.data;
+          this.books.searchModel.pagination.total = result.data.total ?? 1;
+          this.books.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    fetchBookDetails(bookId: String) {
+      this.isLoading = true;
+      axios.get("/books/" + bookId)
+      .then(result => {
+          if(!result.data) return;
+
+          this.bookDetails = result.data;
       })
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);

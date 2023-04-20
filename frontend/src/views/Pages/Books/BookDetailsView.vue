@@ -32,7 +32,7 @@ var deleteBook = () => {
   store.deleteBook(parseInt(props.id || ''))
   .then(result => {
     if(result){
-      store.searchBooks();
+      store.searchHomeBooks();
       router.back();
     }
   });
