@@ -13,7 +13,6 @@ async function register(model: any): Promise<void> {
 }
 
 const validateForm = yup.object({
-	name: yup.string().required(),
 	email: yup.string().required().email(),
 	password: yup.string().required().min(8),
 	password_confirmation: yup.string().required().oneOf([yup.ref('password')], 'Passwords do not match')
@@ -23,11 +22,6 @@ const validateForm = yup.object({
 <template>
 	<h2 class="auth-title">Create Account</h2>
 	<Form class="form-control" @submit="register" :validation-schema="validateForm">
-		<div class="form-group">
-			<p>Name</p>
-			<Field name="name" type="text" />
-			<ErrorMessage name="name" />
-		</div>
 		<div class="form-group">
 			<p>Email</p>
 			<Field name="email" type="email" />

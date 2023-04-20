@@ -6,7 +6,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Interfaces\IAuthService;
 use Illuminate\Http\JsonResponse;
-use JetBrains\PhpStorm\ArrayShape;
 
 class AuthController extends Controller
 {
@@ -21,25 +20,18 @@ class AuthController extends Controller
     {
         $fields = $request->validated();
         $result = $this->authService->Register($fields);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to create the account. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function Login(LoginRequest $request): JsonResponse
     {
         $fields = $request->validated();
         $result = $this->authService->Login($fields);
-        if(!$result || isset($result['error'])) {
-            return response()->json(['message' => $result['error'] ?? 'Failed to login. Please contact the administrator!'], 500);
-        }
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
-    #[ArrayShape(['message' => "string"])]
     public function Logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();

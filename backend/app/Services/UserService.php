@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Interfaces\IUserService;
 use App\Models\User;
 use App\Repositories\IUserRepository;
-use Carbon\Carbon;
-use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Log;
+
 
 class UserService implements IUserService
 {
@@ -18,14 +18,20 @@ class UserService implements IUserService
         $this->userRepository = $userRepository;
     }
 
-    public function GetRoles()
+    public function GetRoles(): Collection
     {
         return $this->userRepository->GetRoles();
     }
 
-    public function GetUserById(int $userId): ?User
+    /**
+     * @throws CustomException
+     */
+    public function GetUserDetailsById(int $userId): User
     {
-        return $this->userRepository->GetUserById($userId);
+        $user = $this->userRepository->GetUserDetailsById($userId);
+        if(!$user)
+            throw new CustomException('User not found. Please contact the administrator');
+        return $user;
     }
 
     public function SearchUsers(array $filters): ?LengthAwarePaginator
@@ -35,42 +41,29 @@ class UserService implements IUserService
 
     public function AddUser(array $fields): bool
     {
-        try {
-            $result = $this->userRepository->AddUser($fields);
-        } catch (Exception $exception) {
-            Log::error('Add user error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        return $this->userRepository->AddUser($fields);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function UpdateUser(array $fields): bool
     {
-        try {
-//            $fields['birth_date'] = Carbon::parse($fields['birth_date']);
-            $result = $this->userRepository->UpdateUser($fields);
-        } catch (Exception $exception) {
-            Log::error('Update user error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $user = $this->userRepository->GetUserById($fields['userId']);
+        if(!$user)
+            throw new CustomException('User not found!');
+        return $this->userRepository->UpdateUser($fields);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function DeleteUser(int $userId): bool
     {
-        try {
-            if(!$userId)
-                throw new Exception('userId is required!');
-
-            $result = $this->userRepository->DeleteUser($userId);
-        } catch (Exception $exception) {
-            Log::error('Delete user error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        $user = $this->userRepository->GetUserById($userId);
+        if(!$user)
+            throw new CustomException('User not found!');
+        return $this->userRepository->DeleteUser($userId);
     }
 
 }

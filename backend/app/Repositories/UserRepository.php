@@ -3,10 +3,11 @@
 namespace App\Repositories;
 
 
+use App\Exceptions\CustomException;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,16 +17,10 @@ class UserRepository implements IUserRepository
     /**
      * @throws Exception
      */
-    public function CreateUser(array $fields): bool
+    public function CreateUser(array $fields): User
     {
-        try {
-            $fields['password'] = bcrypt($fields['password']);
-            User::create($fields);
-        } catch (Exception $exception) {
-            Log::error('Add user error: ' . $exception->getMessage());
-            return false;
-        }
-        return true;
+        $fields['password'] = bcrypt($fields['password']);
+        return User::create($fields);
     }
 
     public function GetUserByEmail(string $email): ?User
@@ -33,12 +28,17 @@ class UserRepository implements IUserRepository
         return User::where('email', $email)->first();
     }
 
-    public function GetRoles()
+    public function GetRoles(): Collection
     {
        return Role::select('id', 'name')->get();
     }
 
     public function GetUserById(int $userId): ?User
+    {
+        return User::find($userId);
+    }
+
+    public function GetUserDetailsById(int $userId): ?User
     {
         return User::select('id', 'email', 'first_name', 'last_name')
             ->with([
@@ -69,6 +69,9 @@ class UserRepository implements IUserRepository
         return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function AddUser(array $fields): bool
     {
         try {
@@ -80,15 +83,17 @@ class UserRepository implements IUserRepository
             $user->Roles()->attach($fields['roles']);
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Add user error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to add the user. Please contact the administrator');
         }
         return true;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function UpdateUser(array $fields): bool
     {
         try {
@@ -98,23 +103,22 @@ class UserRepository implements IUserRepository
                 $fields['password'] = bcrypt($fields['password']);
 
             $user = User::find($fields['userId']);
-
-            if(!$user)
-                return false;
             $user->fill($fields)->update();
             $user->UserDetails->fill($fields)->update();
             $user->Roles()->sync($fields['roles']);
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Update user error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to update the user. Please contact the administrator');
         }
         return true;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function DeleteUser(int $userId): bool
     {
         try {
@@ -126,11 +130,10 @@ class UserRepository implements IUserRepository
             $user->delete();
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Delete user error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to delete the user. Please contact the administrator');
         }
         return true;
     }

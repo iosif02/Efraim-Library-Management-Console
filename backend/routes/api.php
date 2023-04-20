@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/recommended-books', [BookController::class, 'SearchRecommendedBooks']);
 
         Route::post('/add', [BookController::class, 'AddBook']);
-        Route::get('/{bookId}', [BookController::class, 'GetBook']);
+        Route::get('/{bookId}', [BookController::class, 'GetBookDetails']);
         Route::post('/update', [BookController::class, 'UpdateBook']);
         Route::delete('/delete/{bookId}', [BookController::class, 'DeleteBook']);
         Route::post('/search', [BookController::class, 'SearchBooks']);
@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/roles', [UserController::class, 'GetRoles']);
-        Route::get('/{userId}', [UserController::class, 'GetUser']);
+        Route::get('/{userId}', [UserController::class, 'GetUserDetails']);
         Route::post('search', [UserController::class, 'SearchUsers']);
         Route::post('/add-user', [UserController::class, 'AddUser']);
         Route::post('/update-user', [UserController::class, 'UpdateUser']);

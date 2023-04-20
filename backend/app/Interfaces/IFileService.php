@@ -6,5 +6,5 @@ use Illuminate\Http\UploadedFile;
 
 interface IFileService
 {
-    public function StoreFile(UploadedFile $file);
+    public function StoreFile(UploadedFile $file): string;
 }

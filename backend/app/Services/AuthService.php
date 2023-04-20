@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Interfaces\IAuthService;
+use App\Models\User;
 use App\Repositories\IUserRepository;
-use Exception;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class AuthService implements IAuthService
 {
@@ -17,31 +17,21 @@ class AuthService implements IAuthService
         $this->userRepository = $userRepository;
     }
 
-    public function Register(array $fields): bool
+    public function Register(array $fields): User
     {
-        try {
-            $result = $this->userRepository->CreateUser($fields);
-        } catch(Exception $exception) {
-            Log::error('Register error: ' . $exception->getMessage());
-            return false;
-        }
-
-        return $result;
+        return $this->userRepository->CreateUser($fields);
     }
 
-    public function Login(array $fields): ?array
+    /**
+     * @throws CustomException
+     */
+    public function Login(array $fields): array
     {
-        try {
-            $user = $this->userRepository->GetUserByEmail($fields['email']);
-            if(!$user || !Hash::check($fields['password'], $user->password)) {
-                return ['error' => 'Email or password is incorrect!'];
-            }
+        $user = $this->userRepository->GetUserByEmail($fields['email']);
+        if(!$user || !Hash::check($fields['password'], $user->password))
+            throw new CustomException('Email or password is incorrect!');
 
-            $token = $user->createToken('myapptoken')->plainTextToken;
-        } catch(Exception $exception) {
-            Log::error('Login error: ' . $exception->getMessage());
-            return null;
-        }
+        $token = $user->createToken('myapptoken')->plainTextToken;
 
         return [
             'user' => $user,

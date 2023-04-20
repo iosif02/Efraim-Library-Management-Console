@@ -27,157 +27,107 @@ class EntityController extends Controller
     public function GetEntities(): JsonResponse
     {
         $result = $this->entityService->GetEntities();
-        if(!$result) {
-            return response()->json(['message' => 'test'], 500);
-        }
-
-        return response()->json($result, 200);
+        return response()->json($result);
     }
     public function GetAuthor(int $authorId): JsonResponse
     {
         $result = $this->entityService->GetAuthorById($authorId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the author. Please contact the administrator!'], 500);
-        }
-
-        return response()->json($result, 200);
+        return response()->json($result);
     }
     public function SearchAuthors(AuthorSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->SearchAuthors($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to search the author. Please contact the administrator!'], 500);
-        }
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function AddAuthor(AddAuthorRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->AddAuthor($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to add the author. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function UpdateAuthor(UpdateAuthorRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->UpdateAuthor($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to update the author. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function DeleteAuthor(int $authorId): JsonResponse
     {
         $result = $this->entityService->DeleteAuthor($authorId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to delete the author. Please contact the administrator!'], 500);
-        }
-
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function GetPublisher(int $publisherId): JsonResponse
     {
         $result = $this->entityService->GetPublisherById($publisherId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the publisher. Please contact the administrator!'], 500);
-        }
-
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function SearchPublisher(AuthorSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->SearchPublisher($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to search the publisher. Please contact the administrator!'], 500);
-        }
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function AddPublisher(AddPublisherRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->AddPublisher($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to add the publisher. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function UpdatePublisher(UpdatePublisherRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->UpdatePublisher($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to update the publisher. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function DeletePublisher(int $publisherId): JsonResponse
     {
         $result = $this->entityService->DeletePublisher($publisherId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to delete the publisher. Please contact the administrator!'], 500);
-        }
-
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function GetCategory(int $categoryId): JsonResponse
     {
         $result = $this->entityService->GetCategoryById($categoryId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the category. Please contact the administrator!'], 500);
-        }
-
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function SearchCategories(AuthorSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->SearchCategories($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to search the category. Please contact the administrator!'], 500);
-        }
-        return response()->json($result, 200);
+
+        return response()->json($result);
     }
 
     public function AddCategory(AddCategoryRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->AddCategory($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to add the category. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function UpdateCategory(UpdateCategoryRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->entityService->UpdateCategory($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to update the category. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function DeleteCategory(int $categoryId): JsonResponse

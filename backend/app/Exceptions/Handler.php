@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -41,10 +44,20 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (CustomException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        });
+
+        $this->renderable(function (Throwable $e) {
+            if(!$e instanceof ValidationException)
+                return response()->json(['message' => 'Something went wrong!'], 400);
+        });
+
+        $this->renderable(function (Exception $e) {
+            if(!$e instanceof ValidationException)
+                return response()->json(['message' => 'Something went wrong!'], 400);
         });
     }
 }

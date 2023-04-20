@@ -19,64 +19,43 @@ class UserController extends Controller
     public function GetRoles(): JsonResponse
     {
         $result = $this->userService->GetRoles();
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the roles. Please contact the administrator!'], 500);
-        }
-
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
-    public function GetUser(int $userId): JsonResponse
+    public function GetUserDetails(int $userId): JsonResponse
     {
-        $result = $this->userService->GetUserById($userId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the user. Please contact the administrator!'], 500);
-        }
-
-        return response()->json($result, 200);
+        $result = $this->userService->GetUserDetailsById($userId);
+        return response()->json($result);
     }
 
     public function SearchUsers(UserSearchRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->userService->SearchUsers($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to get the users. Please contact the administrator!'], 500);
-        }
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
 
     public function AddUser(AddUserRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->userService->AddUser($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to add the user. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function UpdateUser(UpdateUserRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $result = $this->userService->UpdateUser($validated);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to update the user. Please contact the administrator!'], 500);
-        }
 
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
     public function DeleteUser(int $userId): JsonResponse
     {
         $result = $this->userService->DeleteUser($userId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to delete the user. Please contact the administrator!'], 500);
-        }
-
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 
 }

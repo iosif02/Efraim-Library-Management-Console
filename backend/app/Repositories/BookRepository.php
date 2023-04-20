@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\CustomException;
 use App\Models\Book;
 use App\Models\Transactions;
 use App\Models\User;
@@ -26,15 +27,17 @@ class BookRepository implements IBookRepository
             $book->Authors()->attach($fields['authors']);
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to add the book. Please contact the administrator!');
         }
         return true;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function UpdateBook(array $fields): bool
     {
         try {
@@ -43,19 +46,20 @@ class BookRepository implements IBookRepository
             $book = Book::find($fields['bookId']);
             $book->fill($fields);
             $book->update();
-
             $book->Authors()->sync($fields['authors']);
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Add book error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to update the book. Please contact the administrator!');
         }
         return true;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function DeleteBook(int $bookId): bool
     {
         try {
@@ -67,16 +71,19 @@ class BookRepository implements IBookRepository
             $book->delete();
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             DB::rollBack();
 
-            Log::error('Delete book error: ' . $exception->getMessage());
-            return false;
+            throw new CustomException('Failed to delete the book. Please contact the administrator!');
         }
         return true;
     }
 
-    public function GetBookById(int $bookId): ?Model
+    public function GetBookById(int $bookId): ?Book
+    {
+        return Book::find($bookId);
+    }
+    public function GetBookDetailsById(int $bookId): ?Model
     {
         return Book::with([
             'Category' => fn($query) => $query->select('id', 'name', 'number'),
@@ -197,29 +204,23 @@ class BookRepository implements IBookRepository
         return $user->transaction_count < 2;
     }
 
-    public function BorrowBook(array $fields): bool
+    public function BorrowBook(array $fields): Transactions
     {
-        try {
-            Transactions::create($fields);
-        } catch (Exception $exception) {
-            Log::error('Borrow book error: ' . $exception->getMessage());
-            return false;
-        }
-        return true;
+        return Transactions::create($fields);
     }
 
-    public function ReturnBook(int $transactionId): bool
+    public function GetTransactionById(int $transactionId): ?Transactions
     {
-        try {
-            $transaction = Transactions::find($transactionId);
-            $transaction->is_returned = true;
-            $transaction->receiver_name = Auth::user()->full_Name;
-            $transaction->update();
-        } catch (Exception $exception) {
-            Log::error('Return book error: ' . $exception->getMessage());
-            return false;
-        }
-        return true;
+        return Transactions::find($transactionId);
+    }
+
+    public function ReturnBook(int $transactionId): Transactions
+    {
+        $transaction = Transactions::find($transactionId);
+        $transaction->is_returned = true;
+        $transaction->receiver_name = Auth::user()->full_Name;
+        $transaction->update();
+        return $transaction;
     }
 
 }
