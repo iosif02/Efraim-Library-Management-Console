@@ -47,26 +47,30 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
 .link svg{
   padding: 5px 0px;
   box-sizing: content-box;
+  transition: 0.5s;
 }
-/* .router-link-active:not(:nth-child(3)) svg path,
+
+.router-link-active:not(:nth-child(3)) svg path,
 .router-link-active div
 {
-  fill: #76CECB;
-  color: #76CECB;
+  fill: #fff;
+  transition: 0.5s;
+  /* color: #fff; */
 }
 
 .router-link-active:nth-child(3) svg path:nth-child(1){
-  stroke: #76CECB;
+  stroke: #fff;
+  transition: 0.5s;
 }
 
 .router-link-active:nth-child(3) svg path:nth-child(3),
 .router-link-active:nth-child(3) svg path:nth-child(5)
 {
-  fill: #76CECB;
-} */
+  fill: #fff;
+  transition: 0.5s;
+}
 
 .router-link-active svg{
-  transition: 0.5s;
   width: 70%;
   border-radius: 100px;
   background-color: #76CECB;
