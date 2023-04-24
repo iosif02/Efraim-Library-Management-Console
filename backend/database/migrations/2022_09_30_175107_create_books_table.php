@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->nullable();
             $table->foreignIdFor(Publisher::class)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -71,7 +71,7 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
 }
 
 .router-link-active svg{
-  width: 70%;
+  width: 80%;
   border-radius: 100px;
   background-color: #76CECB;
 }

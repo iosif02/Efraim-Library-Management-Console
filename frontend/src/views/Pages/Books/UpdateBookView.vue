@@ -27,14 +27,14 @@ if(!EntitiesStore.entities.publishers.length) {
 }
 
 const validateForm = yup.object({
-    title: yup.string().required(),
-    category: yup.object().nullable().required(),
-    quantity: yup.string().required(),
-    year: yup.string(),
-    price: yup.string(),
     image: yup.string(),
-    publisher: yup.object(),
-    authors: yup.array<AuthorModel>(),
+    title: yup.string().required(),
+    year: yup.number().typeError('Quantity must be a number').required(),
+    quantity: yup.number().typeError('Quantity must be a number').required(),
+    price: yup.number().typeError('Quantity must be a number').required(),
+    publisher: yup.object().typeError('must be one in the dropdown').required(),
+    authors: yup.array<AuthorModel>().typeError('must be one in the dropdown').required(),
+    category: yup.object().typeError('must be one in the dropdown').required(),
 });
 
 const imgSrc = ref<String|ArrayBuffer|null|undefined>("");
@@ -84,7 +84,8 @@ var onSubmit = (book: any) => {
     BooksStore.updateBook(book)
     .then(result => {
         if(result){
-            BooksStore.searchHomeBooks();
+            if(BooksStore.homepage.searchModel.title != "")
+                BooksStore.searchHomeBooks();
             router.back();
         }
     });
@@ -142,7 +143,7 @@ var onSubmit = (book: any) => {
         <div class="form-group">
             <Field name="category" type="hidden" :value="selectedCategory" v-model="selectedCategory" />
             <label for="category">Category</label>
-            <AutoComplete name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" :dropdown="true" optionLabel="name" />
+            <AutoComplete name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" :dropdown="true" />
             <ErrorMessage name="category" />
         </div>
         
