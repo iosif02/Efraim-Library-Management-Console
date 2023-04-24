@@ -193,7 +193,9 @@ class BookRepository implements IBookRepository
 
     public function CheckIfBookIsAvailable(int $bookId): bool
     {
-        $book = Book::select('id', 'quantity')->withCount('Transaction')->find($bookId)->append('status');
+        $book = Book::select('id', 'quantity')->withCount([
+            'Transaction' => fn($query) => $query->where('is_returned', 0)
+        ])->find($bookId)->append('status');
         return $book->status > 0;
     }
 
