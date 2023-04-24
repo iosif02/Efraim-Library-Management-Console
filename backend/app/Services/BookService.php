@@ -116,17 +116,17 @@ class BookService implements IBookService
      */
     public function BorrowBook(array $fields): Transactions
     {
-        $fields['borrow_date'] = Carbon::now('Europe/Bucharest');
-        $fields['return_date'] = Carbon::now('Europe/Bucharest')->addWeeks(2);
-        $fields['is_returned'] = false;
-        $fields['lender_name'] = Auth::user()->fullName;
-
         $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
         if(!$book)
             throw new CustomException('Book is unavailable!');
         $user = $this->bookRepository->CheckIfUserCanBorrowBook($fields['user_id']);
         if(!$user)
             throw new CustomException('The user have 2 borrow book already!');
+
+        $fields['borrow_date'] = Carbon::now('Europe/Bucharest');
+        $fields['return_date'] = Carbon::now('Europe/Bucharest')->addWeeks(2);
+        $fields['is_returned'] = false;
+        $fields['lender_name'] = Auth::user()->fullName;
 
         return $this->bookRepository->BorrowBook($fields);
     }
