@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
 import router from '@/router';
 import { RouterLink } from "vue-router";
 import { useBooksStore } from '@/stores/books-store';
 import { ref, watchEffect } from 'vue';
+import BorrowBookComponent from '@/components/books/BorrowBookComponent.vue';
 
 const props = defineProps({
   id: String
@@ -32,7 +32,8 @@ var deleteBook = () => {
   store.deleteBook(parseInt(props.id || ''))
   .then(result => {
     if(result){
-      store.searchHomeBooks();
+      if(store.homepage.searchModel.title != "")
+        store.searchHomeBooks();
       router.back();
     }
   });
@@ -89,19 +90,7 @@ var openModal = () => {
     </div>
   </div>
 
-  <div class="borrow-book" v-for="transaction in store.bookDetails.transaction">
-    <div>
-      <div class="row">
-        <p class="transaction-name">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
-        <StatusBookComponent :status="store.bookDetails.status"/>
-      </div>
-      <p class="transaction-date">{{ transaction.borrow_date + ' - ' + transaction.return_date }}</p>
-    </div> 
-    <div class="row">
-      <p class="transaction-voluntary">Processed by <span>{{ transaction.lender_name }}</span></p>
-      <p class="transaction-return" @click="onReturn(transaction.id)">Return</p>
-    </div>
-  </div>
+  <BorrowBookComponent :books="store.bookDetails" @onReturn="(transactionId) => onReturn(transactionId)"/>
 
   <RouterLink :to="{ name: 'borrowBook', params: { id: props.id }}">
     <button 

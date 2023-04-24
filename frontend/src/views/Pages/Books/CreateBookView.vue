@@ -17,14 +17,14 @@ if(!entitiesStore.entities.publishers.length) {
 }
 
 const validateForm = yup.object({
-    title: yup.string().required(),
-    category: yup.object().nullable().required(),
-    quantity: yup.number().required(),
-    year: yup.number(),
-    price: yup.number(),
     image: yup.string(),
-    publisher: yup.object(),
-    authors: yup.array<AuthorModel>(),
+    title: yup.string().required(),
+    year: yup.number().typeError('Years must be a number').required().positive(),
+    quantity: yup.number().typeError('Quantity must be a number').required(),
+    price: yup.number().typeError('Price must be a number').required(),
+    publisher: yup.object().typeError('Must be one in the dropdown').required(),
+    authors: yup.array<AuthorModel>().typeError('Must be one in the dropdown').required(),
+    category: yup.object().typeError('Must be one in the dropdown').required(),
 });
 
 const imgSrc = ref<String|ArrayBuffer|null|undefined>("");
@@ -103,17 +103,17 @@ var onSubmit = (book: any) => {
         </div>
         <div class="form-group">
             <label for="year">Year</label>
-            <Field name="year" />
+            <Field name="year" type="number" pattern="[0-9]*" />
             <ErrorMessage name="year" />
         </div>
         <div class="form-group">
             <label for="quantity">Quantity</label>
-            <Field name="quantity" />
+            <Field name="quantity" type="number" pattern="[0-9]*" />
             <ErrorMessage name="quantity" />
         </div>
         <div class="form-group">
             <label for="price">Price</label>
-            <Field name="price" />
+            <Field name="price" type="number" pattern="[0-9]*" />
             <ErrorMessage name="price" />
         </div>
         <div class="form-group">

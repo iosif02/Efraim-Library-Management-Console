@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('occupation');
             $table->date('birth_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

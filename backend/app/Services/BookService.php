@@ -116,8 +116,8 @@ class BookService implements IBookService
      */
     public function BorrowBook(array $fields): Transactions
     {
-        $fields['borrow_date'] = Carbon::today();
-        $fields['return_date'] = Carbon::today()->addWeeks(2);
+        $fields['borrow_date'] = Carbon::now('Europe/Bucharest');
+        $fields['return_date'] = Carbon::now('Europe/Bucharest')->addWeeks(2);
         $fields['is_returned'] = false;
         $fields['lender_name'] = Auth::user()->fullName;
 

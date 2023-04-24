@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->integer('number');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

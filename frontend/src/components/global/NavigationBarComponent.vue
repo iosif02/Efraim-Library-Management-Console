@@ -42,23 +42,44 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
   text-decoration: none;
   display: block;
   text-align: center;
+  width: 100%;
 }
+.link svg{
+  padding: 5px 0px;
+  box-sizing: content-box;
+  transition: 0.5s;
+}
+
 .router-link-active:not(:nth-child(3)) svg path,
 .router-link-active div
 {
-  fill: #76CECB;
-  color: #76CECB
+  fill: #fff;
+  transition: 0.5s;
+  /* color: #fff; */
 }
 
 .router-link-active:nth-child(3) svg path:nth-child(1){
-  stroke: #76CECB;
+  stroke: #fff;
+  transition: 0.5s;
 }
 
 .router-link-active:nth-child(3) svg path:nth-child(3),
 .router-link-active:nth-child(3) svg path:nth-child(5)
 {
-  fill: #76CECB;
+  fill: #fff;
+  transition: 0.5s;
 }
+
+.router-link-active svg{
+  width: 80%;
+  border-radius: 100px;
+  background-color: #76CECB;
+}
+
+.router-link-active div{  
+  font-weight: 700;
+}
+
 .navbar {
   position:fixed;
   width:100%;
@@ -71,13 +92,10 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
 .tab-name {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
   font-size: 10px;
   line-height: 12px;
-
   text-align: center;
   letter-spacing: 1px;
-
   color: #9C9C9C; 
 }
 </style>
