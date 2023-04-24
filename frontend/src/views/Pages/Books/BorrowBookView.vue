@@ -17,11 +17,10 @@ if(!props.id || props.id == '0' || !parseInt(props.id))
 const BooksStore = useBooksStore();
 const UsersStore = useUsersStore();
 
+UsersStore.fetchUsers();
+
 if(BooksStore.bookDetails.id != parseInt(props.id || ''))
   BooksStore.fetchBookDetails(props.id ?? "");
-
-if(!UsersStore.users.data.length)
-  UsersStore.fetchUsers();
 
 // if(BooksStore.bookDetails.status == 0)
 //   router.replace({ name: 'bookDetails' });
