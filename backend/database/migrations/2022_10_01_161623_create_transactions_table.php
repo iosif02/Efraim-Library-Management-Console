@@ -17,9 +17,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'reader_id');
-            $table->foreignIdFor(User::class, 'admin_id');
-            $table->foreignIdFor(Book::class);
+            $table->foreignIdFor(User::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignIdFor(Book::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->dateTime('borrow_date');
             $table->boolean('is_returned')->default(false);
             $table->dateTime('return_date');

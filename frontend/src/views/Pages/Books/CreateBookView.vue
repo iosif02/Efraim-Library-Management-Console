@@ -17,7 +17,7 @@ if(!entitiesStore.entities.publishers.length) {
 }
 
 const validateForm = yup.object({
-    image: yup.string(),
+    image: yup.string().nullable(),
     title: yup.string().required(),
     year: yup.number().typeError('Years must be a number').required().positive(),
     quantity: yup.number().typeError('Quantity must be a number').required(),

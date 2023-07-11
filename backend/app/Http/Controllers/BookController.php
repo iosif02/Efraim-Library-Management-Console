@@ -94,10 +94,6 @@ class BookController extends Controller
     public function ReturnBook(int $transactionId): JsonResponse
     {
         $result = $this->bookService->ReturnBook($transactionId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to return the book. Please contact the administrator!'], 500);
-        }
-
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 }
