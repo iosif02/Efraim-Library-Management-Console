@@ -7,15 +7,16 @@ import router from '@/router';
 const store = useEntitiesStore();
 
 const validateForm = yup.object({
-    name: yup.string().required(),
+    name: yup.string().min(5).max(28).required(),
 });
 
 var onSubmit = (author: any) => {
   store.createAuthor(author)
   .then(result => {
-    if(result)
+    if(result){
       store.fetchAuthors();
       router.back();
+    }
   });
 }
 </script>

@@ -24,9 +24,10 @@ var onSubmit = (publisher: any) => {
   publisher.publisherId = props.id
   store.updatePublisher(publisher)
   .then(result => {
-    if(result)
+    if(result){
       store.fetchPublishers();
       router.back();
+    }
   });
 }
 </script>

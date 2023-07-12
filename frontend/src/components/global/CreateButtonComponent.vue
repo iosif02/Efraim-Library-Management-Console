@@ -20,7 +20,7 @@ defineProps({
     height: 55px;
     position: fixed;
     right: 16px;
-    bottom: 76px;
+    bottom: 85px;
     border-radius: 50%;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
 }

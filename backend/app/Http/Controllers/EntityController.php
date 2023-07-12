@@ -6,15 +6,12 @@ use App\Http\Requests\AddAuthorRequest;
 use App\Http\Requests\AddCategoryRequest;
 use App\Http\Requests\AddPublisherRequest;
 use App\Http\Requests\AuthorSearchRequest;
-use App\Http\Requests\BookSearchRequest;
 use App\Http\Requests\UpdateAuthorRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\UpdatePublisherRequest;
 use App\Interfaces\IEntityService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 
 class EntityController extends Controller
@@ -52,6 +49,8 @@ class EntityController extends Controller
 
     public function UpdateAuthor(UpdateAuthorRequest $request): JsonResponse
     {
+        Gate::authorize('update-author');
+
         $validated = $request->validated();
         $result = $this->entityService->UpdateAuthor($validated);
 
@@ -133,10 +132,6 @@ class EntityController extends Controller
     public function DeleteCategory(int $categoryId): JsonResponse
     {
         $result = $this->entityService->DeleteCategory($categoryId);
-        if(!$result) {
-            return response()->json(['message' => 'Failed to delete the category. Please contact the administrator!'], 500);
-        }
-
-        return response()->json(true, 200);
+        return response()->json($result);
     }
 }

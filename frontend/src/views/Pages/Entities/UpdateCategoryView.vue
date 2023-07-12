@@ -25,9 +25,10 @@ var onSubmit = (category: any) => {
   category.categoryId = props.id
   store.updateCategory(category)
   .then(result => {
-    if(result)
+    if(result){
       store.fetchCategories();
       router.back();
+    }
   });
 }
 </script>
