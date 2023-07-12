@@ -45,8 +45,11 @@ class BookService implements IBookService
 
     public function AddBook(array $fields): bool
     {
-        $imageName = $this->fileService->StoreFile($fields['image']);
-        $fields['image'] = $imageName;
+        if(isset($fields['image']) && $fields['image'] != ''){
+            $imageName = $this->fileService->StoreFile($fields['image']);
+            $fields['image'] = $imageName;
+        }
+
         return $this->bookRepository->AddBook($fields);
     }
 

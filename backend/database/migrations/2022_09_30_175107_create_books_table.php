@@ -17,15 +17,17 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 64);
+            $table->string('title', 255);
             $table->integer('year')->nullable();
             $table->float('price')->nullable();
             $table->string('image')->nullable();
             $table->integer('quantity')->nullable();
             $table->boolean('is_recommended')->default(false);
             $table->integer('order')->nullable();
-            $table->foreignIdFor(Category::class)->nullable();
-            $table->foreignIdFor(Publisher::class)->nullable();
+            $table->foreignIdFor(Category::class)->nullable()
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignIdFor(Publisher::class)->nullable()
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

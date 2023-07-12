@@ -17,8 +17,10 @@ return new class extends Migration
     {
         Schema::create('book_authors', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Book::class);
-            $table->foreignIdFor(Author::class);
+            $table->foreignIdFor(Book::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignIdFor(Author::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

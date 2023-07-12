@@ -16,7 +16,8 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->string('identity_number', 16);
             $table->string('address', 16);
             $table->string('phone', 16);

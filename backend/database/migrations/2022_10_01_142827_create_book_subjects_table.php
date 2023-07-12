@@ -17,8 +17,10 @@ return new class extends Migration
     {
         Schema::create('book_subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Book::class);
-            $table->foreignIdFor(Subject::class);
+            $table->foreignIdFor(Book::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignIdFor(Subject::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

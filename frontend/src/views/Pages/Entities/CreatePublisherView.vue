@@ -14,9 +14,10 @@ const validateForm = yup.object({
 var onSubmit = (publisher: any) => {
   store.createPublisher(publisher)
   .then(result => {
-    if(result)
+    if(result){
       store.fetchPublishers();
       router.back();
+    }
   });
 }
 </script>

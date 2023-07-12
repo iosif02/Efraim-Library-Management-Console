@@ -17,8 +17,10 @@ return new class extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Role::class);
+            $table->foreignIdFor(User::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignIdFor(Role::class)
+                ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

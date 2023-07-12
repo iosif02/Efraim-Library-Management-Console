@@ -27,7 +27,7 @@ if(!EntitiesStore.entities.publishers.length) {
 }
 
 const validateForm = yup.object({
-    image: yup.string(),
+    image: yup.string().nullable(),
     title: yup.string().required(),
     year: yup.number().typeError('Quantity must be a number').required(),
     quantity: yup.number().typeError('Quantity must be a number').required(),
@@ -152,7 +152,7 @@ var onSubmit = (book: any) => {
     </Form>
 </template>
 
-<style scoped>
+<style>
 .image {
     width: 120px;
     margin: 0 auto;
@@ -179,5 +179,14 @@ var onSubmit = (book: any) => {
     object-fit: cover;
     max-width: 100%;
     max-height: 100%;
+}
+.p-autocomplete {
+    align-items: end;
+}
+.p-button {
+    height: 2.7rem;
+}
+.p-autocomplete-multiple-container {
+    flex: 1;
 }
 </style>

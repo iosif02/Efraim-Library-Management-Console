@@ -4,8 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -51,13 +51,14 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $e) {
-            if(!$e instanceof ValidationException)
+            if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException)
                 return response()->json(['message' => 'Something went wrong!'], 400);
         });
 
         $this->renderable(function (Exception $e) {
-            if(!$e instanceof ValidationException)
+            if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException)
                 return response()->json(['message' => 'Something went wrong!'], 400);
         });
+
     }
 }

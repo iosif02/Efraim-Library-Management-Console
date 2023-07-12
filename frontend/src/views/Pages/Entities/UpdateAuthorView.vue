@@ -16,16 +16,17 @@ const store = useEntitiesStore();
 store.fetchSelectedAuthor(props.id || '');
 
 const validateForm = yup.object({
-    name: yup.string().required(),
+    name: yup.string().min(5).max(28).required(),
 });
 
 var onSubmit = (author: any) => {
   author.authorId = props.id
   store.updateAuthor(author)
   .then(result => {
-    if(result)
+    if(result){
       store.fetchAuthors();
       router.back();
+    }
   });
 }
 </script>

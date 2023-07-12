@@ -15,9 +15,10 @@ const validateForm = yup.object({
 var onSubmit = (category: any) => {
   store.createCategory(category)
   .then(result => {
-    if(result)
+    if(result){
       router.back();
       store.fetchCategories();
+    }
   });
 }
 </script>
