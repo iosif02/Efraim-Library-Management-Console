@@ -136,3 +136,15 @@
 .p-autocomplete-input-token {
   padding: 0 !important;
 }
+
+.p-autocomplete {
+    align-items: end;
+}
+
+.p-button {
+    height: 2.7rem;
+}
+
+.p-autocomplete-multiple-container {
+    flex: 1;
+}

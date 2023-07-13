@@ -10,6 +10,8 @@ use App\Http\Requests\UpdateAuthorRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\UpdatePublisherRequest;
 use App\Interfaces\IEntityService;
+use App\Models\Author;
+use App\Policies\AuthorPolicy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 
@@ -33,6 +35,8 @@ class EntityController extends Controller
     }
     public function SearchAuthors(AuthorSearchRequest $request): JsonResponse
     {
+        Gate::authorize('viewAny', Author::class);
+
         $validated = $request->validated();
         $result = $this->entityService->SearchAuthors($validated);
 
@@ -41,6 +45,8 @@ class EntityController extends Controller
 
     public function AddAuthor(AddAuthorRequest $request): JsonResponse
     {
+        Gate::authorize('create', Author::class);
+
         $validated = $request->validated();
         $result = $this->entityService->AddAuthor($validated);
 
@@ -49,7 +55,7 @@ class EntityController extends Controller
 
     public function UpdateAuthor(UpdateAuthorRequest $request): JsonResponse
     {
-        Gate::authorize('update-author');
+        Gate::authorize('update', Author::class);
 
         $validated = $request->validated();
         $result = $this->entityService->UpdateAuthor($validated);
@@ -59,6 +65,8 @@ class EntityController extends Controller
 
     public function DeleteAuthor(int $authorId): JsonResponse
     {
+        Gate::authorize('delete', Author::class);
+
         $result = $this->entityService->DeleteAuthor($authorId);
         return response()->json($result);
     }

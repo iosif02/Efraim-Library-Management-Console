@@ -102,8 +102,8 @@ var hideModal = () => {
 
 <style scoped>
 .image {
-    width: 90px;
-    height: 96px;
+  width: 90px;
+  height: 96px;
 }
 .image img {
   border-radius: 12px;
