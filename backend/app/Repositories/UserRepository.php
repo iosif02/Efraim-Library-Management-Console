@@ -55,7 +55,7 @@ class UserRepository implements IUserRepository
                 $query->where('name','admin');
             });
 
-            $words = explode(" ", $filters['name'] );
+            $words = explode(" ", $filters['name']);
             if(count($words) == 2){
                 $query->where('first_name', 'like', '%'.$words[0].'%')
                     ->Where('last_name', 'like', '%'.$words[1].'%');

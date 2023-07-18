@@ -30,7 +30,7 @@ class AuthorPolicy
      */
     public function view(User $user, Author $author): bool
     {
-        return $user->hasPermission('view-author');
+//        return $user->hasPermission('view-author');
     }
 
     /**
