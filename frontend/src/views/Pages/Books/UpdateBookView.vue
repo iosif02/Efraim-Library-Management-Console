@@ -152,7 +152,7 @@ var onSubmit = (book: any) => {
     </Form>
 </template>
 
-<style>
+<style scoped>
 .image {
     width: 120px;
     margin: 0 auto;
@@ -179,14 +179,5 @@ var onSubmit = (book: any) => {
     object-fit: cover;
     max-width: 100%;
     max-height: 100%;
-}
-.p-autocomplete {
-    align-items: end;
-}
-.p-button {
-    height: 2.7rem;
-}
-.p-autocomplete-multiple-container {
-    flex: 1;
 }
 </style>
