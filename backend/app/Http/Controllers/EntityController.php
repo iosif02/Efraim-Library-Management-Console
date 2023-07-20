@@ -11,6 +11,8 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\UpdatePublisherRequest;
 use App\Interfaces\IEntityService;
 use App\Models\Author;
+use App\Models\Category;
+use App\Models\Publisher;
 use App\Policies\AuthorPolicy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -79,6 +81,8 @@ class EntityController extends Controller
 
     public function SearchPublisher(AuthorSearchRequest $request): JsonResponse
     {
+        Gate::authorize('viewAny', Publisher::class);
+
         $validated = $request->validated();
         $result = $this->entityService->SearchPublisher($validated);
 
@@ -87,6 +91,8 @@ class EntityController extends Controller
 
     public function AddPublisher(AddPublisherRequest $request): JsonResponse
     {
+        Gate::authorize('create', Publisher::class);
+
         $validated = $request->validated();
         $result = $this->entityService->AddPublisher($validated);
 
@@ -95,6 +101,8 @@ class EntityController extends Controller
 
     public function UpdatePublisher(UpdatePublisherRequest $request): JsonResponse
     {
+        Gate::authorize('update', Publisher::class);
+
         $validated = $request->validated();
         $result = $this->entityService->UpdatePublisher($validated);
 
@@ -103,6 +111,8 @@ class EntityController extends Controller
 
     public function DeletePublisher(int $publisherId): JsonResponse
     {
+        Gate::authorize('delete', Publisher::class);
+
         $result = $this->entityService->DeletePublisher($publisherId);
         return response()->json($result);
     }
@@ -115,6 +125,8 @@ class EntityController extends Controller
 
     public function SearchCategories(AuthorSearchRequest $request): JsonResponse
     {
+        Gate::authorize('viewAny', Category::class);
+
         $validated = $request->validated();
         $result = $this->entityService->SearchCategories($validated);
 
@@ -123,6 +135,8 @@ class EntityController extends Controller
 
     public function AddCategory(AddCategoryRequest $request): JsonResponse
     {
+        Gate::authorize('create', Category::class);
+
         $validated = $request->validated();
         $result = $this->entityService->AddCategory($validated);
 
@@ -131,6 +145,8 @@ class EntityController extends Controller
 
     public function UpdateCategory(UpdateCategoryRequest $request): JsonResponse
     {
+        Gate::authorize('update', Category::class);
+
         $validated = $request->validated();
         $result = $this->entityService->UpdateCategory($validated);
 
@@ -139,6 +155,8 @@ class EntityController extends Controller
 
     public function DeleteCategory(int $categoryId): JsonResponse
     {
+        Gate::authorize('delete', Category::class);
+
         $result = $this->entityService->DeleteCategory($categoryId);
         return response()->json($result);
     }
