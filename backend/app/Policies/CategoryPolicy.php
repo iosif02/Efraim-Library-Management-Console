@@ -2,11 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\Author;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
-class AuthorPolicy
+class CategoryPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +19,18 @@ class AuthorPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission('view-authors');
+        return $user->hasPermission('view-categories');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param Author $author
      * @return bool
      */
-    public function view(User $user, Author $author): bool
+    public function view(User $user): bool
     {
-//        return $user->hasPermission('view-author');
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class AuthorPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermission('create-author');
+        return $user->hasPermission('create-category');
     }
 
     /**
@@ -52,7 +52,7 @@ class AuthorPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasPermission('update-author');
+        return $user->hasPermission('update-category');
     }
 
     /**
@@ -63,17 +63,16 @@ class AuthorPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasPermission('delete-author');
+        return $user->hasPermission('delete-category');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param User $user
-     * @param Author $author
      * @return bool
      */
-    public function restore(User $user, Author $author): bool
+    public function restore(User $user): bool
     {
         //
     }
@@ -82,10 +81,9 @@ class AuthorPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param User $user
-     * @param Author $author
      * @return bool
      */
-    public function forceDelete(User $user, Author $author): bool
+    public function forceDelete(User $user): bool
     {
         //
     }
