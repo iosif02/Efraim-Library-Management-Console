@@ -18,7 +18,7 @@ defineProps({
                     <img :src="book.image || '/img/book.jpg'" alt="">
                     <div class="details">
                         <div class="title">{{ book.title }}</div>
-                        <div class="author">{{ book.authors?.[0]?.name }}</div>
+                        <div class="author">{{typeof book.authors == 'string' ? book.authors : book.authors?.map(author => author.name).join(', ')}}</div>
                         <div class="category">
                             <span class="category-number">({{ book.category?.number }})</span>
                             <span class="category-name">{{ book.category?.name }}</span>

@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -86,7 +87,7 @@ class BookRepository implements IBookRepository
     {
         return Book::with([
             'Category' => fn($query) => $query->select('id', 'name', 'number'),
-            'Authors',
+            'Authors' => fn($query) => $query->select('name'),
             'Publisher' => fn($query) => $query->select('id', 'name'),
             'Transaction' => function ($query){
                 $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned', 'lender_name')
@@ -158,21 +159,29 @@ class BookRepository implements IBookRepository
 
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
-        $query = Book::select('id', 'title', 'category_id', 'image')
-            ->withCount([
-                'Transaction' => fn($query) => $query->where('is_returned', false),
-            ])->has('Transaction', '>', 0) //in loc de has pot folosi si having('transaction_count', '>', 0), ca un where
-            ->with([
-                'Category' => fn($query) => $query->select('id', 'name', 'number'),
-                'Authors' => fn($query) => $query->select('name')
-            ])->orderBy('transaction_count', 'desc');
+        $books = DB::table('books AS b')
+            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name AS category_name', 'c.number AS category_number')
+            ->selectRaw('COUNT(t.id) AS count')
+            ->join('categories AS c', 'b.category_id', '=', 'c.id')
+            ->join('transactions AS t', 'b.id', '=', 't.book_id')
+            ->groupBy('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name', 'c.number')
+            ->orderByDesc(DB::raw('COUNT(t.id)'));
 
         if(isset($filters['title']) && $filters['title'] != '') {
-            $query->where('title', 'like', '%'.$filters['title'].'%');
+            $books->where('title', 'like', '%'.$filters['title'].'%');
         }
 
-        return $query->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        return $books->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+    }
 
+    public function GetAuthorsById(array $bookIds): Collection
+    {
+        return DB::table('authors as a')
+            ->select('ba.book_id', DB::raw('GROUP_CONCAT(a.name SEPARATOR ", ") as authors'))
+            ->join('book_authors as ba', 'ba.author_id', '=', 'a.id')
+            ->whereIn('ba.book_id', $bookIds)
+            ->groupBy('ba.book_id')
+            ->get();
     }
 
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator

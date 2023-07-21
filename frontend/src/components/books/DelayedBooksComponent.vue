@@ -17,18 +17,18 @@ let formatDate = (date: string) => {
     }
     return date;
 }
-let delayedDays = (date: string) => {
-    if (date) {
-        const currentDate = new Date();
-        const oneDay = 24 * 60 * 60 * 1000;
+// let delayedDays = (date: string) => {
+//     if (date) {
+//         const currentDate = new Date();
+//         const oneDay = 24 * 60 * 60 * 1000;
 
-        let newDate = new Date(moment(date, "YYYY-MM-DD h:mm:ss").toString());
-        let days = currentDate.getTime() - newDate.getTime();
+//         let newDate = new Date(moment(date, "YYYY-MM-DD h:mm:ss").toString());
+//         let days = currentDate.getTime() - newDate.getTime();
 
-        return Math.ceil(days / oneDay) - 1;
-    }
-    return 10;
-}
+//         return Math.ceil(days / oneDay) - 1;
+//     }
+//     return 10;
+// }
 </script>
 
 <template>
@@ -39,8 +39,9 @@ let delayedDays = (date: string) => {
                     <img :src="currentBook.book.image || '/img/book.jpg'" alt="">
                     <div class="details">
                         <div class="top-section">
-                            <p class="name">{{ currentBook.user.first_name }} {{ currentBook.user.last_name }}</p>
-                            <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p>
+                            <p class="name">{{ currentBook.user?.first_name }} {{ currentBook.user?.last_name }}</p>
+                           <!-- <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p> -->
+                           <p class="date">{{ formatDate(currentBook.return_date) }} - {{ currentBook.delayed * (-1) }} days</p>
                         </div>
                         <div class="book-title">{{ currentBook.book.title }}</div>
                     </div>
