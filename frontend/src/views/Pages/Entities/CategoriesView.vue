@@ -58,7 +58,7 @@ var openModal = (selectedCategoryId: number) => {
 
   <SearchBar
     :defaultValue="store.categories.searchModel.name"
-    @valueChanged="(value: string) => (store.categories.searchModel.name = value, store.categories.searchModel.pagination.page = 0, store.fetchCategories())"
+    @valueChanged="(value: string) => (store.categories.searchModel.name = value, store.categories.searchModel.pagination.page = 1, store.fetchCategories())"
     placeholder='Search category...'
   />
 

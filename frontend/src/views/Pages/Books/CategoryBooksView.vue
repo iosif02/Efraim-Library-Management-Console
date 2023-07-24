@@ -27,7 +27,7 @@ if(!store.categoryBooks.data.length || store.categoryBooks.data[0].category.id !
 
     <SearchBar
         :defaultValue="store.categoryBooks.searchModel.title"
-        @valueChanged="(value: string) => (store.categoryBooks.searchModel.title = value, store.categoryBooks.searchModel.pagination.page = 0, store.searchCategoryBooks())"
+        @valueChanged="(value: string) => (store.categoryBooks.searchModel.title = value, store.categoryBooks.searchModel.pagination.page = 1, store.searchCategoryBooks())"
         placeholder='Search book...'
     />
 

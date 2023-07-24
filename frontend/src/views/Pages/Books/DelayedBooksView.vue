@@ -16,7 +16,7 @@ if(!store.delayedBooks.data.length)
 
     <SearchBar
         :defaultValue="store.delayedBooks.searchModel.title"
-        @valueChanged="(value: string) => (store.delayedBooks.searchModel.title = value, store.delayedBooks.searchModel.pagination.page = 0, store.fetchDelayedBooks())"
+        @valueChanged="(value: string) => (store.delayedBooks.searchModel.title = value, store.delayedBooks.searchModel.pagination.page = 1, store.fetchDelayedBooks())"
         placeholder='Search book...'
     />
 

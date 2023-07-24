@@ -160,12 +160,12 @@ class BookRepository implements IBookRepository
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
         $books = DB::table('books AS b')
-            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name AS category_name', 'c.number AS category_number')
+            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name AS category', 'c.number AS number')
             ->selectRaw('COUNT(t.id) AS count')
             ->join('categories AS c', 'b.category_id', '=', 'c.id')
             ->join('transactions AS t', 'b.id', '=', 't.book_id')
             ->groupBy('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name', 'c.number')
-            ->orderByDesc(DB::raw('COUNT(t.id)'));
+            ->orderByDesc('count');
 
         if(isset($filters['title']) && $filters['title'] != '') {
             $books->where('title', 'like', '%'.$filters['title'].'%');

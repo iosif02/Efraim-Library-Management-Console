@@ -13,7 +13,7 @@ store.searchBooks();
 
   <SearchBar
     :defaultValue="store.books.searchModel.title"
-    @valueChanged="(value: any) => (store.books.searchModel.title = value, store.books.searchModel.pagination.page = 0, store.searchBooks())"
+    @valueChanged="(value: any) => (store.books.searchModel.title = value, store.books.searchModel.pagination.page = 1, store.searchBooks())"
     placeholder='Search book...'
   />
 

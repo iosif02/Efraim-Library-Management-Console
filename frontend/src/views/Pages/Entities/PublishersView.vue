@@ -58,7 +58,7 @@ var openModal = (selectedPublisherId: number) => {
 
   <SearchBar
     :defaultValue="store.publishers.searchModel.name"
-    @valueChanged="(value: string) => (store.publishers.searchModel.name = value, store.publishers.searchModel.pagination.page = 0, store.fetchPublishers())"
+    @valueChanged="(value: string) => (store.publishers.searchModel.name = value, store.publishers.searchModel.pagination.page = 1, store.fetchPublishers())"
     placeholder='Search publisher...'
   />
 

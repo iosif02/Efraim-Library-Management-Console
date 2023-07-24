@@ -58,7 +58,7 @@ var openModal = (selectedAuthorId: number) => {
 
   <SearchBar
     :defaultValue="store.authors.searchModel.name"
-    @valueChanged="(value: string) => (store.authors.searchModel.name = value, store.authors.searchModel.pagination.page = 0, store.fetchAuthors())"
+    @valueChanged="(value: string) => (store.authors.searchModel.name = value, store.authors.searchModel.pagination.page = 1, store.fetchAuthors())"
     placeholder='Search author...'
   />
 
