@@ -14,11 +14,11 @@ defineProps({
 <template>
     <div class="categories">
         <div v-for="category in categories" class="category" >
-            <div>
+            <div class="details">
                 <div class="book-title">{{ category.number }} {{ category.name }}</div>
                 <div class="book-number">{{ category.book_count }} books</div>
             </div>
-            <div>
+            <div class="btn-container">
                 <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: category.id } })">Edit</button>
                 <button class="btn-delete" @click="$emit('openModal', category.id)">Delete</button>
             </div>
@@ -37,10 +37,27 @@ defineProps({
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 1rem;
+}
+.details {
+    overflow: hidden;
 }
 .book-title {
     font-family: 'Roboto-500';
     color: #333333;
     margin-bottom: 3px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.book-number {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.btn-container{
+    display: flex;
+    flex-wrap: nowrap;
 }
 </style>
