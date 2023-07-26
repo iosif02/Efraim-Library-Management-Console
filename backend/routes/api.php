@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::post('register', [AuthController::class, 'Register']);
 Route::post('login', [AuthController::class, 'Login']);
-Route::post('logout', [AuthController::class, 'Logout']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::prefix('books')->group(function () {
@@ -76,6 +75,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/update-user', [UserController::class, 'UpdateUser']);
         Route::delete('/delete-user/{userId}', [UserController::class, 'DeleteUser']);
     });
+
+    Route::post('logout', [AuthController::class, 'Logout']);
+
 });
 
 Route::middleware('auth:api')->get('/user', function(Request $request) {

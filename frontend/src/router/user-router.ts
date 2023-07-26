@@ -8,13 +8,13 @@ import UpdateReadersView from "@/views/Pages/Users/UpdateReadersView.vue";
 export default
 {
     path: "/",
-    name: "user",
-    redirect: { name: 'users' },
+    name: "users",
+    redirect: { name: 'user' },
     component: MainLayout,
     children: [
         {
-            path: "/users",
-            name: "users",
+            path: "/user",
+            name: "user",
             component: UserView,
         },
         {
