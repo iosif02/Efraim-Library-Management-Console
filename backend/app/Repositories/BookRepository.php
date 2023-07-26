@@ -230,7 +230,7 @@ class BookRepository implements IBookRepository
     {
         $transaction = Transactions::find($transactionId);
         $transaction->is_returned = true;
-        $transaction->receiver_name = Auth::user()->full_Name;
+        $transaction->receiver_name = Auth::user()->fullName;
         $transaction->update();
         return $transaction;
     }

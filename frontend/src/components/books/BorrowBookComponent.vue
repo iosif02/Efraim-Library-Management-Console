@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type BookModel from '@/models/book/BookModel';
 import type { PropType } from 'vue'
+import moment from 'moment';
 import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
 
 defineProps({
@@ -9,6 +10,13 @@ defineProps({
         required: true
     }
 });
+
+let formatDate = (date: string) => {
+    if (date) {
+        return moment(date, "YYYY-MM-DD h:mm:ss").format("DD MMM YYYY");
+    }
+    return date;
+}
 
 </script>
 
@@ -20,7 +28,7 @@ defineProps({
                     <p class="transaction-name">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
                     <StatusBookComponent :status="books.status"/>
                 </div>
-                <p class="transaction-date">{{ transaction.borrow_date + ' - ' + transaction.return_date }}</p>
+                <p class="transaction-date">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
             </div> 
             <div class="row">
                 <p class="transaction-voluntary">Processed by <span>{{ transaction.lender_name }}</span></p>
