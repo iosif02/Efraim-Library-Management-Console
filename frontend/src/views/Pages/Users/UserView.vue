@@ -9,7 +9,7 @@ var logout = async () => {
   let log = await store.logout()
   if(log){
     setTimeout(() => {
-      window.location.reload()
+      location.reload()
     }, 100);
   }
 }

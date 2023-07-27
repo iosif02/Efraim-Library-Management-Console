@@ -51,17 +51,23 @@ const selectedPublisher = ref<PublisherModel>();
 
 var searchAuthors = (event: any) => {
     watchEffect(() => {
-        filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
+        if(event?.query?.length > 2) {
+            filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
+        }
     });
 }
 var searchCategories = (event: any) => {
     watchEffect(() => {
-        filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        if(event?.query?.length > 2) {
+            filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        }
     });
 }
 var searchPublishers = (event: any) => {
     watchEffect(() => {
-        filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        if(event?.query?.length > 2) {
+            filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+        }
     });
 }
 
@@ -119,19 +125,28 @@ var onSubmit = (book: any) => {
         <div class="form-group">
             <Field name="publisher" type="hidden" :value="selectedPublisher" v-model="selectedPublisher" />
             <label for="price">Publisher</label>
-            <AutoComplete name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" :dropdown="true" />
+            <AutoComplete 
+                name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" :dropdown="true" 
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere"
+            />
             <ErrorMessage name="publisher" />
         </div>
         <div class="form-group">
             <Field name="authors" type="hidden" :value="selectedAuthors" v-model="selectedAuthors" />
             <label for="authors">Authors</label>
-            <AutoComplete name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true" />
+            <AutoComplete 
+                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true" 
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere"
+            />
             <ErrorMessage name="authors" />
         </div>
         <div class="form-group">
             <Field name="category" type="hidden" :value="selectedCategory" v-model="selectedCategory" />
             <label for="category">Category</label>
-            <AutoComplete name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" :dropdown="true" optionLabel="name" />
+            <AutoComplete 
+                name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" :dropdown="true" 
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere"
+            />
             <ErrorMessage name="category" />
         </div>
         

@@ -148,3 +148,11 @@
 .p-autocomplete-multiple-container {
     flex: 1;
 }
+
+.p-autocomplete-panel {
+  width: calc(100% - 90px);
+}
+
+.p-autocomplete-item {
+  text-overflow: ellipsis;
+}
