@@ -42,14 +42,17 @@ defineProps({
     justify-content: space-between;
     height: 65px;
     width: 100%;
+    gap: 1rem;
 }
 .right-section{
     display: flex;
     flex-direction: row;
+    overflow: hidden;
 }
 .user-image{
     width: 42px;
     height: 42px;
+    min-width: 42px;
 }
 .user-image img{
     object-fit: cover;
@@ -61,6 +64,7 @@ defineProps({
     display: flex;
     flex-direction: column;
     margin-left: 20px;
+    overflow: hidden;
 }
 .user-name{
     font-family: 'Roboto-400';
@@ -92,5 +96,10 @@ defineProps({
 .paddingTop{
     padding-top: 18px;
     box-sizing: content-box;
+}
+p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 </style>

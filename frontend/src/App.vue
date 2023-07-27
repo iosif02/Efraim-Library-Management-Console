@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <notifications style="z-index: 10;"/>
+  <notifications style="z-index: 10;" position="bottom center" closeOnClick="true" />
   <Suspense>
     <RouterView />
   </Suspense>
@@ -35,5 +35,29 @@ html,body {
 }
 .text-color{
   color: black !important;
+}
+.vue-notification{
+  width: 300px; 
+  position: absolute;
+  bottom: 90px;
+  border-radius: 100px;
+}
+.notification-title {
+  color: #000000
+}
+.notification-content {
+  color: #000000
+}
+.success {
+  background: rgba(104, 205, 134, 0.5) !important;
+  border-left-color: rgba(66, 168, 95, 0.5) !important;
+}
+.warn {
+  background: rgba(255, 182, 72, 0.5) !important;
+  border-left-color: rgba(244, 138, 6, 0.5) !important;
+}
+.error {
+  background: rgba(229, 77, 66, 0.5) !important;
+  border-left-color: rgba(184, 46, 36, 0.5) !important;
 }
 </style>
