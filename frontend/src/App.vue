@@ -42,11 +42,9 @@ html,body {
   bottom: 90px;
   border-radius: 100px;
 }
-.notification-title {
-  color: #000000
-}
 .notification-content {
-  color: #000000
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5)
 }
 .success {
   background: rgba(104, 205, 134, 0.5) !important;

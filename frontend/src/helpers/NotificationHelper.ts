@@ -3,10 +3,10 @@ import { notify } from "@kyvg/vue3-notification";
 export default class NotificationHelper {
   static NotifySuccess(message = "", title = "") {
     if (!message) message = "Success";
-    if (!title) title = "Success";
+    // if (!title) title = "Success";
 
     notify({
-        title: title,
+        // title: title,
         text: message,
         type: "success"
     });
@@ -14,10 +14,10 @@ export default class NotificationHelper {
 
   static NotifyError(message: string, title = "") {
     if (!message) message = "Error";
-    if (!title) title = "Error";
+    // if (!title) title = "Error";
 
     notify({
-        title: title,
+        // title: title,
         text: message,
         type: "error"
     });
@@ -25,7 +25,7 @@ export default class NotificationHelper {
 
   static NotifyFormValidation(errors: object, title = "") {
     let message = "Error";
-    if (!title) title = "Error";
+    // if (!title) title = "Error";
 
     if(message) {
       let array = Object.entries(errors);
@@ -33,7 +33,7 @@ export default class NotificationHelper {
     }
 
     notify({
-        title: title,
+        // title: title,
         text: message,
         type: "error"
     });
