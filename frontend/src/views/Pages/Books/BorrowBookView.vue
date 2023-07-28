@@ -104,6 +104,7 @@ var hideModal = () => {
 .image {
   width: 90px;
   height: 96px;
+  min-width: 90px;
 }
 .image img {
   border-radius: 12px;
@@ -147,5 +148,11 @@ var hideModal = () => {
 }
 .details-section{
     margin-left: 13px;
+    overflow: hidden;
+}
+p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

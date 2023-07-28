@@ -51,7 +51,7 @@ var hideModal = () => {
     @cancel="hideModal" 
   />
 
-  <GoBack goBackText="Back"/>
+  <GoBack goBackText="Readers"/>
 
   <SearchBar
     :defaultValue="store.users.searchModel.name"

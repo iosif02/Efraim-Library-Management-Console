@@ -24,9 +24,9 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
         <div class="tab-name">Entities</div>
       </RouterLink>
 
-      <RouterLink :to="{ name: 'user', replace: true }" class="link">
+      <RouterLink :to="{ name: 'users', replace: true }" class="link">
         <ProfileIcon />
-        <div class="tab-name">Users</div>
+        <div class="tab-name">User</div>
       </RouterLink>
     </div>
   </div>
@@ -71,7 +71,7 @@ import EntityIcon from "@/components/icons/EntityIcon.vue";
 }
 
 .router-link-active svg{
-  width: 80%;
+  width: 90%;
   border-radius: 100px;
   background-color: #76CECB;
 }

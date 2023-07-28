@@ -7,6 +7,7 @@ use App\Models\Transactions;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 interface IBookRepository
 {
@@ -18,6 +19,7 @@ interface IBookRepository
     public function SearchBooks(array $filters): ?LengthAwarePaginator;
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator;
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator;
+    public function GetAuthorsById(array $bookIds): Collection;
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator;
     public function CheckIfBookIsAvailable(int $bookId): bool;
     public function CheckIfUserCanBorrowBook(int $userId): bool;

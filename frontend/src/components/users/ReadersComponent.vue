@@ -21,7 +21,7 @@ defineProps({
             :class="{ 'borderTop': index != 0, 'paddingTop': index != 0}" 
             :key="index" 
         >
-            <div class="right-section">
+            <div class="left-section">
                 <div class="user-image">
                     <img :src="user.user_details?.photo_url ?? '/img/user.jpg'" alt="user-image">
                 </div>
@@ -45,12 +45,16 @@ defineProps({
     justify-content: space-between;
     height: 65px;
     width: 100%;
+    gap: 1rem;
 }
-.right-section{
+.left-section{
     display: flex;
     flex-direction: row;
+
+    overflow: hidden;
 }
 .user-image{
+    min-width: 42px;
     width: 42px;
     height: 42px;
 }
@@ -64,6 +68,8 @@ defineProps({
     display: flex;
     flex-direction: column;
     margin-left: 20px;
+    
+    overflow: hidden;
 }
 .user-name{
     font-family: 'Roboto-400';
@@ -72,6 +78,10 @@ defineProps({
     line-height: 16px;
     letter-spacing: 0.77px;
     color: #333333;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .user-status{
     font-family: 'Roboto-400';
@@ -81,6 +91,10 @@ defineProps({
     letter-spacing: 0.77px;
     color: #8A8A8A;
     margin-top: 5px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .arrow{
     display: flex;

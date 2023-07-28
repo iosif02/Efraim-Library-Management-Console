@@ -24,7 +24,7 @@ defineProps({
                             <StatusBookComponent :status="book.status" route="editBook"/>   
                         </div>
                         <div class="bottom-section">
-                            <div class="author">{{ book.authors?.[0]?.name }}</div>
+                            <div class="author">{{ book.authors?.map(author => author.name).join(', ') }}</div>
                             <div class="edit">
                                 <div class="category">
                                     <span class="category-number">({{ book.category?.number }})</span>

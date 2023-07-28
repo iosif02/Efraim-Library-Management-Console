@@ -20,7 +20,7 @@ if(!store.homepage.isFetched){
 
     <SearchBar
         :defaultValue="store.homepage.searchModel.title"
-        @valueChanged="(value: any) => (store.homepage.searchModel.title = value, store.homepage.searchModel.pagination.page = 0, store.searchHomeBooks())"
+        @valueChanged="(value: any) => (store.homepage.searchModel.title = value, store.homepage.searchModel.pagination.page = 1, store.searchHomeBooks())"
         placeholder='Search book...'
     />
 

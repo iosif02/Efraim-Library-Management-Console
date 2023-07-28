@@ -4,6 +4,7 @@ import { RouterLink } from "vue-router";
 import { useBooksStore } from '@/stores/books-store';
 import { ref, watchEffect } from 'vue';
 import BorrowBookComponent from '@/components/books/BorrowBookComponent.vue';
+import DetailsBook from '@/components/books/DetailsBookComponent.vue'
 
 const props = defineProps({
   id: String
@@ -70,18 +71,7 @@ var openModal = () => {
     <button @click="openModal" class="btn-delete">Delete</button>
   </GoBack>
   
-  <div class="image-book">
-    <div class="image">
-      <img :src="store.bookDetails.image || '/img/book.jpg'" />
-    </div>
-    <p class="book-title">{{ store.bookDetails.title }}</p>
-    <!-- TODO: show name of all authors -->
-    <p class="book-author">{{ store.bookDetails.authors?.[0]?.name }}</p>
-    <div class="book-category">
-      <span>({{ store.bookDetails.category?.number }})</span>
-      <p>{{ store.bookDetails.category?.name }}</p>
-    </div>
-  </div>
+  <DetailsBook :book="store.bookDetails"/>
 
   <div class="copy-books">
     <p>Total Copies <span>({{ store.bookDetails.quantity }})</span></p>
@@ -105,58 +95,6 @@ var openModal = () => {
 </template>
 
 <style scoped>
-.row{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.image-book{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 30px;
-}
-.image {
-  width: 178px;
-  height: 216px;
-  margin-bottom: 20px;
-}
-.image img {
-  border-radius: 12px;
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-}
-.book-title{
-  font-family: 'Roboto-500';
-  font-size: 20px;
-  color: black;
-  line-height: 32px;
-  text-align: center;
-}
-.book-author{
-  font-family: 'Roboto-500';
-  line-height: 24px;
-  font-size: 16px;
-  color: #4974A5;
-}
-.book-category{
-  display: flex;
-  flex-direction: row;
-}
-.book-category span{
-  font-family: 'Roboto-400';
-  color: #76CECB;
-  padding-right: 3px;
-  line-height: 20px;
-  font-size: 14px;
-}
-.book-category p{
-  font-family: 'Roboto-400';
-  line-height: 20px;
-  font-size: 14px;
-}
 .copy-books{
   flex-direction: row;
   display: flex;
@@ -185,75 +123,6 @@ var openModal = () => {
   border-radius: 100%;
   background-color: #E7E7E7;
   margin-left: 12px;
-}
-.borrow-book{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 104px;
-  background-color: #F6F6F6;
-  border-radius: 8px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-  padding: 16px 10px;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-.status {
-    font-size: 12px;
-    color: #76CE9F;
-    background-color: #DCF2E7;
-    border-radius: 22px;
-    padding: 5px 10px 5px 20px;
-    position: relative;
-    top: -8px;
-}
-.status::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 5px;
-  height: 5px;
-  background: #76CE9F;
-  border-radius: 50%;
-  left: 10px;
-}
-.transaction-name{
-  font-family: 'Roboto-500';
-  font-size: 12px;
-  line-height: 14.06px;
-  color: #333333;
-  /* letter-spacing: 1px; */
-}
-.transaction-date{
-  font-family: 'Roboto-500';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
-  /* letter-spacing: 1px; */
-}
-.transaction-voluntary{
-  font-family: 'Roboto-400';
-  font-style: normal;
-  color: #8A8A8A;
-  font-size: 12px;
-  line-height: 14px;
-/* letter-spacing: 1px; */
-}
-.transaction-voluntary span{
-  font-family: 'Roboto-400';
-  font-weight: 700;
-}
-.transaction-return{
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
-  /* letter-spacing: 1px; */
-  text-decoration-line: underline;
-  color: #76CECB;
 }
 .disabled{
   background-color: #999;

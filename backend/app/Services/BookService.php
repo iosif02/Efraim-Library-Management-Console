@@ -33,7 +33,7 @@ class BookService implements IBookService
     {
         $filters = ['pagination' => [ 'per_page' => 3, 'page' => 1]];
         $delayedBooks = $this->bookRepository->SearchDelayedBooks($filters);
-        $popularBooks = $this->bookRepository->SearchPopularBooks($filters);
+        $popularBooks = $this->SearchPopularBooks($filters);
         $categories = $this->entityRepository->SearchCategories($filters);
 
         return [
@@ -106,7 +106,18 @@ class BookService implements IBookService
 
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
-        return $this->bookRepository->SearchPopularBooks($filters);
+        $books = $this->bookRepository->SearchPopularBooks($filters);
+        $bookIds = array_column($books->items(), 'id');
+        $bookAuthors = $this->bookRepository->GetAuthorsById($bookIds);
+
+        foreach ($books as $book) {
+            foreach($bookAuthors as $author){
+                if($book->id == $author->book_id)
+                    $book->authors = $author->authors;
+            }
+        }
+
+        return $books;
     }
 
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator

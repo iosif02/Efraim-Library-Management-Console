@@ -2,7 +2,17 @@
 import AuthorIcon from '@/components/icons/AuthorIcon.vue';
 import ReaderIcon from '@/components/icons/ReaderIcon.vue';
 import { RouterLink } from "vue-router";
+import { authStore } from '@/stores/auth-store';
 
+const store = authStore();
+var logout = async () => {
+  let log = await store.logout()
+  if(log){
+    setTimeout(() => {
+      location.reload()
+    }, 100);
+  }
+}
 </script>
 
 <template>
@@ -17,6 +27,13 @@ import { RouterLink } from "vue-router";
       <AuthorIcon />
       <p class="container-title">Profile</p>
     </RouterLink>
+
+    <button
+      class="btn w-100"
+      @click="() => logout()"
+    >
+      Log Out
+    </button>
 
   </div>
 </template>

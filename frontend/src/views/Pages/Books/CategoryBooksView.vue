@@ -5,7 +5,8 @@ import router from '@/router';
 import { useBooksStore } from '@/stores/books-store';
 
 const props = defineProps({
-  id: String
+  id: String,
+  categoryName: String
 })
 
 if(!props.id || props.id == '0' || !parseInt(props.id))
@@ -23,11 +24,11 @@ if(!store.categoryBooks.data.length || store.categoryBooks.data[0].category.id !
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack go-back-text="Category Book" />
+    <GoBack :go-back-text="$route.query.categoryName"/>
 
     <SearchBar
         :defaultValue="store.categoryBooks.searchModel.title"
-        @valueChanged="(value: string) => (store.categoryBooks.searchModel.title = value, store.categoryBooks.searchModel.pagination.page = 0, store.searchCategoryBooks())"
+        @valueChanged="(value: string) => (store.categoryBooks.searchModel.title = value, store.categoryBooks.searchModel.pagination.page = 1, store.searchCategoryBooks())"
         placeholder='Search book...'
     />
 

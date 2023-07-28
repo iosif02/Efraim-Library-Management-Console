@@ -16,7 +16,7 @@ if(!store.popularBooks.data.length)
 
     <SearchBar
         :defaultValue="store.popularBooks.searchModel.title"
-        @valueChanged="(value: string) => (store.popularBooks.searchModel.title = value, store.popularBooks.searchModel.pagination.page = 0, store.fetchPopularBooks())"
+        @valueChanged="(value: string) => (store.popularBooks.searchModel.title = value, store.popularBooks.searchModel.pagination.page = 1, store.fetchPopularBooks())"
         placeholder='Search book...'
     />
 
