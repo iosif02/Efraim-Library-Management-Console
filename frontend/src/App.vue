@@ -44,18 +44,18 @@ html,body {
 }
 .notification-content {
   text-align: center;
-  color: rgba(0, 0, 0, 0.5)
+  color: #fff;
 }
 .success {
-  background: rgba(104, 205, 134, 0.5) !important;
-  border-left-color: rgba(66, 168, 95, 0.5) !important;
+  background: rgba(104, 205, 134, 1) !important;
+  border-left-color: rgba(66, 168, 95, 1) !important;
 }
 .warn {
-  background: rgba(255, 182, 72, 0.5) !important;
-  border-left-color: rgba(244, 138, 6, 0.5) !important;
+  background: rgba(255, 182, 72, 1) !important;
+  border-left-color: rgba(244, 138, 6, 1) !important;
 }
 .error {
-  background: rgba(229, 77, 66, 0.5) !important;
-  border-left-color: rgba(184, 46, 36, 0.5) !important;
+  background: rgba(229, 77, 66, 1) !important;
+  border-left-color: rgba(184, 46, 36, 1) !important;
 }
 </style>
