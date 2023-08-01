@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <notifications style="z-index: 10;" position="bottom center" closeOnClick="true" />
+  <notifications style="z-index: 10;" position="bottom center" :closeOnClick="true" />
   <Suspense>
     <RouterView />
   </Suspense>
