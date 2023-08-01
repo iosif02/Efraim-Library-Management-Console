@@ -9,6 +9,29 @@ defineProps({
         required: true
     }
 });
+
+const backgroundColor = [
+    'background-color: #001219;',
+    'background-color: #005F73;',
+    'background-color: #0A9396;',
+    'background-color: #94D2BD;',
+    'background-color: #E9D8A6;',
+    'background-color: #EE9B00;',
+    'background-color: #CA6702;',
+    'background-color: #BB3E03;',
+    'background-color: #AE2012;',
+    'background-color: #9B2226;',
+]
+
+function getRandomColor() {
+    const randomNumber = Math.floor(Math.random() * 10)
+    return backgroundColor[randomNumber]
+}
+
+function getNameIntial(first_initial: String, second_initial: String) {
+    if(first_initial == second_initial) return first_initial;
+    return first_initial + '' + second_initial;
+}
 </script>
 
 <template>
@@ -20,8 +43,8 @@ defineProps({
             :key="index" 
         >
             <div class="right-section">
-                <div class="user-image">
-                    <img :src="user.user_details?.photo_url ?? '/img/user.jpg'" alt="user-image">
+                <div class="user-image" :style="getRandomColor()">
+                    <p>{{ getNameIntial(user.first_name[0], user.last_name[0]) }}</p>
                 </div>
                 <div class="about-section">
                     <p class="user-name">{{ user.first_name + ' ' + user.last_name}}</p>
@@ -50,15 +73,18 @@ defineProps({
     overflow: hidden;
 }
 .user-image{
+    min-width: 42px;
     width: 42px;
     height: 42px;
-    min-width: 42px;
-}
-.user-image img{
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
     border-radius: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-image p{
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 .about-section{
     display: flex;

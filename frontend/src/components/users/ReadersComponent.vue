@@ -12,12 +12,22 @@ defineProps({
     }
 });
 
+const backgroundColor = [
+    'background-color: #001219;',
+    'background-color: #005F73;',
+    'background-color: #0A9396;',
+    'background-color: #94D2BD;',
+    'background-color: #E9D8A6;',
+    'background-color: #EE9B00;',
+    'background-color: #CA6702;',
+    'background-color: #BB3E03;',
+    'background-color: #AE2012;',
+    'background-color: #9B2226;',
+]
 
 function getRandomColor() {
-    const red = Math.floor(Math.random() * 256);
-    const green = Math.floor(Math.random() * 256);
-    const blue = Math.floor(Math.random() * 256);
-    return `#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}`;
+    const randomNumber = Math.floor(Math.random() * 10)
+    return backgroundColor[randomNumber]
 }
 
 function getNameIntial(first_initial: String, second_initial: String) {
@@ -35,7 +45,7 @@ function getNameIntial(first_initial: String, second_initial: String) {
             :key="index" 
         >
             <div class="left-section">
-                <div class="user-image" :style="{ backgroundColor: getRandomColor() }">
+                <div class="user-image" :style="getRandomColor()">
                     <p>{{ getNameIntial(user.first_name[0], user.last_name[0]) }}</p>
                 </div>
                 <div class="about-section">
