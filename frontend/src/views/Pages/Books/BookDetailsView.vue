@@ -2,7 +2,7 @@
 import router from '@/router';
 import { RouterLink } from "vue-router";
 import { useBooksStore } from '@/stores/books-store';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import BorrowBookComponent from '@/components/books/BorrowBookComponent.vue';
 import DetailsBook from '@/components/books/DetailsBookComponent.vue'
 
@@ -27,9 +27,7 @@ var onReturn = (transactionId: number) => {
 const showModal = ref<boolean>(false);
 
 var deleteBook = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
   store.deleteBook(parseInt(props.id || ''))
   .then(result => {
     if(result){
@@ -41,15 +39,11 @@ var deleteBook = () => {
 }
 
 var hideModal = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
 }
 
 var openModal = () => {
-  watchEffect(() => {
-    showModal.value = true;
-  });
+  showModal.value = true;
 }
 
 </script>

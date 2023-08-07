@@ -2,7 +2,7 @@
 import router from '@/router';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useUsersStore } from '@/stores/user-store';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import ReadersComponent from '@/components/users/ReadersComponent.vue';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 
@@ -16,15 +16,11 @@ let userId = 0;
 
 var openModal = (selectedUserId: number) => {
   userId = selectedUserId;
-  watchEffect(() => {
-    showModal.value = true;
-  });
+  showModal.value = true;
 }
 
 var deleteUser = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
   store.deleteUser(userId)
   .then(result =>{
     if(result)
@@ -33,9 +29,7 @@ var deleteUser = () => {
 }
 
 var hideModal = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
 }
 </script>
 

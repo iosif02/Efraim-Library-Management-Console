@@ -3,12 +3,17 @@ import AuthorIcon from '@/components/icons/AuthorIcon.vue';
 import ReaderIcon from '@/components/icons/ReaderIcon.vue';
 import { RouterLink } from "vue-router";
 import { authStore } from '@/stores/auth-store';
+import { ref } from 'vue';
 
+let isLoading = ref<boolean>(false);
 const store = authStore();
+
 var logout = async () => {
+  isLoading.value = true;
   let log = await store.logout()
   if(log){
     setTimeout(() => {
+      isLoading.value = false;
       location.reload()
     }, 100);
   }
@@ -28,13 +33,15 @@ var logout = async () => {
       <p class="container-title">Profile</p>
     </RouterLink>
 
-    <button
-      class="btn w-100"
-      @click="() => logout()"
-    >
-      Log Out
-    </button>
-
+    <div class="btn-container">
+			<button
+        class="btn w-100 m-0"
+        @click="logout"
+      >
+        Log Out
+      </button>
+			<LoadingButton v-if="isLoading" />
+		</div>
   </div>
 </template>
 
@@ -69,4 +76,8 @@ var logout = async () => {
   line-height: 20px;
   color: #6D727A;
 }
+.btn-container {
+		position: relative;
+		margin: 1rem 0rem .75rem 0rem;
+	}
 </style>

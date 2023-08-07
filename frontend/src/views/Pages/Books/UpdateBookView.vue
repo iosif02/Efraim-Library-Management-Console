@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useEntitiesStore } from '@/stores/entities-store';
 import type AuthorModel from '@/models/entities/AuthorModel';
@@ -45,9 +45,7 @@ var onFile = (e: any) => {
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = (e) => {
-        watchEffect(() => {
-            imgSrc.value = e.target?.result;
-        });
+        imgSrc.value = e.target?.result;
     }
 }
 
@@ -60,25 +58,19 @@ const selectedCategory = ref<CategoryModel>();
 const selectedPublisher = ref<PublisherModel>();
 
 var searchAuthors = (event: any) => {
-    watchEffect(() => {
-        if(event?.query?.length > 2) {
-            filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
-        }
-    });
+    if(event?.query?.length > 2) {
+        filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
+    }
 }
 var searchCategories = (event: any) => {
-    watchEffect(() => {
-        if(event?.query?.length > 2) {
-            filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
-        }
-    });
+    if(event?.query?.length > 2) {
+        filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+    }
 }
 var searchPublishers = (event: any) => {
-    watchEffect(() => {
-        if(event?.query?.length > 2) {
-            filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
-        }
-    });
+    if(event?.query?.length > 2) {
+        filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+    }
 }
 
 var onSubmit = (book: any) => {
@@ -95,6 +87,17 @@ var onSubmit = (book: any) => {
             router.back();
         }
     });
+}
+
+let focusedElement: any = ref(null)
+
+var blurInput = (e: any) => {
+    if(focusedElement) focusedElement?.target?.focus();
+    focusedElement.value = null;
+}
+
+function onFocusElement(e: any) {
+    focusedElement = e;
 }
 
 </script>
@@ -139,7 +142,7 @@ var onSubmit = (book: any) => {
             <label for="price">Publisher</label>
             <AutoComplete 
                 name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" :dropdown="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere"
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere" @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="publisher" />
         </div>
@@ -147,8 +150,8 @@ var onSubmit = (book: any) => {
             <Field name="authors" type="hidden" :value="selectedAuthors" v-model="selectedAuthors" />
             <label for="authors">Authors</label>
             <AutoComplete 
-                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere"
+                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true"
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere" @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="authors" />
         </div>
@@ -157,7 +160,7 @@ var onSubmit = (book: any) => {
             <label for="category">Category</label>
             <AutoComplete 
                 name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" :dropdown="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere"
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere" @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="category" />
         </div>
@@ -192,7 +195,7 @@ var onSubmit = (book: any) => {
 .image img {
     border-radius: 12px;
     object-fit: cover;
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
 }
 </style>

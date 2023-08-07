@@ -3,7 +3,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import CategoriesComponent from '@/components/entities/CategoriesComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 
 const store = useEntitiesStore();
 if (!store.categories.data.length)
@@ -14,9 +14,7 @@ let categoryId = 0;
 const showModal = ref<boolean>(false);
 
 var deleteCategory = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
   store.deleteCategory(categoryId)
   .then(result => {
     if(result){
@@ -26,16 +24,12 @@ var deleteCategory = () => {
 }
 
 var hideModal = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
 }
 
 var openModal = (selectedCategoryId: number) => {
   categoryId = selectedCategoryId;
-  watchEffect(() => {
-    showModal.value = true;
-  });
+  showModal.value = true;
 }
 
 </script>

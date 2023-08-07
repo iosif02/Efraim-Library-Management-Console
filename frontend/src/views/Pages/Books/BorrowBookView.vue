@@ -3,7 +3,7 @@ import router from '@/router';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useUsersStore } from '@/stores/user-store';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import UsersComponent from '@/components/users/UsersComponent.vue';
 import BorrowBookModel from "@/models/book/BorrowBookModel";
 
@@ -29,9 +29,7 @@ const showModal = ref<boolean>(false);
 let userId = 0;
 
 var openModal = (selectedUserId: number) => {
-  watchEffect(() => {
-    showModal.value = true;
-  });
+  showModal.value = true;
   userId = selectedUserId;
 }
 
@@ -39,9 +37,7 @@ var borrowBook = () => {
   let borrowModel = new BorrowBookModel();
   borrowModel.book_id = parseInt(props.id || '');
   borrowModel.user_id = userId;
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
   BooksStore.borrowBook(borrowModel)
   .then(result =>{
     if(result)
@@ -50,9 +46,7 @@ var borrowBook = () => {
 }
 
 var hideModal = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
 }
 </script>
 

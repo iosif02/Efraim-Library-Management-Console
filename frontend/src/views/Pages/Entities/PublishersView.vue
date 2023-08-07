@@ -3,7 +3,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import CategoriesComponent from '@/components/entities/CategoriesComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 
 const store = useEntitiesStore();
 if (!store.publishers.data.length)
@@ -14,9 +14,7 @@ let publisherId = 0;
 const showModal = ref<boolean>(false);
 
 var deletePublisher = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
   store.deletePublisher(publisherId)
   .then(result => {
     if(result){
@@ -26,16 +24,12 @@ var deletePublisher = () => {
 }
 
 var hideModal = () => {
-  watchEffect(() => {
-    showModal.value = false;
-  });
+  showModal.value = false;
 }
 
 var openModal = (selectedPublisherId: number) => {
   publisherId = selectedPublisherId;
-  watchEffect(() => {
-    showModal.value = true;
-  });
+  showModal.value = true;
 }
 
 </script>
