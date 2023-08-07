@@ -3,7 +3,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import { useUsersStore } from '@/stores/user-store';
 import router from '@/router';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import type RoleModel from '@/models/user/RoleModel';
 
 const store = useUsersStore();
@@ -37,9 +37,7 @@ const filteredRoles = ref<Array<RoleModel>>([]);
 const selectedRoles = ref<Array<RoleModel>>([]);
 
 var searchRoles = (event: any) => {
-  watchEffect(() => {
-      filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));
-  });
+  filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));
 }
 
 </script>

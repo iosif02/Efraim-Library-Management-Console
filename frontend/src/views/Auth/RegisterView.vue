@@ -3,13 +3,19 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import { authStore } from '@/stores/auth-store';
 import { useRouter } from "vue-router";
 import * as yup from 'yup';
+import { ref } from 'vue';
 
 const router = useRouter();
 const store = authStore();
+let isLoading = ref<boolean>(false);
 
 async function register(model: any): Promise<void> {
+	isLoading.value = true
 	let result = await store.register(model);
-	if(result) router.replace({ name: "login" });
+	if(result){
+		isLoading.value = false
+		router.replace({ name: "login" });
+	} 
 }
 
 const validateForm = yup.object({
@@ -49,7 +55,10 @@ const validateForm = yup.object({
 			<Field name="password_confirmation" type="password" />
 			<ErrorMessage name="password_confirmation" />
 		</div>
-		<input type="submit" value="Register" class="btn w-100">
+		<div class="btn-container">
+			<input type="submit" value="Register" class="btn w-100 m-0">
+			<LoadingButton v-if="isLoading" />
+		</div>
 		<p class="small-text">
 			Already have an account?
 			<RouterLink :to="{ name: 'login' }">Login here</RouterLink>
@@ -61,5 +70,9 @@ const validateForm = yup.object({
 	.small-text {
 		font-size: .75rem;
 		text-align: center;
+	}
+	.btn-container {
+		position: relative;
+		margin: 1rem 0rem .75rem 0rem;
 	}
 </style>

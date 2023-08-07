@@ -3,6 +3,7 @@ import { RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { authStore } from '@/stores/auth-store';
 import * as yup from 'yup';
+import { ref } from "vue";
 
 defineProps({
 	userCreated: {
@@ -11,16 +12,23 @@ defineProps({
 	}
 });
 
+let isLoading = ref<boolean>(false);
+
 const store = authStore();
 async function login(model: any): Promise<void> {
+	isLoading.value = true;
 	let result = await store.login(model);
-	if(result) location.reload();
+	if(result) {
+		isLoading.value = true;
+		location.reload();
+	}
 }
 
 const validateForm = yup.object({
 	email: yup.string().required().email(),
 	password: yup.string().required().min(8),
 });
+
 </script>
 
 <template>
@@ -36,7 +44,10 @@ const validateForm = yup.object({
 			<Field name="password" type="password" />
 			<ErrorMessage name="password" />
 		</div>
-		<input value="Sign In" type="submit" class="btn w-100">
+		<div class="btn-container">
+			<input value="Sign In" type="submit" class="btn w-100 m-0">
+			<LoadingButton v-if="isLoading" />
+		</div>
 		<p class="small-text">
 			You don't have an account?
 			<RouterLink :to="{ name: 'register' }">Register here</RouterLink>
@@ -48,5 +59,9 @@ const validateForm = yup.object({
 	.small-text {
 		font-size: .75rem;
 		text-align: center;
+	}
+	.btn-container {
+		position: relative;
+		margin: 1rem 0rem .75rem 0rem;
 	}
 </style>
