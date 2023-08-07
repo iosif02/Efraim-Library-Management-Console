@@ -17,6 +17,7 @@ var logout = async () => {
       location.reload()
     }, 100);
   }
+  isLoading.value = false;
 }
 </script>
 

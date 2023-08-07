@@ -19,9 +19,10 @@ async function login(model: any): Promise<void> {
 	isLoading.value = true;
 	let result = await store.login(model);
 	if(result) {
-		isLoading.value = true;
+		isLoading.value = false;
 		location.reload();
 	}
+	isLoading.value = false;
 }
 
 const validateForm = yup.object({

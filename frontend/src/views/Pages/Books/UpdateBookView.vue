@@ -142,7 +142,7 @@ function onFocusElement(e: any) {
             <label for="price">Publisher</label>
             <AutoComplete 
                 name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" :dropdown="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere" @focus="onFocusElement" @item-select="blurInput"
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="publisher" />
         </div>
@@ -151,7 +151,7 @@ function onFocusElement(e: any) {
             <label for="authors">Authors</label>
             <AutoComplete 
                 name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true"
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere" @focus="onFocusElement" @item-select="blurInput"
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="authors" />
         </div>
@@ -160,7 +160,7 @@ function onFocusElement(e: any) {
             <label for="category">Category</label>
             <AutoComplete 
                 name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" :dropdown="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Introduceti cel putin 3 caractere" @focus="onFocusElement" @item-select="blurInput"
+                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="category" />
         </div>
