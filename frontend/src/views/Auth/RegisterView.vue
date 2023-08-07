@@ -10,12 +10,13 @@ const store = authStore();
 let isLoading = ref<boolean>(false);
 
 async function register(model: any): Promise<void> {
-	isLoading.value = true
+	isLoading.value = true;
 	let result = await store.register(model);
 	if(result){
-		isLoading.value = false
+		isLoading.value = false;
 		router.replace({ name: "login" });
-	} 
+	}
+	isLoading.value = false;
 }
 
 const validateForm = yup.object({
