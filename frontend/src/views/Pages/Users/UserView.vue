@@ -39,7 +39,7 @@ var logout = async () => {
         class="btn w-100 m-0"
         @click="logout"
       >
-        Log Out
+        {{ isLoading ? '' : 'Log Out' }}
       </button>
 			<LoadingButton v-if="isLoading" />
 		</div>
@@ -80,5 +80,6 @@ var logout = async () => {
 .btn-container {
 		position: relative;
 		margin: 1rem 0rem .75rem 0rem;
+    height: 54px;
 	}
 </style>
