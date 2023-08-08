@@ -57,7 +57,7 @@ const validateForm = yup.object({
 			<ErrorMessage name="password_confirmation" />
 		</div>
 		<div class="btn-container">
-			<input type="submit" value="Register" class="btn w-100 m-0">
+			<input type="submit" :value="isLoading ? '' : 'Register'" class="btn w-100 m-0">
 			<LoadingButton v-if="isLoading" />
 		</div>
 		<p class="small-text">
@@ -75,5 +75,6 @@ const validateForm = yup.object({
 	.btn-container {
 		position: relative;
 		margin: 1rem 0rem .75rem 0rem;
+		height: 54px;
 	}
 </style>

@@ -51,10 +51,10 @@
   color: #FFFFFF;
 }
 
-.btn:hover {
+/* .btn:hover {
   background-color: #ffff;
   color: var(--button-color);
-}
+} */
 
 .btn-outline {
   background-color: #ffff;
@@ -147,6 +147,12 @@
 
 .p-button {
     height: 2.7rem;
+    background-color: #76CECB !important;
+    border: 1px solid #76CECB !important;
+}
+
+.p-button span {
+  color: #fff;
 }
 
 .p-autocomplete-multiple-container {

@@ -13,11 +13,11 @@
 		justify-content: center;
 		align-items: center;
 		border-radius: 50px;
-		background-color: rgba(0, 0, 0, 0.3);
+		background-color: rgba(0, 0, 0, 0.2);
 		position: absolute;
 	}
 	.spinner {
-		border: 4px solid rgba(0, 0, 0, 1); /* Border color of the spinner */
+		border: 4px solid rgba(250, 250, 250, 1); /* Border color of the spinner */
 		border-top: 4px solid #3498db; /* Color of the spinning element */
 		border-radius: 50%; /* Make the spinner a circle */
 		width: 30px; /* Set the width of the spinner */
