@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone', 16);
             $table->string('occupation');
             $table->date('birth_date');
+            $table->string('photo_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

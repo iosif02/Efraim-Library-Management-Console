@@ -11,7 +11,6 @@ class UserDetails extends Model
 {
     use HasFactory, SoftDeletes;
 
-
     protected $fillable = [
         'user_id',
         'identity_number',
@@ -19,6 +18,7 @@ class UserDetails extends Model
         'phone',
         'occupation',
         'birth_date',
+        'photo_url'
     ];
     public function User(): BelongsTo
     {

@@ -25,7 +25,7 @@ var onSubmit = (author: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Author"/>
+    <GoBack goBackText="Back"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">

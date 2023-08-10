@@ -36,7 +36,7 @@ var onSubmit = (publisher: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Publisher"/>
+    <GoBack goBackText="Back"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="store.publisher" class="form-control">

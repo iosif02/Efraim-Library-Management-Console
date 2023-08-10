@@ -37,7 +37,7 @@ var onSubmit = (category: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Category"/>
+    <GoBack goBackText="Back"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="store.category" class="form-control">

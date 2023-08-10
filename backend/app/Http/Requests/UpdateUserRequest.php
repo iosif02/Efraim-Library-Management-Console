@@ -25,8 +25,8 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'photo_url' => 'nullable|string',
             'email' => 'required|string|unique:users,email,' .request('userId'),
-            'password' => 'nullable|string',
             'identity_number' => 'required|regex:/^(\d{13})$/',
             'first_name' => 'required|string',
             'last_name' => 'required|string',

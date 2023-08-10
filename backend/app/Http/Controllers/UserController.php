@@ -58,4 +58,10 @@ class UserController extends Controller
         return response()->json($result);
     }
 
+    public function GetProfile(): JsonResponse
+    {
+        $result = $this->userService->GetUserDetailsById(auth()->id());
+        return response()->json($result);
+    }
+
 }
