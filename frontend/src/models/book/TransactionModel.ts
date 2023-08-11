@@ -7,6 +7,7 @@ export default class TransactionModel {
     return_date: string = "";
     lender_name: string = "";
     receiver_name: string = "";
+    delayed: number = 0;
 
     user: UserModel = new UserModel()
 }

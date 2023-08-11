@@ -18,21 +18,30 @@ let formatDate = (date: string) => {
     return date;
 }
 
+const daysLeft = (day: number) => {
+  if(day < 0)
+    return day + ' - day(s) delayed'
+  return day + ' - day(s) left'
+}
+
 </script>
 
 <template>
     <div class="borrow-list">
         <div class="borrow-book" v-for="transaction in books.transaction">
             <div>
-                <div class="row">
-                    <p class="transaction-name">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
-                    <StatusBookComponent :status="books.status"/>
-                </div>
-                <p class="transaction-date">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
+              <div class="row">
+                <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
+                <StatusBookComponent :status="books.status"/>
+              </div>
+              <div class="row">
+                <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
+                <p class="date highlight text-elipsis">{{ daysLeft(transaction.delayed) }}</p>
+              </div>
             </div> 
             <div class="row">
-                <p class="transaction-voluntary">Processed by <span>{{ transaction.lender_name }}</span></p>
-                <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+              <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
+              <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
             </div>
         </div>
     </div>
@@ -81,6 +90,7 @@ let formatDate = (date: string) => {
   font-size: 12px;
   line-height: 14.06px;
   color: #333333;
+  padding-right: 20px;
   /* letter-spacing: 1px; */
 }
 .transaction-date{
@@ -89,6 +99,7 @@ let formatDate = (date: string) => {
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
+  padding-right: 20px;
   /* letter-spacing: 1px; */
 }
 .transaction-voluntary{
@@ -97,6 +108,7 @@ let formatDate = (date: string) => {
   color: #8A8A8A;
   font-size: 12px;
   line-height: 14px;
+  padding-right: 20px;
 /* letter-spacing: 1px; */
 }
 .transaction-voluntary span{
@@ -112,5 +124,17 @@ let formatDate = (date: string) => {
   /* letter-spacing: 1px; */
   text-decoration-line: underline;
   color: #76CECB;
+}
+
+.date {
+  font-size: 12px;
+}
+.highlight {
+  background-color: #f0f0f0;
+  color: #333; 
+  padding: 3px 8px; 
+  border-radius: 50px; 
+  font-weight: bold; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 </style>

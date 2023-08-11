@@ -41,7 +41,7 @@ var borrowBook = () => {
   BooksStore.borrowBook(borrowModel)
   .then(result =>{
     if(result)
-      UsersStore.fetchUsers();
+      router.back()
   });
 }
 

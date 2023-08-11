@@ -127,9 +127,11 @@ class BookRepository implements IBookRepository
                     ->whereHas('User', function ($user) use ($filters) {
                         $user->where(function ($query) use($filters) {
                             $words = explode(" ", $filters['title']);
-                            if(count($words) == 2){
-                                $query->where('first_name', 'like', '%'.$words[0].'%')
-                                    ->Where('last_name', 'like', '%'.$words[1].'%')
+                            if(count($words) >= 2){
+                                $firstName = trim(preg_replace('/\s+/', ' ', implode(" ", array_slice($words, 0, count($words) - 1))));
+                                $lastName = $words[count($words) - 1];
+                                $query->where('first_name', 'like', '%'.$firstName.'%')
+                                    ->Where('last_name', 'like', '%'.$lastName.'%')
                                     ->orWhere(function ($query) use($filters) {
                                         $query->where('first_name', 'like', '%'.$filters['title'].'%');
                                     });
