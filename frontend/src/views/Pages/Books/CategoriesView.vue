@@ -4,7 +4,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 
 const store = useEntitiesStore();
-if(!store.categories.data.length)
+// if(!store.categories.data.length)
     store.fetchCategories();
 
 </script>

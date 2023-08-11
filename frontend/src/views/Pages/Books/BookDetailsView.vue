@@ -24,7 +24,6 @@ var onReturn = (transactionId: number) => {
       store.fetchBookDetails(props.id ?? "")
       .then(() => {
         store.fetchHomepage();
-        store.fetchDelayedBooks();
       })
   })
 }

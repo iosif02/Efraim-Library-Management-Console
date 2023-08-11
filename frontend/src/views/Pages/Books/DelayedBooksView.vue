@@ -4,7 +4,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();
-if(!store.delayedBooks.data.length)
+// if(!store.delayedBooks.data.length)
     store.fetchDelayedBooks();
 
 </script>
