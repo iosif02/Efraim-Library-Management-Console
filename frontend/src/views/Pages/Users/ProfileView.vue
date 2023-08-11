@@ -4,6 +4,7 @@ import { useUsersStore } from '@/stores/user-store';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import type RoleModel from '@/models/user/RoleModel';
+import moment from 'moment';
 
 const store = useUsersStore()
 if(!store.profile.id)
@@ -86,6 +87,13 @@ var toggleEdit = () => {
   isEdit.value = !isEdit.value
 }
 
+let formatDate = (date: any) => {
+  if (date) {
+      return moment(date, "YYYY-MM-DD h:mm:ss").format("DD MMMM Y");
+  }
+  return date;
+}
+
 </script>
 
 <template>
@@ -143,7 +151,7 @@ var toggleEdit = () => {
       </div>
       <div class="form-group">
         <label for="birth_date">Birth date</label>
-        <Field name="birth_date" type="date" />
+        <Field name="birth_date" type="date" min="1950-01-01" max="2050-12-31" />
         <ErrorMessage name="birth_date" />
       </div>
       <div class="form-group">
@@ -169,7 +177,7 @@ var toggleEdit = () => {
 
     <div class="profile-details">
       <div class="row" >
-        <p>Name:</p>
+        <p>Email:</p>
         <p>{{ store.profile.email }}</p>
       </div>
       <div class="row">
@@ -198,7 +206,7 @@ var toggleEdit = () => {
       </div>
       <div class="row">
         <p>Birth Date:</p>
-        <p>{{ store.profile.user_details.birth_date }}</p>
+        <p>{{ formatDate(store.profile.user_details.birth_date) }}</p>
       </div>
     </div>
   </div>

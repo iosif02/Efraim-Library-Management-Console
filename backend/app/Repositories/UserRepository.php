@@ -49,15 +49,18 @@ class UserRepository implements IUserRepository
 
     public function SearchUsers(array $filters): ?LengthAwarePaginator
     {
-        $query = User::select('id', 'first_name', 'last_name')
-            ->whereDoesntHave('Roles', function ($query) {
-                $query->where('name','admin');
-            });
+        $query = User::select('id', 'first_name', 'last_name');
+//            ->whereDoesntHave('Roles', function ($query) {
+//                $query->where('name','admin');
+//            });
 
             $words = explode(" ", $filters['name']);
             if(count($words) == 2){
                 $query->where('first_name', 'like', '%'.$words[0].'%')
-                    ->Where('last_name', 'like', '%'.$words[1].'%');
+                    ->Where('last_name', 'like', '%'.$words[1].'%')
+                    ->orWhere(function ($query) use($filters) {
+                        $query->where('first_name', 'like', '%'.$filters['name'].'%');
+                    });
             }elseif($words[0] != ""){
                 $query->where(function ($query) use ($words){
                     $query->where('first_name', 'like', '%' . $words[0] . '%')

@@ -54,12 +54,12 @@ class Book extends Model
         return $this->belongsTo(Publisher::class);
     }
 
-//    protected $appends = ['status'];
+    protected $appends = ['status'];
 
     protected function status(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->attributes['quantity'] - $this->attributes['transaction_count'],
+            get: fn () => $this->quantity - $this->transaction_count,
         );
     }
 

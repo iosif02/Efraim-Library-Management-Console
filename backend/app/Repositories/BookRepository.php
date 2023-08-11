@@ -99,7 +99,7 @@ class BookRepository implements IBookRepository
             'Transaction' => function ($query){
                 $query->where('is_returned', false);
             }
-        ])->find($bookId)?->append('status');
+        ])->find($bookId);
     }
 
     public function SearchBooks(array $filters): ?LengthAwarePaginator
@@ -118,23 +118,44 @@ class BookRepository implements IBookRepository
         }
 
         if(isset($filters['title']) && $filters['title'] != '') {
-            $book->where('title', 'like', '%'.$filters['title'].'%');
+            $book->where('title', 'like', '%' . $filters['title'] . '%')
+                ->orWhereHas('Authors', function ($author) use ($filters) {
+                    $author->where('name', 'like', '%' . $filters['title'] . '%');
+                })
+                ->orWhereHas('Transaction', function ($transaction) use ($filters) {
+                    $transaction->where('is_returned', false)
+                    ->whereHas('User', function ($user) use ($filters) {
+                        $user->where(function ($query) use($filters) {
+                            $words = explode(" ", $filters['title']);
+                            if(count($words) == 2){
+                                $query->where('first_name', 'like', '%'.$words[0].'%')
+                                    ->Where('last_name', 'like', '%'.$words[1].'%')
+                                    ->orWhere(function ($query) use($filters) {
+                                        $query->where('first_name', 'like', '%'.$filters['title'].'%');
+                                    });
+                            }elseif (count($words) != ""){
+                                $query->where('first_name', 'like', '%' . $words[0] . '%')
+                                    ->orWhere('last_name', 'like', '%' . $words[0] . '%');
+                            }
+                        });
+                    });
+                });
         }
 
-        $books = $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        return $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 
-        // TODO: get status directly from query, do not manipulate the data
-        $books->getCollection()->transform(function ($book) {
-            $book->append('status');
-            return $book;
-        });
+//        // TODO: get status directly from query, do not manipulate the data
+//        $books->getCollection()->transform(function ($book) {
+//            $book->append('status');
+//            return $book;
+//        });
 
-        return $books;
+//        return $books;
     }
 
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator
     {
-        $transaction =  Transactions::select('id', 'borrow_date', 'return_date', 'user_id', 'book_id')
+        return Transactions::select('id', 'borrow_date', 'return_date', 'user_id', 'book_id')
             ->where('return_date', '<', date('y-m-d'))->where('is_returned', false)
             ->with([
                 'Book' => fn($query) => $query->select('id', 'title', 'category_id', 'image'),
@@ -148,13 +169,13 @@ class BookRepository implements IBookRepository
             })
             ->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 
-        // TODO: get delayed directly from query, do not manipulate the data
-        $transaction->getCollection()->transform(function ($book) {
-            $book->append('delayed');
-            return $book;
-        });
-
-        return $transaction;
+//        // TODO: get delayed directly from query, do not manipulate the data
+//        $transaction->getCollection()->transform(function ($book) {
+//            $book->append('delayed');
+//            return $book;
+//        });
+//
+//        return $transaction;
     }
 
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
@@ -204,7 +225,7 @@ class BookRepository implements IBookRepository
     {
         $book = Book::select('id', 'quantity')->withCount([
             'Transaction' => fn($query) => $query->where('is_returned', 0)
-        ])->find($bookId)->append('status');
+        ])->find($bookId);
         return $book->status > 0;
     }
 
@@ -230,7 +251,7 @@ class BookRepository implements IBookRepository
     {
         $transaction = Transactions::find($transactionId);
         $transaction->is_returned = true;
-        $transaction->receiver_name = Auth::user()->fullName;
+        $transaction->receiver_name = Auth::user()->full_Name;
         $transaction->update();
         return $transaction;
     }
