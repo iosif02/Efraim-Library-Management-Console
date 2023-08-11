@@ -105,9 +105,9 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    fetchBookDetails(bookId: String) {
+    async fetchBookDetails(bookId: String) {
       this.isLoading = true;
-      axios.get("/books/" + bookId)
+      return axios.get("/books/" + bookId)
       .then(result => {
           if(!result.data) return;
 

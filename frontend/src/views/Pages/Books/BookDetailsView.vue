@@ -21,7 +21,11 @@ var onReturn = (transactionId: number) => {
   store.returnBook(transactionId)
   .then((result) => {
     if(result)
-      store.fetchBookDetails(props.id ?? "");
+      store.fetchBookDetails(props.id ?? "")
+      .then(() => {
+        store.fetchHomepage();
+        store.fetchDelayedBooks();
+      })
   })
 }
 const showModal = ref<boolean>(false);
