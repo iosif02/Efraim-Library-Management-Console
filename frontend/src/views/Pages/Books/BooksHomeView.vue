@@ -5,7 +5,6 @@ import PopularBooks from '@/components/books/PopularBooksComponent.vue';
 import Categories from '@/components/books/CategoriesComponent.vue';
 import TitleSection from "@/components/global/TitleSectionComponent.vue";
 import SearchBooksHomeView from '@/views/Pages/Books/SearchBooksHomeView.vue';
-import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 
 const store = useBooksStore();
 if(!store.homepage.isFetched){
@@ -31,20 +30,18 @@ if(!store.homepage.isFetched){
       </div>
 
       <div class="popular-books">
-        <TitleSection :title="'Popular Books'" :route-name="'popularBooks'" />
+        <TitleSection :title="`Popular Books (${store.homepage.data.totalPopularBooks})`" :route-name="'popularBooks'" />
         <PopularBooks :books="store.homepage.data.popularBooks" />
       </div>
 
       <div class="categories">
-        <TitleSection :title="'Categories'" :route-name="'categories'" />
+        <TitleSection :title="`Categories (${store.homepage.data.totalCategoryBooks})`" :route-name="'categories'" />
         <Categories :categories="store.homepage.data.categories"/>
       </div>
     </div>
     <div v-else>
       <SearchBooksHomeView />
     </div>
-
-    <CreateButtonComponent route-name="createBook" />
 	</div>
 </template>
 

@@ -106,7 +106,7 @@ function onFocusElement(e: any) {
     
     <Loading v-if="booksStore.isLoading" />
 
-    <GoBack go-back-text="Back" />
+    <GoBack go-back-text="Edit Book" />
 
     <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="booksStore.bookDetails" ref="myForm">
         <div class="form-group image">
@@ -141,8 +141,8 @@ function onFocusElement(e: any) {
             <Field name="publisher" type="hidden" :value="selectedPublisher" v-model="selectedPublisher" />
             <label for="price">Publisher</label>
             <AutoComplete 
-                name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" :dropdown="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
+                name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" 
+                scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="publisher" />
         </div>
@@ -150,8 +150,8 @@ function onFocusElement(e: any) {
             <Field name="authors" type="hidden" :value="selectedAuthors" v-model="selectedAuthors" />
             <label for="authors">Authors</label>
             <AutoComplete 
-                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :dropdown="true" :multiple="true"
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
+                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :multiple="true"
+                scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="authors" />
         </div>
@@ -159,13 +159,13 @@ function onFocusElement(e: any) {
             <Field name="category" type="hidden" :value="selectedCategory" v-model="selectedCategory" />
             <label for="category">Category</label>
             <AutoComplete 
-                name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" :dropdown="true" 
-                dropdownMode="current" scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
+                name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name"
+                scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" @item-select="blurInput"
             />
             <ErrorMessage name="category" />
         </div>
         
-        <input value="Edit" type="submit" class="btn w-100">
+        <input value="Save" type="submit" class="btn w-100">
 
     </Form>
 </template>

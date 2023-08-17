@@ -20,7 +20,7 @@ let formatDate = (date: string) => {
 
 const daysLeft = (day: number) => {
   if(day < 0)
-    return day + ' - day(s) delayed'
+    return day * (-1) + ' - day(s) late'
   return day + ' - day(s) left'
 }
 
@@ -36,7 +36,7 @@ const daysLeft = (day: number) => {
               </div>
               <div class="row">
                 <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
-                <p class="date highlight text-elipsis">{{ daysLeft(transaction.delayed) }}</p>
+                <p class="date highlight">{{ daysLeft(transaction.delayed)}}</p>
               </div>
             </div> 
             <div class="row">
@@ -125,9 +125,9 @@ const daysLeft = (day: number) => {
   text-decoration-line: underline;
   color: #76CECB;
 }
-
 .date {
   font-size: 12px;
+  white-space: nowrap;
 }
 .highlight {
   background-color: #f0f0f0;

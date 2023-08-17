@@ -101,8 +101,8 @@ img {
 .date {
     font-size: 12px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
 }
 .highlight {
     background-color: #f0f0f0; /* Highlight background color */

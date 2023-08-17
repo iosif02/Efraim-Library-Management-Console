@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PopularBooks from '@/components/books/PopularBooksComponent.vue';
 import Pagination from '@/components/global/PaginationComponent.vue';
+import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();
@@ -24,6 +25,9 @@ store.searchBooks();
     :last-page="store.books.searchModel.pagination.last_page"
     @change-page="(page: number) => (store.books.searchModel.pagination.page = page, store.searchBooks())"
   />
+
+  <CreateButtonComponent route-name="createBook" />
+
 </template>
 
 <style scoped>

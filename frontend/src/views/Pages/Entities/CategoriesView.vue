@@ -47,7 +47,7 @@ var openModal = (selectedCategoryId: number) => {
   />
 
 	<div>
-    <GoBack goBackText="Categories"/>
+    <GoBack :goBackText="`Categories (${store.categories.totalCategories})`"/>
 	</div>
 
   <SearchBar

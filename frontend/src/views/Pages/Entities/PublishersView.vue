@@ -47,7 +47,7 @@ var openModal = (selectedPublisherId: number) => {
   />
 
 	<div>
-    <GoBack goBackText="Publishers"/>
+    <GoBack :goBackText="`Publishers (${store.publishers.totalPublishers})`"/>
 	</div>
 
   <SearchBar

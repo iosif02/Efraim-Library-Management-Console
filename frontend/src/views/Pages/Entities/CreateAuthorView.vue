@@ -25,7 +25,7 @@ var onSubmit = (author: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Add Author"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
@@ -34,7 +34,7 @@ var onSubmit = (author: any) => {
       <Field name="name" />
       <ErrorMessage name="name" />
     </div>
-    <input value="Create" type="submit" class="btn w-100">
+    <input value="Add" type="submit" class="btn w-100">
   </Form>
 </template>
 

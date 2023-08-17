@@ -48,6 +48,8 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.homepage.data.popularBooks = result.data?.popularBooks?.data;
           this.homepage.data.delayedBooks = result.data?.delayedBooks?.data;
           this.homepage.data.totalDelayedBooks = result.data?.delayedBooks?.total;
+          this.homepage.data.totalPopularBooks = result.data?.popularBooks?.total;
+          this.homepage.data.totalCategoryBooks = result.data?.categories?.total;
           this.homepage.isFetched = true;
       })
       .catch(error => console.error("Request error: " + error))

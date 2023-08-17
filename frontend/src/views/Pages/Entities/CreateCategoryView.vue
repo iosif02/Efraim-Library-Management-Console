@@ -27,7 +27,7 @@ var onSubmit = (category: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Add Category"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
@@ -46,7 +46,7 @@ var onSubmit = (category: any) => {
       <Field name="number" type="number" />
       <ErrorMessage name="number" />
     </div>
-    <input value="Create" type="submit" class="btn w-100">
+    <input value="Add" type="submit" class="btn w-100">
   </Form>
 </template>
 

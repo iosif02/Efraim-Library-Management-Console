@@ -47,7 +47,7 @@ const filteredRoles = ref<Array<RoleModel>>([]);
 const selectedRoles = ref<Array<RoleModel>>([]);
 
 var searchRoles = (event: any) => {
-  filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));;
+  filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));
 }
 
 let focusedElement: any = ref(null)
@@ -67,7 +67,7 @@ function onFocusElement(e: any) {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Edit User"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details}" class="form-control">
@@ -120,7 +120,7 @@ function onFocusElement(e: any) {
       />
       <ErrorMessage name="roles" />
     </div>
-    <input value="Edit" type="submit" class="btn w-100">
+    <input value="Save" type="submit" class="btn w-100">
   </Form>
 </template>
 
