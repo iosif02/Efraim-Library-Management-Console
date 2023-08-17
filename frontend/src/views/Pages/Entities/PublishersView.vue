@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Pagination from '@/components/global/PaginationComponent.vue';
-import CategoriesComponent from '@/components/entities/CategoriesComponent.vue';
+import PublishersComponent from '@/components/entities/PublishersComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 import { ref } from 'vue';
@@ -56,7 +56,7 @@ var openModal = (selectedPublisherId: number) => {
     placeholder='Search publisher...'
   />
 
-  <CategoriesComponent :categories="store.publishers.data" routeName="editPublisher" @openModal="(selectedPublisherId) => openModal(selectedPublisherId)"/>
+  <PublishersComponent :publishers="store.publishers.data" routeName="editPublisher" @openModal="(selectedPublisherId) => openModal(selectedPublisherId)"/>
 
   <Pagination
     :current-page="store.publishers.searchModel.pagination.page"

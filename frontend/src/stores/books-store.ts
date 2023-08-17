@@ -28,6 +28,10 @@ export const useBooksStore = defineStore('useBooksStore', {
       searchModel: new SearchBookModel(),
       data: [] as BookModel[]
     },
+    authorBooks: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    },
     books: {
       searchModel: new SearchBookModel(),
       data: [] as BookModel[]
@@ -127,6 +131,19 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.categoryBooks.data = result.data.data;
           this.categoryBooks.searchModel.pagination.total = result.data.total ?? 1;
           this.categoryBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    searchAuthorBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.authorBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.authorBooks.data = result.data.data;
+          this.authorBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.authorBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
       })
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
