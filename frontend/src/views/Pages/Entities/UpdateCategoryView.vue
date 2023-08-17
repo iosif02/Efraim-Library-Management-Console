@@ -26,7 +26,6 @@ var onSubmit = (category: any) => {
   store.updateCategory(category)
   .then(result => {
     if(result){
-      store.fetchCategories();
       router.back();
     }
   });

@@ -6,16 +6,17 @@ import { useBooksStore } from '@/stores/books-store';
 
 const props = defineProps({
   id: String,
+  authorName: String,
 })
 
-if(!props.id || props.id == '')
+if(!props.id || props.id == '0' || !parseInt(props.id))
     router.replace({ name: 'author' });
 
 const store = useBooksStore();
 
-store.authorBooks.searchModel.author = props.id || '';
+store.authorBooks.searchModel.author = parseInt(props.id || '')
 
-if(!store.authorBooks.data.length || store.authorBooks.data[0].authors[0].name != props.id)
+if(!store.authorBooks.data.length || store.authorBooks.data[0].authors[0].pivot.author_id != parseInt(props.id || ''))
     store.searchAuthorBooks();
 
 </script>
@@ -23,7 +24,7 @@ if(!store.authorBooks.data.length || store.authorBooks.data[0].authors[0].name !
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack :go-back-text="props.id"/>
+    <GoBack :go-back-text="$route.query.authorName"/>
 
     <SearchBar
         :defaultValue="store.authorBooks.searchModel.title"

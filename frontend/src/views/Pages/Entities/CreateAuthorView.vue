@@ -14,7 +14,6 @@ var onSubmit = (author: any) => {
   store.createAuthor(author)
   .then(result => {
     if(result){
-      store.fetchAuthors();
       router.back();
     }
   });

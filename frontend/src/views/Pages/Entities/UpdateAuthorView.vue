@@ -24,7 +24,6 @@ var onSubmit = (author: any) => {
   store.updateAuthor(author)
   .then(result => {
     if(result){
-      store.fetchAuthors();
       router.back();
     }
   });

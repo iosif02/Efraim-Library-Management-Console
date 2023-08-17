@@ -6,8 +6,7 @@ import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue
 import { ref } from 'vue';
 
 const store = useEntitiesStore();
-if (!store.publishers.data.length)
-  store.fetchPublishers();
+store.fetchPublishers();
 
 let publisherId = 0;
 

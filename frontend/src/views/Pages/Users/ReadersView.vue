@@ -7,9 +7,7 @@ import ReadersComponent from '@/components/users/ReadersComponent.vue';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 
 const store = useUsersStore();
-
-if(!store.users.data.length)
-  store.fetchUsers();
+store.fetchUsers();
 
 const showModal = ref<boolean>(false);
 let userId = 0;
@@ -49,7 +47,7 @@ var hideModal = () => {
 
   <SearchBar
     :defaultValue="store.users.searchModel.name"
-    @valueChanged="(value: string) => (store.users.searchModel.name = value, store.users.searchModel.pagination.page = 0, store.fetchUsers())"
+    @valueChanged="(value: string) => (store.users.searchModel.name = value, store.users.searchModel.pagination.page = 1, store.fetchUsers())"
     placeholder="Search user..."
   />
 

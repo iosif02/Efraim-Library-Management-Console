@@ -15,7 +15,6 @@ var onSubmit = (publisher: any) => {
   store.createPublisher(publisher)
   .then(result => {
     if(result){
-      store.fetchPublishers();
       router.back();
     }
   });

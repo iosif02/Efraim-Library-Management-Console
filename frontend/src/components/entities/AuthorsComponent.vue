@@ -14,7 +14,7 @@ defineProps({
 <template>
     <div class="authors">
         <div v-for="author in authors" class="author" >
-            <RouterLink :to="{ name: 'authorBook', params: { id: author.name } }" class="link">
+            <RouterLink :to="{ name: 'authorBook', params: { id: author.id }, query: { authorName: author.name } }" class="link">
                 <div class="details">
                     <div class="book-title text-elipsis">{{ author.number }} {{ author.name }}</div>
                     <div class="text-elipsis">{{ author.book_count }} books</div>

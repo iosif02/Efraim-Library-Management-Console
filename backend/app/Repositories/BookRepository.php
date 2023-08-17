@@ -117,9 +117,16 @@ class BookRepository implements IBookRepository
             $book->where('category_id', $filters['category']);
         }
 
-        if(isset($filters['author']) && $filters['author'] != ''){
+        if(isset($filters['author']) && $filters['author'] != 0){
             $book->whereHas('Authors', function ($authors) use ($filters) {
-                $authors->where('name', $filters['author']);
+                $authors->where('Authors.id', $filters['author']);
+            });
+        }
+
+        if(isset($filters['user']) && $filters['user'] != 0){
+            $book->whereHas('Transaction', function ($transaction) use ($filters) {
+                $transaction->where('is_returned', false)
+                    ->where('user_id', $filters['user']);
             });
         }
 

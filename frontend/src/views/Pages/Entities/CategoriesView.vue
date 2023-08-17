@@ -6,8 +6,7 @@ import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue
 import { ref } from 'vue';
 
 const store = useEntitiesStore();
-if (!store.categories.data.length)
-  store.fetchCategories();
+store.fetchCategories();
 
 let categoryId = 0;
 

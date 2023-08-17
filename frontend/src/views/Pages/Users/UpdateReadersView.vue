@@ -38,7 +38,6 @@ var onSubmit = (user: any) => {
   .then(result => {
     if(result)
       router.back();
-      store.fetchUsers();
   });
   console.log(user)
 }
