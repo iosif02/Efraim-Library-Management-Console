@@ -124,22 +124,26 @@ class BookRepository implements IBookRepository
         }
 
         if(isset($filters['title']) && $filters['title'] != '') {
-            $book->where('title', 'like', '%' . $filters['title'] . '%')
-                ->orWhereHas('Authors', function ($author) use ($filters) {
-                    $author->where('name', 'like', '%' . $filters['title'] . '%');
-                })
-                ->orWhereHas('Transaction', function ($transaction) use ($filters) {
-                    $transaction->where('is_returned', false)
+            $book->where('title', 'like', '%' . $filters['title'] . '%');
+        }
+
+        if(isset($filters['searchAll']) && $filters['searchAll'] != ''){
+            $book->where('title', 'like', '%' . $filters['searchAll'] . '%')
+            ->orWhereHas('Authors', function ($author) use ($filters) {
+                $author->where('name', 'like', '%' . $filters['searchAll'] . '%');
+            })
+            ->orWhereHas('Transaction', function ($transaction) use ($filters) {
+                $transaction->where('is_returned', false)
                     ->whereHas('User', function ($user) use ($filters) {
                         $user->where(function ($query) use($filters) {
-                            $words = explode(" ", $filters['title']);
+                            $words = explode(" ", $filters['searchAll']);
                             if(count($words) >= 2){
                                 $firstName = trim(preg_replace('/\s+/', ' ', implode(" ", array_slice($words, 0, count($words) - 1))));
                                 $lastName = $words[count($words) - 1];
                                 $query->where('first_name', 'like', '%'.$firstName.'%')
                                     ->Where('last_name', 'like', '%'.$lastName.'%')
                                     ->orWhere(function ($query) use($filters) {
-                                        $query->where('first_name', 'like', '%'.$filters['title'].'%');
+                                        $query->where('first_name', 'like', '%'.$filters['searchAll'].'%');
                                     });
                             }elseif (count($words) != ""){
                                 $query->where('first_name', 'like', '%' . $words[0] . '%')

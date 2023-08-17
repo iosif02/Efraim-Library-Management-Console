@@ -8,9 +8,8 @@ const props = defineProps({
   id: String,
 })
 
-// if(!props.id || props.id == '0' || !parseInt(props.id))
-//     router.replace({ name: 'categories' });
-console.log(props.id)
+if(!props.id || props.id == '')
+    router.replace({ name: 'author' });
 
 const store = useBooksStore();
 
