@@ -21,6 +21,8 @@ let formatDate = (date: string) => {
 const daysLeft = (day: number) => {
   if(day < 0)
     return day * (-1) + ' - day(s) late'
+  if(day == 0)
+    return 'the return day'
   return day + ' - day(s) left'
 }
 

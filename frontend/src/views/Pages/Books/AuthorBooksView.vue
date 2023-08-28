@@ -32,7 +32,8 @@ if(!store.authorBooks.data.length || store.authorBooks.data[0].authors[0].pivot.
         placeholder='Search book...'
     />
 
-    <PopularBooks :books="store.authorBooks.data" />
+    <PopularBooks v-if="store.authorBooks.searchModel.pagination.total" :books="store.authorBooks.data" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
     <Pagination
         :current-page="store.authorBooks.searchModel.pagination.page"

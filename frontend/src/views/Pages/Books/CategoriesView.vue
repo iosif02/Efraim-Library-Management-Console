@@ -20,7 +20,8 @@ const store = useEntitiesStore();
         placeholder='Search category...'
     />
 
-    <Categories :categories="store.categories.data" />
+    <Categories v-if="store.categories.searchModel.pagination.total" :categories="store.categories.data" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
     <Pagination
         :current-page="store.categories.searchModel.pagination.page"

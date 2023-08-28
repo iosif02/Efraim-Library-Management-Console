@@ -104,7 +104,8 @@ class BookRepository implements IBookRepository
 
     public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
-        $book = Book::select('id', 'title', 'category_id', 'quantity', 'image')
+        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
+            ->join('transactions', 'books.id', '=', 'transactions.book_id')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
@@ -160,6 +161,11 @@ class BookRepository implements IBookRepository
                     });
                 });
         }
+
+        $book->orderBy('transactions.created_at', 'desc')
+            ->where('transactions.is_returned', 0)
+//            ->groupBy('id', 'title', 'category_id', 'quantity', 'image');
+            ->distinct('books.id');
 
         return $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 

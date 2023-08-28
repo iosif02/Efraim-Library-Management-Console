@@ -20,7 +20,8 @@ const store = useBooksStore();
         placeholder='Search book...'
     />
 
-    <DelayedBooks :books="store.delayedBooks.data" />
+    <DelayedBooks v-if="store.delayedBooks.searchModel.pagination.total" :books="store.delayedBooks.data" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
     <Pagination
         :current-page="store.delayedBooks.searchModel.pagination.page"

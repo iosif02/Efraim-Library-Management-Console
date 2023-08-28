@@ -84,7 +84,8 @@ var hideModal = () => {
     placeholder="Search user..."
   />
 
-  <UsersComponent :users="UsersStore.users.data" @openModal="(userId) => openModal(userId)"/>
+  <UsersComponent v-if="UsersStore.users.searchModel.pagination.total" :users="UsersStore.users.data" @openModal="(userId) => openModal(userId)"/>
+  <div class="no-found" v-else-if="!(BooksStore.isLoading || UsersStore.isLoading)"> No Result Found! </div>
 
   <Pagination
     :current-page="UsersStore.users.searchModel.pagination.page"
@@ -148,5 +149,8 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.no-found{
+  top: calc(50% + 80px);
 }
 </style>

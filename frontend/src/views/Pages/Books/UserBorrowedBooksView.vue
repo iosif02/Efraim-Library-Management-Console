@@ -29,8 +29,9 @@ store.searchUserBorrowedBooks();
         placeholder='Search book...'
     />
 
-    <PopularBooks :books="store.userBorrowedBooks.data" />
-
+    <PopularBooks v-if="store.userBorrowedBooks.searchModel.pagination.total" :books="store.userBorrowedBooks.data" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
+    
     <Pagination
         :current-page="store.userBorrowedBooks.searchModel.pagination.page"
         :last-page="store.userBorrowedBooks.searchModel.pagination.last_page"

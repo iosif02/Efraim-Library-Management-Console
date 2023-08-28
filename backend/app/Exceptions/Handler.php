@@ -47,19 +47,19 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (CustomException $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
-        });
-
-        $this->renderable(function (Throwable $e) {
-            if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException && !$e instanceof AuthenticationException)
-                return response()->json(['message' => 'Something went wrong!'], 400);
-        });
-
-        $this->renderable(function (Exception $e) {
-            if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException && !$e instanceof AuthenticationException)
-                return response()->json(['message' => 'Something went wrong!'], 400);
-        });
+//        $this->renderable(function (CustomException $e) {
+//            return response()->json(['message' => $e->getMessage()], $e->getCode());
+//        });
+//
+//        $this->renderable(function (Throwable $e) {
+//            if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException && !$e instanceof AuthenticationException)
+//                return response()->json(['message' => 'Something went wrong!'], 400);
+//        });
+//
+//        $this->renderable(function (Exception $e) {
+//            if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException && !$e instanceof AuthenticationException)
+//                return response()->json(['message' => 'Something went wrong!'], 400);
+//        });
 
     }
 }

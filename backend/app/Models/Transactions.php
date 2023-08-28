@@ -40,7 +40,7 @@ class Transactions extends Model
         return Attribute::make(
             get: function() {
                 $start = strtotime($this->return_date);
-                $end = strtotime(date('Y-m-d H:s:i'));
+                $end = strtotime(now('Europe/Bucharest'));
                 return (int)(($start - $end)/86400);
             },
         );

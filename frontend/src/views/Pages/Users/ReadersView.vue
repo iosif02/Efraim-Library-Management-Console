@@ -51,7 +51,8 @@ var hideModal = () => {
     placeholder="Search user..."
   />
 
-  <ReadersComponent :users="store.users.data" routeName="editReader" @openModal="(selectedUserId) => openModal(selectedUserId)"/>
+  <ReadersComponent v-if="store.users.searchModel.pagination.total" :users="store.users.data" routeName="editReader" @openModal="(selectedUserId) => openModal(selectedUserId)"/>
+  <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
   <Pagination
     :current-page="store.users.searchModel.pagination.page"
