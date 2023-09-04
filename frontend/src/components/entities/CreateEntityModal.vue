@@ -70,7 +70,6 @@ var onSubmit = (entity: any) => {
             }
         });
     }
-    console.log(props.typeEntity)
 };
 
 </script>

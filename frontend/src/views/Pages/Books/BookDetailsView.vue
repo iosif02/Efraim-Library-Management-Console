@@ -34,7 +34,7 @@ var deleteBook = () => {
   store.deleteBook(parseInt(props.id || ''))
   .then(result => {
     if(result){
-      if(store.homepage.searchModel.title != "")
+      if(store.homepage.searchModel.searchAll != "")
         store.searchHomeBooks();
       router.back();
     }

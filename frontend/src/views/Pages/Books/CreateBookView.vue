@@ -105,14 +105,13 @@ function onFocusElement(e: any) {
 let typeEntity = ''
 
 let entity: AuthorModel|CategoryModel|PublisherModel = {
-  id: 0, 
-  name: "",
-  book_count: 0,
-  pivot: {
-    author_id: 0,
-    book_id: 0
-  }
+    id: 0, 
+    number: 0, 
+    description: '', 
+    book_count: 0, 
+    name:''
 };
+
 const showModal = ref<boolean>(false);
 
 var submit = (entity: any) => {
@@ -142,7 +141,7 @@ var submit = (entity: any) => {
     <CreateEntityModal 
         v-if="showModal" 
         :title="`Create ${typeEntity}`"
-        @hide-modal="showModal = false" 
+        @hide-modal="showModal = false, focusInput" 
         @create-entity="(entity: any) => submit(entity)" 
         :entity = entity 
         :typeEntity="typeEntity"
@@ -183,7 +182,12 @@ var submit = (entity: any) => {
             <AutoComplete 
                 name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" 
                 scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement"
-                @item-select="filteredPublishers[0].id != 0 ? focusInput : (typeEntity = 'Publisher', showModal = true)"
+                @item-select="
+                    filteredPublishers[0].id != 0 
+                        ? 
+                    focusInput 
+                        : 
+                    (typeEntity = 'Publisher' ,selectedPublisher = {id: 0, name: '', city: '', book_count: 0}, showModal = true)"
             />
             <ErrorMessage name="publisher" />
         </div>
@@ -203,7 +207,12 @@ var submit = (entity: any) => {
             <AutoComplete 
                 name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" 
                 scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement"
-                @item-select="filteredCategories[0].id != 0 ? focusInput : (typeEntity = 'Category', showModal = true)"
+                @item-select="
+                filteredCategories[0].id != 0 
+                    ? 
+                focusInput 
+                    : 
+                (typeEntity = 'Category', selectedCategory = {id: 0, name: '', description: '' , number: 0 ,book_count: 0}, showModal = true)"
             />
             <ErrorMessage name="category" />
         </div>
