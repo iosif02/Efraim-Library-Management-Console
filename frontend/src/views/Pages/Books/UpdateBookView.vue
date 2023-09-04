@@ -62,7 +62,7 @@ var searchAuthors = (event: any) => {
     if(event?.query?.length > 2) {
         filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
         if(filteredAuthors.value.length == 0){
-            filteredAuthors.value = [{id: 0, name: "Result Not Found! Tap to create!", book_count: 0, pivot: { author_id: 0, book_id: 0 }}]
+            filteredAuthors.value = [{id: 0, name: "Result not found! Tap to create!", book_count: 0, pivot: { author_id: 0, book_id: 0 }}]
             entity = {id: 0, name: event.query, book_count: 0, pivot: { author_id: 0, book_id: 0 }}
         }
     }
@@ -71,7 +71,7 @@ var searchCategories = (event: any) => {
     if(event?.query?.length > 2) {
         filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
         if(filteredCategories.value.length == 0){
-            filteredCategories.value = [{id: 0, name: "Result Not Found! Tap to create!", description: '' , number: 0 ,book_count: 0}]
+            filteredCategories.value = [{id: 0, name: "Result not found! Tap to create!", description: '' , number: 0 ,book_count: 0}]
             entity = {id: 0, name: event.query, description: '' , number: 0 ,book_count: 0}
         }
     }
@@ -80,7 +80,7 @@ var searchPublishers = (event: any) => {
     if(event?.query?.length > 2) {
         filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
         if(filteredPublishers.value.length == 0){
-            filteredPublishers.value = [{id: 0, name: "Result Not Found! Tap to create!", city: '', book_count: 0}]
+            filteredPublishers.value = [{id: 0, name: "Result not found! Tap to create!", city: '', book_count: 0}]
             entity = {id: 0, name: event.query, city: '', book_count: 0}
         }
     }
