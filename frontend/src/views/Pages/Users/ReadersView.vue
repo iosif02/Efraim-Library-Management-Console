@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import router from '@/router';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useUsersStore } from '@/stores/user-store';
 import { ref } from 'vue';
@@ -43,7 +42,7 @@ var hideModal = () => {
     @cancel="hideModal" 
   />
 
-  <GoBack goBackText="Readers"/>
+  <GoBack :goBackText="`Readers (${store.users.totalUsers})`"/>
 
   <SearchBar
     :defaultValue="store.users.searchModel.name"

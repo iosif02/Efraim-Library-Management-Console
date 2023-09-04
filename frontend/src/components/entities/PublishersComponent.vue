@@ -14,10 +14,12 @@ defineProps({
 <template>
     <div class="categories">
         <div v-for="publisher in publishers" class="category" >
-            <div class="details">
-                <div class="book-title text-elipsis">{{ publisher.number }} {{ publisher.name }}</div>
-                <div class="text-elipsis">{{ publisher.book_count }} books</div>
-            </div>
+            <RouterLink :to="{ name: 'publisherBooks', params: { id: publisher.id }, query: { publisherName: publisher.name } }" class="link" >
+                <div class="details">
+                    <div class="book-title text-elipsis">{{ publisher.number }} {{ publisher.name }}</div>
+                    <div class="text-elipsis">{{ publisher.book_count }} books</div>
+                </div>
+            </RouterLink>
             <div class="btn-container">
                 <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: publisher.id } })">Edit</button>
                 <button class="btn-delete" @click="$emit('openModal', publisher.id)">Delete</button>
@@ -41,6 +43,7 @@ defineProps({
 }
 .details {
     overflow: hidden;
+    text-align: start;
 }
 .book-title {
     font-family: 'Roboto-500';
@@ -50,5 +53,10 @@ defineProps({
 .btn-container{
     display: flex;
     flex-wrap: nowrap;
+}
+.link {
+    text-decoration: none;
+    flex: 1;
+    overflow: hidden;
 }
 </style>

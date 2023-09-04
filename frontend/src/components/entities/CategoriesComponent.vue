@@ -14,7 +14,7 @@ defineProps({
 <template>
     <div class="categories">
         <div v-for="category in categories" class="category" >
-            <RouterLink :to="{ name: 'categoryBook', params: { id: category.id }, query: { categoryName: category.name } }" class="link">
+            <RouterLink :to="{ name: 'categoryBooks', params: { id: category.id }, query: { categoryName: category.name } }" class="link">
                 <div class="details">
                     <div class="book-title text-elipsis">{{ category.number }} {{ category.name }}</div>
                     <div class="text-elipsis">{{ category.book_count }} books</div>

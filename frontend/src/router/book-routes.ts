@@ -5,6 +5,7 @@ import UpdateBookViewVue from "@/views/Pages/Books/UpdateBookView.vue";
 import BorrowBookViewVue from "@/views/Pages/Books/BorrowBookView.vue";
 import CategoryBooksViewVue from "@/views/Pages/Books/CategoryBooksView.vue";
 import AuthorBooksViewVue from "@/views/Pages/Books/AuthorBooksView.vue";
+import PublisherBooksViewVue from "@/views/Pages/Books/PublisherBooksView.vue";
 import userBorrowedBooksViewVue from "@/views/Pages/Books/UserBorrowedBooksView.vue";
 import BooksViewVue from "@/views/Pages/Books/BooksView.vue";
 
@@ -45,14 +46,20 @@ export default
         },
         {
             path: "/category-book/:id",
-            name: "categoryBook",
+            name: "categoryBooks",
             component: CategoryBooksViewVue,
             props: true,
         },
         {
             path: "/author-book/:id",
-            name: "authorBook",
+            name: "authorBooks",
             component: AuthorBooksViewVue,
+            props: true,
+        },
+        {
+            path: "/publisher-book/:id",
+            name: "publisherBooks",
+            component: PublisherBooksViewVue,
             props: true,
         },
         {

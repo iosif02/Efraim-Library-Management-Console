@@ -16,8 +16,8 @@ const store = useBooksStore();
 
 store.categoryBooks.searchModel.category = parseInt(props.id || '')
 
-if(!store.categoryBooks.data.length || store.categoryBooks.data[0].category.id != parseInt(props.id || ''))
-    store.searchCategoryBooks();
+// if(!store.categoryBooks.data.length || store.categoryBooks.data[0].category.id != parseInt(props.id || ''))
+store.searchCategoryBooks();
 
 </script>
 

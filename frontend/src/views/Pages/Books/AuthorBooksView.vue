@@ -16,8 +16,8 @@ const store = useBooksStore();
 
 store.authorBooks.searchModel.author = parseInt(props.id || '')
 
-if(!store.authorBooks.data.length || store.authorBooks.data[0].authors[0].pivot.author_id != parseInt(props.id || ''))
-    store.searchAuthorBooks();
+// if(!store.authorBooks.data.length || store.authorBooks.data[0].authors[0].pivot.author_id != parseInt(props.id || ''))
+store.searchAuthorBooks();
 
 </script>
 

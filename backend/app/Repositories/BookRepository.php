@@ -104,8 +104,31 @@ class BookRepository implements IBookRepository
 
     public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
+//        return DB::select("
+//            WITH BookTransactions AS (
+//                SELECT
+//                    b.id,
+//                    b.title,
+//                    b.category_id,
+//                    b.quantity,
+//                    b.image,
+//                    MAX(t.created_at) AS created_at
+//                FROM books b
+//                LEFT JOIN transactions t ON t.book_id = b.id
+//                GROUP BY b.id, b.title, b.category_id, b.quantity, b.image
+//                LIMIT 15
+//                OFFSET 0
+//            )
+//            SELECT * FROM BookTransactions
+//            ORDER BY created_at DESC;
+//        ");
+
         $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
-            ->join('transactions', 'books.id', '=', 'transactions.book_id')
+//            ->orderByDesc(Transactions::select('created_at')->where('transactions.is_returned', 0)->whereColumn('transactions.book_id', 'books.id')->limit(1))
+//            ->selectRaw('MAX(transactions.created_at) as created_at')
+//            ->leftJoin('transactions', 'transactions.book_id', '=', 'books.id')
+//            ->groupBy('books.id', 'books.title', 'books.category_id', 'books.quantity', 'books.image')
+//            ->orderByDesc('created_at')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
@@ -122,6 +145,10 @@ class BookRepository implements IBookRepository
             $book->whereHas('Authors', function ($authors) use ($filters) {
                 $authors->where('Authors.id', $filters['author']);
             });
+        }
+
+        if(isset($filters['publisher']) && $filters['publisher'] != 0){
+            $book->where('publisher_id', $filters['publisher']);
         }
 
         if(isset($filters['user']) && $filters['user'] != 0){
@@ -161,11 +188,6 @@ class BookRepository implements IBookRepository
                     });
                 });
         }
-
-        $book->orderBy('transactions.created_at', 'desc')
-            ->where('transactions.is_returned', 0)
-//            ->groupBy('id', 'title', 'category_id', 'quantity', 'image');
-            ->distinct('books.id');
 
         return $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
 
