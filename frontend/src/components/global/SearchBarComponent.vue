@@ -12,7 +12,7 @@ const props = defineProps({
   }
 })
 let searchValue = props?.defaultValue;
-const input = ref(null);  
+const input = ref();  
 
 const emit = defineEmits(['valueChanged'])
 

@@ -65,7 +65,6 @@ var onSubmit = (user: any) => {
   imgSrc.value ? user.photo_url = imgSrc.value : delete user.photo_url;
   user.userId = store.profile.id
   user.roles = user.roles.map((x: RoleModel) => x.id);
-  console.log(user)
   store.updateUser(user)
   .then(result => {
     if(result)
@@ -103,11 +102,11 @@ let formatDate = (date: any) => {
 
   <Form v-if="isEdit" @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="{...store.profile, ...store.profile.user_details}" ref="myForm">
     <div class="profile-image-container">
-      <div v-if="imgSrc?.toString() || store.profile.user_details.photo_url" >
-        <img :src="imgSrc?.toString() || store.profile.user_details.photo_url" />
+      <div v-if="imgSrc?.toString() || store.profile.user_details?.photo_url" >
+        <img :src="imgSrc?.toString() || store.profile.user_details?.photo_url" />
       </div>
       <div v-else class="profile-image" :style="backgroundColorStyle">
-        <p> {{ getNameIntial(store.profile.first_name[0], store.profile.last_name[0]) }} </p>
+        <p> {{ getNameIntial(store.profile?.first_name[0], store.profile?.last_name[0]) }} </p>
       </div>
       <input name="select_image" type="file" @change="onFile">
       <button @click="toggleEdit" class="btn-edit" style="background-color: rgba(250, 250, 250, 0.3)">Cancel</button>
@@ -166,11 +165,11 @@ let formatDate = (date: any) => {
 
   <div v-else>
     <div class="profile-image-container">
-      <div v-if="imgSrc?.toString() || store.profile.user_details.photo_url" style="position: relative;">
-        <img :src="imgSrc?.toString() || store.profile.user_details.photo_url" />
+      <div v-if="imgSrc?.toString() || store.profile.user_details?.photo_url" style="position: relative;">
+        <img :src="imgSrc?.toString() || store.profile.user_details?.photo_url" />
       </div>
       <div v-else class="profile-image" :style="backgroundColorStyle">
-        <p> {{ getNameIntial(store.profile.first_name[0], store.profile.last_name[0]) }} </p>
+        <p> {{ getNameIntial(store.profile?.first_name[0], store.profile?.last_name[0]) }} </p>
       </div>
       <button @click="toggleEdit" class="btn-edit" style="background-color: rgba(250, 250, 250, 0.3)">Edit</button>
     </div>
@@ -178,35 +177,35 @@ let formatDate = (date: any) => {
     <div class="profile-details">
       <div class="row" >
         <p>Email:</p>
-        <p>{{ store.profile.email }}</p>
+        <p>{{ store.profile?.email }}</p>
       </div>
       <div class="row">
         <p>Identity Number:</p>
-        <p>{{ store.profile.user_details.identity_number }}</p>
+        <p>{{ store.profile.user_details?.identity_number }}</p>
       </div>
       <div class="row">
         <p>First Name:</p>
-        <p>{{ store.profile.first_name }}</p>
+        <p>{{ store.profile?.first_name }}</p>
       </div>
       <div class="row">
         <p>Last Name:</p>
-        <p>{{ store.profile.last_name }}</p>
+        <p>{{ store.profile?.last_name }}</p>
       </div>
       <div class="row">
         <p>Address:</p>
-        <p>{{ store.profile.user_details.address }}</p>
+        <p>{{ store.profile.user_details?.address }}</p>
       </div>
       <div class="row">
         <p>Phone:</p>
-        <p>{{ store.profile.user_details.phone }}</p>
+        <p>{{ store.profile.user_details?.phone }}</p>
       </div>
       <div class="row">
         <p>Occupation:</p>
-        <p>{{ store.profile.user_details.occupation }}</p>
+        <p>{{ store.profile.user_details?.occupation }}</p>
       </div>
       <div class="row">
         <p>Birth Date:</p>
-        <p>{{ formatDate(store.profile.user_details.birth_date) }}</p>
+        <p>{{ formatDate(store.profile.user_details?.birth_date) }}</p>
       </div>
     </div>
   </div>
@@ -277,5 +276,11 @@ let formatDate = (date: any) => {
   font-size: 14px;
   font-weight: 100;
   color: #667085;
+}
+.btn-edit{
+  width: 100px;
+  margin: 0px;
+  margin-top: 5px;
+  padding: 0px;
 }
 </style>

@@ -143,7 +143,7 @@ class BookRepository implements IBookRepository
 
         if(isset($filters['author']) && $filters['author'] != 0){
             $book->whereHas('Authors', function ($authors) use ($filters) {
-                $authors->where('Authors.id', $filters['author']);
+                $authors->where('authors.id', $filters['author']);
             });
         }
 

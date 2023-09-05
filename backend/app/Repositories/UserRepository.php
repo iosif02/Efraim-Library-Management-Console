@@ -109,7 +109,11 @@ class UserRepository implements IUserRepository
 
             $user = User::find($fields['userId']);
             $user->fill($fields)->update();
-            $user->UserDetails->fill($fields)->update();
+            if(!$user->UserDetails){
+                $user->userDetails()->create($fields);
+            }else {
+                $user->UserDetails->fill($fields)->update();
+            }
             $user->Roles()->sync($fields['roles']);
 
             DB::commit();
