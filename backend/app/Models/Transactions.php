@@ -33,13 +33,13 @@ class Transactions extends Model
         return $this->belongsTo(UserDetails::class, 'user_id', 'user_id');
     }
 
-//    protected $appends = ['delayed'];
+    protected $appends = ['delayed'];
 
     protected function delayed(): Attribute
     {
         return Attribute::make(
             get: function() {
-                $start = strtotime($this->attributes['return_date']);
+                $start = strtotime($this->return_date);
                 $end = strtotime(date('Y-m-d H:s:i'));
                 return (int)(($start - $end)/86400);
             },
