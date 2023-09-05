@@ -21,7 +21,6 @@ if(!store.roles.length) {
 }
 const validateForm = yup.object({
   email: yup.string().required().email(),
-  password: yup.string().min(8),
   identity_number: yup.number().required(),
   first_name: yup.string().required(),
   last_name: yup.string().required(),
@@ -32,8 +31,8 @@ const validateForm = yup.object({
 });
 
 var onSubmit = (user: any) => {
-  user.password ?? delete user.password;
-  user.userId = props.id
+  delete user.photo_url;
+  user.userId = props.id;
   user.roles = user.roles.map((x: RoleModel) => x.id);
   store.updateUser(user)
   .then(result => {
@@ -41,6 +40,7 @@ var onSubmit = (user: any) => {
       router.back();
       store.fetchUsers();
   });
+  console.log(user)
 }
 
 const filteredRoles = ref<Array<RoleModel>>([]);
@@ -50,13 +50,24 @@ var searchRoles = (event: any) => {
   filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));;
 }
 
+let focusedElement: any = ref(null)
+
+var blurInput = (e: any) => {
+    if(focusedElement) focusedElement?.target?.focus();
+    focusedElement.value = null;
+}
+
+function onFocusElement(e: any) {
+    focusedElement = e;
+}
+
 </script>
 
 <template>
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Category"/>
+    <GoBack goBackText="Back"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details}" class="form-control">
@@ -64,11 +75,6 @@ var searchRoles = (event: any) => {
       <label for="email">Email</label>
       <Field name="email" />
       <ErrorMessage name="email" />
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <Field name="password" />
-      <ErrorMessage name="password" />
     </div>
     <div class="form-group">
       <label for="identity_number">Identity number</label>
@@ -108,7 +114,10 @@ var searchRoles = (event: any) => {
     <div class="form-group">
       <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
       <label for="authors">Roles</label>
-      <AutoComplete name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" />
+      <AutoComplete 
+        name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" 
+        @focus="onFocusElement" @item-select="blurInput"
+      />
       <ErrorMessage name="roles" />
     </div>
     <input value="Edit" type="submit" class="btn w-100">

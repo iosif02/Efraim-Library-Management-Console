@@ -14,6 +14,7 @@ if(!store.roles.length) {
 const validateForm = yup.object({
     email: yup.string().required().email(),
     password: yup.string().required().min(8),
+    password_confirmation: yup.string().required().oneOf([yup.ref('password')], 'Passwords do not match'),
     identity_number: yup.number().required(),
     first_name: yup.string().required(),
     last_name: yup.string().required(),
@@ -40,13 +41,24 @@ var searchRoles = (event: any) => {
   filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));
 }
 
+let focusedElement: any = ref(null)
+
+var blurInput = (e: any) => {
+    if(focusedElement) focusedElement?.target?.focus();
+    focusedElement.value = null;
+}
+
+function onFocusElement(e: any) {
+    focusedElement = e;
+}
+
 </script>
 
 <template>
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Category"/>
+    <GoBack goBackText="Back"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
@@ -57,9 +69,14 @@ var searchRoles = (event: any) => {
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <Field name="password" />
+      <Field name="password" type="password"/>
       <ErrorMessage name="password" />
     </div>
+    <div class="form-group">
+      <label for="password">Confirm Password</label>
+			<Field name="password_confirmation" type="password" />
+			<ErrorMessage name="password_confirmation" />
+		</div>
     <div class="form-group">
       <label for="identity_number">Identity number</label>
       <Field name="identity_number" type="number" />
@@ -98,7 +115,10 @@ var searchRoles = (event: any) => {
     <div class="form-group">
       <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
       <label for="authors">Roles</label>
-      <AutoComplete name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" />
+      <AutoComplete 
+        name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" 
+        @focus="onFocusElement" @item-select="blurInput"
+      />
       <ErrorMessage name="roles" />
     </div>
     <input value="Create" type="submit" class="btn w-100">

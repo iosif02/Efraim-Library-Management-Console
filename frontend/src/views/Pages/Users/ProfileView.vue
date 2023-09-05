@@ -1,14 +1,273 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import { useUsersStore } from '@/stores/user-store';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
+import type RoleModel from '@/models/user/RoleModel';
+
+const store = useUsersStore()
+if(!store.profile.id)
+  store.fetchProfile();
+  
+if(!store.roles.length)
+  store.fetchRoles();
+
+const imgSrc = ref<String|ArrayBuffer|null|undefined>("");
+var onFile = (e: any) => {
+    const files = e.target.files;
+    if (!files.length) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (e) => {
+        imgSrc.value = e.target?.result;
+    }
+}
+
+const validateForm = yup.object({
+  email: yup.string().required().email(),
+  identity_number: yup.number().required(),
+  first_name: yup.string().required(),
+  last_name: yup.string().required(),
+  address: yup.string().required(),
+  phone: yup.number().required(),
+  occupation: yup.string().required(),
+  birth_date: yup.date().required(),
+});
+
+const backgroundColor = [
+    'background-color: #001219;',
+    'background-color: #005F73;',
+    'background-color: #0A9396;',
+    'background-color: #94D2BD;',
+    'background-color: #E9D8A6;',
+    'background-color: #EE9B00;',
+    'background-color: #CA6702;',
+    'background-color: #BB3E03;',
+    'background-color: #AE2012;',
+    'background-color: #9B2226;',
+]
+
+function getRandomColor() {
+    const randomNumber = Math.floor(Math.random() * 10)
+    return backgroundColor[randomNumber]
+}
+
+function getNameIntial(first_initial: String, second_initial: String) {
+    if(first_initial == second_initial) return first_initial;
+    return first_initial + '' + second_initial;
+}
+
+const backgroundColorStyle = getRandomColor();
+
+var onSubmit = (user: any) => {
+  imgSrc.value ? user.photo_url = imgSrc.value : delete user.photo_url;
+  user.userId = store.profile.id
+  user.roles = user.roles.map((x: RoleModel) => x.id);
+  console.log(user)
+  store.updateUser(user)
+  .then(result => {
+    if(result)
+      store.fetchProfile();
+  });
+}
+
+const filteredRoles = ref<Array<RoleModel>>([]);
+const selectedRoles = ref<Array<RoleModel>>([]);
+
+var searchRoles = (event: any) => {
+  filteredRoles.value = store.roles.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedRoles.value.some(x2 => x.id === x2.id));;
+}
+
+let isEdit = ref<boolean>(false);
+var toggleEdit = () => {
+  if(!isEdit.value)
+    store.fetchProfile();
+  isEdit.value = !isEdit.value
+}
+
 </script>
 
 <template>
-	<div>
-    Profile
-	</div>
+  <Loading v-if="store.isLoading" />
+
+  <GoBack goBackText="Profile"/>
+
+  <Form v-if="isEdit" @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="{...store.profile, ...store.profile.user_details}" ref="myForm">
+    <div class="profile-image-container">
+      <div v-if="imgSrc?.toString() || store.profile.user_details.photo_url" >
+        <img :src="imgSrc?.toString() || store.profile.user_details.photo_url" />
+      </div>
+      <div v-else class="profile-image" :style="backgroundColorStyle">
+        <p> {{ getNameIntial(store.profile.first_name[0], store.profile.last_name[0]) }} </p>
+      </div>
+      <input name="select_image" type="file" @change="onFile">
+      <button @click="toggleEdit" class="btn-edit" style="background-color: rgba(250, 250, 250, 0.3)">Cancel</button>
+      <ErrorMessage name="image" />
+    </div>
+    <div class="profile-details">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <Field name="email" />
+        <ErrorMessage name="email" />
+      </div>
+      <div class="form-group">
+        <label for="identity_number">Identity number</label>
+        <Field name="identity_number" type="number" />
+        <ErrorMessage name="identity_number" />
+      </div>
+      <div class="form-group">
+        <label for="first_name">First name</label>
+        <Field name="first_name" />
+        <ErrorMessage name="first_name" />
+      </div>
+      <div class="form-group">
+        <label for="last_name">Last name</label>
+        <Field name="last_name" />
+        <ErrorMessage name="last_name" />
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <Field name="address" />
+        <ErrorMessage name="address" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <Field name="phone" type="number" />
+        <ErrorMessage name="phone" />
+      </div>
+      <div class="form-group">
+        <label for="occupation">Occupation</label>
+        <Field name="occupation" />
+        <ErrorMessage name="occupation" />
+      </div>
+      <div class="form-group">
+        <label for="birth_date">Birth date</label>
+        <Field name="birth_date" type="date" />
+        <ErrorMessage name="birth_date" />
+      </div>
+      <div class="form-group">
+        <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
+        <label for="authors">Roles</label>
+        <AutoComplete name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" />
+        <ErrorMessage name="roles" />
+      </div>
+    </div>
+    <input value="Edit" type="submit" class="btn w-100">
+  </Form>
+
+  <div v-else>
+    <div class="profile-image-container">
+      <div v-if="imgSrc?.toString() || store.profile.user_details.photo_url" style="position: relative;">
+        <img :src="imgSrc?.toString() || store.profile.user_details.photo_url" />
+      </div>
+      <div v-else class="profile-image" :style="backgroundColorStyle">
+        <p> {{ getNameIntial(store.profile.first_name[0], store.profile.last_name[0]) }} </p>
+      </div>
+      <button @click="toggleEdit" class="btn-edit" style="background-color: rgba(250, 250, 250, 0.3)">Edit</button>
+    </div>
+
+    <div class="profile-details">
+      <div class="row" >
+        <p>Name:</p>
+        <p>{{ store.profile.email }}</p>
+      </div>
+      <div class="row">
+        <p>Identity Number:</p>
+        <p>{{ store.profile.user_details.identity_number }}</p>
+      </div>
+      <div class="row">
+        <p>First Name:</p>
+        <p>{{ store.profile.first_name }}</p>
+      </div>
+      <div class="row">
+        <p>Last Name:</p>
+        <p>{{ store.profile.last_name }}</p>
+      </div>
+      <div class="row">
+        <p>Address:</p>
+        <p>{{ store.profile.user_details.address }}</p>
+      </div>
+      <div class="row">
+        <p>Phone:</p>
+        <p>{{ store.profile.user_details.phone }}</p>
+      </div>
+      <div class="row">
+        <p>Occupation:</p>
+        <p>{{ store.profile.user_details.occupation }}</p>
+      </div>
+      <div class="row">
+        <p>Birth Date:</p>
+        <p>{{ store.profile.user_details.birth_date }}</p>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>
-.spacer {
-  margin-bottom: .8rem;
+.profile-image-container {
+  height: 150px;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #76CECB;
+  border-radius: 5px;
+}
+.profile-image-container input {
+  top: 11px;
+  position: absolute;
+  opacity: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.profile-image-container img{
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+.profile-image {
+  min-width: 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile-image p {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 600;
+}
+.profile-details {
+  width: 100%;
+  padding: 10px 20px;
+}
+.profile-details .row {
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-left: 2px solid #76CECB;
+
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.profile-details .row p:last-child{
+  font-size: 16px;
+  padding: 3px 15px;
+  color: #4D4D4D;
+}
+.profile-details .row p:first-child{
+  font-size: 14px;
+  font-weight: 100;
+  color: #667085;
 }
 </style>

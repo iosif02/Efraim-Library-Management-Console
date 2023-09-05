@@ -85,7 +85,7 @@
   margin-bottom: .5rem;
 }
 
-.form-control input:not([type="submit"]), .form-control select {
+.form-control input:not([type="submit"], [type="file"]), .form-control select {
   padding: 12px 10px;
   border-radius: 8px;
   font-size: 15px;

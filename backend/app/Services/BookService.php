@@ -5,17 +5,13 @@ namespace App\Services;
 use App\Exceptions\CustomException;
 use App\Interfaces\IBookService;
 use App\Interfaces\IFileService;
-use App\Models\Book;
 use App\Models\Transactions;
 use App\Repositories\IBookRepository;
 use App\Repositories\IEntityRepository;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use JetBrains\PhpStorm\ArrayShape;
 
 class BookService implements IBookService
 {
@@ -133,9 +129,9 @@ class BookService implements IBookService
         $book = $this->bookRepository->CheckIfBookIsAvailable($fields['book_id']);
         if(!$book)
             throw new CustomException('Book is unavailable!');
-        $user = $this->bookRepository->CheckIfUserCanBorrowBook($fields['user_id']);
-        if(!$user)
-            throw new CustomException('The user have 2 borrow book already!');
+//        $user = $this->bookRepository->CheckIfUserCanBorrowBook($fields['user_id']);
+//        if(!$user)
+//            throw new CustomException('The user have 2 borrow book already!');
 
         $fields['borrow_date'] = Carbon::now('Europe/Bucharest');
         $fields['return_date'] = Carbon::now('Europe/Bucharest')->addWeeks(2);

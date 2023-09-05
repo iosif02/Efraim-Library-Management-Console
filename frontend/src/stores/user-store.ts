@@ -15,6 +15,7 @@ export const useUsersStore = defineStore('useUsersStore', {
             searchModel: new SearchUserModel()
         },
         user: new UserModel(),
+        profile: new UserModel(),
         roles: [] as RoleModel[],
     }),
     actions: {
@@ -79,6 +80,17 @@ export const useUsersStore = defineStore('useUsersStore', {
                 if(!result.data) return;
 
                 this.roles = result.data;
+            })
+            .catch(error => console.error("Request error: " + error))
+            .finally(() => this.isLoading = false);
+        },
+        fetchProfile() {
+            this.isLoading = true;
+            axios.get("/users/user/profile")
+            .then(result => {
+                if(!result.data) return;
+
+                this.profile = result.data;
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);

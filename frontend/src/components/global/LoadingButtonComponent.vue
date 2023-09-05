@@ -22,14 +22,21 @@
 		border-radius: 50%; /* Make the spinner a circle */
 		width: 30px; /* Set the width of the spinner */
 		height: 30px; /* Set the height of the spinner */
-		animation: spin 2s linear infinite; /* Define the spinning animation */
+		animation: spin 1s ease infinite; /* Define the spinning animation */
 	}
 	@keyframes spin {
-		0% {
+		/* 0% {
 			transform: rotate(0deg);
 		}
 		100% {
 			transform: rotate(360deg);
-		}
+		} */
+
+		from {
+        transform: rotate(0turn);
+    	}
+    	to {
+        	transform: rotate(1turn);
+    	}
 	}
 </style>

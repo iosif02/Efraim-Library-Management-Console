@@ -26,7 +26,7 @@ class AddUserRequest extends FormRequest
     {
         return [
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string',
+            'password' => 'required|string|confirmed',
             'identity_number' => 'required|regex:/^(\d{13})$/',
             'first_name' => 'required|string',
             'last_name' => 'required|string',

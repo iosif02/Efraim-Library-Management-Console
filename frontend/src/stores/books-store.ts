@@ -172,6 +172,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       this.isLoading = true;
       return axios.post("/books/borrow", borrowModel)
       .then(result => {
+        NotificationHelper.NotifySuccess('Book was borrowed with scucces!')
         return result.data;
       })
       .catch(error => console.error("Request error: " + error))

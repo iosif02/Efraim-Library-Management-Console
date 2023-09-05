@@ -42,7 +42,7 @@ class UserRepository implements IUserRepository
         return User::select('id', 'email', 'first_name', 'last_name')
             ->with([
                 'UserDetails' =>
-                    fn($query) => $query->select('user_id' ,'identity_number', 'address', 'phone', 'occupation', 'birth_date'),
+                    fn($query) => $query->select('user_id' ,'identity_number', 'address', 'phone', 'occupation', 'birth_date', 'photo_url'),
                 'Roles'
             ])->find($userId);
     }
@@ -101,9 +101,6 @@ class UserRepository implements IUserRepository
     {
         try {
             DB::beginTransaction();
-
-            if(isset($fields['password']))
-                $fields['password'] = bcrypt($fields['password']);
 
             $user = User::find($fields['userId']);
             $user->fill($fields)->update();

@@ -32,7 +32,6 @@ class   BorrowBookRequest extends FormRequest
                 'integer',
                 Rule::unique('transactions')->where(function ($query){
                     return $query->where('is_returned', false)
-                        ->where('user_id', request('user_id'))
                         ->where('book_id', request('book_id'));
                 })
             ],
@@ -41,8 +40,7 @@ class   BorrowBookRequest extends FormRequest
                 'integer',
                 Rule::unique('transactions')->where(function ($query){
                     return $query->where('is_returned', false)
-                        ->where('user_id', request('user_id'))
-                        ->where('book_id', request('book_id'));
+                        ->where('user_id', request('user_id'));
                 })
             ],
         ];
