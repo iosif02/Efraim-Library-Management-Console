@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import Pagination from '@/components/global/PaginationComponent.vue';
-import CategoriesComponent from '@/components/entities/CategoriesComponent.vue';
+import PublishersComponent from '@/components/entities/PublishersComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 import { ref } from 'vue';
 
 const store = useEntitiesStore();
-if (!store.publishers.data.length)
-  store.fetchPublishers();
+store.fetchPublishers();
 
 let publisherId = 0;
 
@@ -47,7 +46,7 @@ var openModal = (selectedPublisherId: number) => {
   />
 
 	<div>
-    <GoBack goBackText="Publishers"/>
+    <GoBack :goBackText="`Publishers (${store.publishers.totalPublishers})`"/>
 	</div>
 
   <SearchBar
@@ -56,7 +55,8 @@ var openModal = (selectedPublisherId: number) => {
     placeholder='Search publisher...'
   />
 
-  <CategoriesComponent :categories="store.publishers.data" routeName="editPublisher" @openModal="(selectedPublisherId) => openModal(selectedPublisherId)"/>
+  <PublishersComponent v-if="store.publishers.searchModel.pagination.total" :publishers="store.publishers.data" routeName="editPublisher" @openModal="(selectedPublisherId) => openModal(selectedPublisherId)"/>
+  <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
   <Pagination
     :current-page="store.publishers.searchModel.pagination.page"

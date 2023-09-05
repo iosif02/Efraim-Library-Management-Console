@@ -41,7 +41,7 @@ let formatDate = (date: string) => {
                         <div class="top-section">
                             <p class="name">{{ currentBook.user?.first_name }} {{ currentBook.user?.last_name }}</p>
                            <!-- <p class="date">{{ formatDate(currentBook.return_date) }} - {{ delayedDays(currentBook.return_date) }} days</p> -->
-                           <p class="date">{{ formatDate(currentBook.return_date) }} - {{ currentBook.delayed * (-1) }} days</p>
+                           <p class="date highlight">{{ formatDate(currentBook.return_date) }} - {{ currentBook.delayed * (-1) }} days</p>
                         </div>
                         <div class="book-title">{{ currentBook.book.title }}</div>
                     </div>
@@ -101,7 +101,15 @@ img {
 .date {
     font-size: 12px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
+}
+.highlight {
+    background-color: #f0f0f0; /* Highlight background color */
+    color: #333; /* Highlight text color */
+    padding: 3px 8px; /* Add padding for better visual appearance */
+    border-radius: 50px; /* Add rounded corners to the highlight */
+    font-weight: bold; /* Make the text bold */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 </style>

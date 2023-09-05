@@ -21,7 +21,10 @@ var onReturn = (transactionId: number) => {
   store.returnBook(transactionId)
   .then((result) => {
     if(result)
-      store.fetchBookDetails(props.id ?? "");
+      store.fetchBookDetails(props.id ?? "")
+      .then(() => {
+        store.fetchHomepage();
+      })
   })
 }
 const showModal = ref<boolean>(false);
@@ -31,7 +34,7 @@ var deleteBook = () => {
   store.deleteBook(parseInt(props.id || ''))
   .then(result => {
     if(result){
-      if(store.homepage.searchModel.title != "")
+      if(store.homepage.searchModel.searchAll != "")
         store.searchHomeBooks();
       router.back();
     }

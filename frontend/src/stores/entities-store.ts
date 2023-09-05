@@ -14,15 +14,18 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
 
         authors: {
             data: [] as AuthorModel[],
-            searchModel: new SearchAuthorModel()
+            searchModel: new SearchAuthorModel(),
+            totalAuthors: 0,
         },
         publishers: {
             data: [] as PublisherModel[],
-            searchModel: new SearchPublisherModel()
+            searchModel: new SearchPublisherModel(),
+            totalPublishers: 0,
         },
         categories: {
             data: [] as CategoryModel[],
             searchModel: new SearchCategoryModel(),
+            totalCategories: 0,
         },
         entities: {
             publishers: [] as PublisherModel[],
@@ -57,6 +60,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
                 this.authors.data = result.data.data;
                 this.authors.searchModel.pagination.total = result.data.total ?? 1;
                 this.authors.searchModel.pagination.last_page = result.data.last_page ?? 1;
+                this.authors.totalAuthors = result.data.total;
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);
@@ -111,6 +115,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
                 this.publishers.data = result.data.data;
                 this.publishers.searchModel.pagination.total = result.data.total ?? 1;
                 this.publishers.searchModel.pagination.last_page = result.data.last_page ?? 1;
+                this.publishers.totalPublishers = result.data.total;
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);
@@ -165,6 +170,7 @@ export const useEntitiesStore = defineStore('useEntitiesStore', {
                 this.categories.data = result.data.data;
                 this.categories.searchModel.pagination.total = result.data.total ?? 1;
                 this.categories.searchModel.pagination.last_page = result.data.last_page ?? 1;
+                this.categories.totalCategories = result.data.total;
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);

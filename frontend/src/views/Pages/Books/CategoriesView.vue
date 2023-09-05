@@ -4,7 +4,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 
 const store = useEntitiesStore();
-if(!store.categories.data.length)
+// if(!store.categories.data.length)
     store.fetchCategories();
 
 </script>
@@ -20,7 +20,8 @@ if(!store.categories.data.length)
         placeholder='Search category...'
     />
 
-    <Categories :categories="store.categories.data" />
+    <Categories v-if="store.categories.searchModel.pagination.total" :categories="store.categories.data" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
     <Pagination
         :current-page="store.categories.searchModel.pagination.page"

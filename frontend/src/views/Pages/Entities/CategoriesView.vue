@@ -6,8 +6,7 @@ import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue
 import { ref } from 'vue';
 
 const store = useEntitiesStore();
-if (!store.categories.data.length)
-  store.fetchCategories();
+store.fetchCategories();
 
 let categoryId = 0;
 
@@ -47,7 +46,7 @@ var openModal = (selectedCategoryId: number) => {
   />
 
 	<div>
-    <GoBack goBackText="Categories"/>
+    <GoBack :goBackText="`Categories (${store.categories.totalCategories})`"/>
 	</div>
 
   <SearchBar
@@ -56,7 +55,8 @@ var openModal = (selectedCategoryId: number) => {
     placeholder='Search category...'
   />
 
-  <CategoriesComponent :categories="store.categories.data" routeName="editCategory" @openModal="(selectedCategoryId) => openModal(selectedCategoryId)" />
+  <CategoriesComponent v-if="store.categories.searchModel.pagination.total" :categories="store.categories.data" routeName="editCategory" @openModal="(selectedCategoryId) => openModal(selectedCategoryId)" />
+  <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
   <Pagination
     :current-page="store.categories.searchModel.pagination.page"

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import Pagination from '@/components/global/PaginationComponent.vue';
-import CategoriesComponent from '@/components/entities/CategoriesComponent.vue';
+import AuthorsComponent from '@/components/entities/AuthorsComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 import { ref } from 'vue';
 
 const store = useEntitiesStore();
-if (!store.authors.data.length)
-  store.fetchAuthors();
+store.fetchAuthors();
 
 let authorId = 0;
 
@@ -47,7 +46,7 @@ var openModal = (selectedAuthorId: number) => {
   />
 
 	<div>
-    <GoBack goBackText="Authors"/>
+    <GoBack :goBackText="`Authors (${store.authors.totalAuthors})`"/>
 	</div>
 
   <SearchBar
@@ -56,7 +55,9 @@ var openModal = (selectedAuthorId: number) => {
     placeholder='Search author...'
   />
 
-  <CategoriesComponent :categories="store.authors.data" routeName="editAuthor" @openModal="(selectedAuthorId) => openModal(selectedAuthorId)"/>
+  <AuthorsComponent v-if="store.authors.searchModel.pagination.total" :authors="store.authors.data" routeName="editAuthor" @openModal="(selectedAuthorId) => openModal(selectedAuthorId)"/>
+  <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
+
 
   <Pagination
     :current-page="store.authors.searchModel.pagination.page"

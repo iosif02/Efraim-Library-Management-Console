@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps({
-    categories: {
+    publishers: {
         type: Object as any,
         required: true
     },
@@ -13,16 +13,16 @@ defineProps({
 
 <template>
     <div class="categories">
-        <div v-for="category in categories" class="category" >
-            <RouterLink :to="{ name: 'categoryBooks', params: { id: category.id }, query: { categoryName: category.name } }" class="link">
+        <div v-for="publisher in publishers" class="category" >
+            <RouterLink :to="{ name: 'publisherBooks', params: { id: publisher.id }, query: { publisherName: publisher.name } }" class="link" >
                 <div class="details">
-                    <div class="book-title text-elipsis">{{ category.number }} {{ category.name }}</div>
-                    <div class="text-elipsis">{{ category.book_count }} books</div>
+                    <div class="book-title text-elipsis">{{ publisher.number }} {{ publisher.name }}</div>
+                    <div class="text-elipsis">{{ publisher.book_count }} books</div>
                 </div>
             </RouterLink>
             <div class="btn-container">
-                <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: category.id } })">Edit</button>
-                <button class="btn-delete" @click="$emit('openModal', category.id)">Delete</button>
+                <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: publisher.id } })">Edit</button>
+                <button class="btn-delete" @click="$emit('openModal', publisher.id)">Delete</button>
             </div>
         </div>
     </div>

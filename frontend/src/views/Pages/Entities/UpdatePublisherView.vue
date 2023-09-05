@@ -25,7 +25,6 @@ var onSubmit = (publisher: any) => {
   store.updatePublisher(publisher)
   .then(result => {
     if(result){
-      store.fetchPublishers();
       router.back();
     }
   });
@@ -36,7 +35,7 @@ var onSubmit = (publisher: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Edit Publisher"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="store.publisher" class="form-control">
@@ -50,7 +49,7 @@ var onSubmit = (publisher: any) => {
       <Field name="city" />
       <ErrorMessage name="city" />
     </div>
-    <input value="Edit" type="submit" class="btn w-100">
+    <input value="Save" type="submit" class="btn w-100">
   </Form>
 </template>
 

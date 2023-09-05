@@ -104,7 +104,31 @@ class BookRepository implements IBookRepository
 
     public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
-        $book = Book::select('id', 'title', 'category_id', 'quantity', 'image')
+//        return DB::select("
+//            WITH BookTransactions AS (
+//                SELECT
+//                    b.id,
+//                    b.title,
+//                    b.category_id,
+//                    b.quantity,
+//                    b.image,
+//                    MAX(t.created_at) AS created_at
+//                FROM books b
+//                LEFT JOIN transactions t ON t.book_id = b.id
+//                GROUP BY b.id, b.title, b.category_id, b.quantity, b.image
+//                LIMIT 15
+//                OFFSET 0
+//            )
+//            SELECT * FROM BookTransactions
+//            ORDER BY created_at DESC;
+//        ");
+
+        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
+//            ->orderByDesc(Transactions::select('created_at')->where('transactions.is_returned', 0)->whereColumn('transactions.book_id', 'books.id')->limit(1))
+//            ->selectRaw('MAX(transactions.created_at) as created_at')
+//            ->leftJoin('transactions', 'transactions.book_id', '=', 'books.id')
+//            ->groupBy('books.id', 'books.title', 'books.category_id', 'books.quantity', 'books.image')
+//            ->orderByDesc('created_at')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
@@ -117,21 +141,44 @@ class BookRepository implements IBookRepository
             $book->where('category_id', $filters['category']);
         }
 
+        if(isset($filters['author']) && $filters['author'] != 0){
+            $book->whereHas('Authors', function ($authors) use ($filters) {
+                $authors->where('Authors.id', $filters['author']);
+            });
+        }
+
+        if(isset($filters['publisher']) && $filters['publisher'] != 0){
+            $book->where('publisher_id', $filters['publisher']);
+        }
+
+        if(isset($filters['user']) && $filters['user'] != 0){
+            $book->whereHas('Transaction', function ($transaction) use ($filters) {
+                $transaction->where('is_returned', false)
+                    ->where('user_id', $filters['user']);
+            });
+        }
+
         if(isset($filters['title']) && $filters['title'] != '') {
-            $book->where('title', 'like', '%' . $filters['title'] . '%')
-                ->orWhereHas('Authors', function ($author) use ($filters) {
-                    $author->where('name', 'like', '%' . $filters['title'] . '%');
-                })
-                ->orWhereHas('Transaction', function ($transaction) use ($filters) {
-                    $transaction->where('is_returned', false)
+            $book->where('title', 'like', '%' . $filters['title'] . '%');
+        }
+
+        if(isset($filters['searchAll']) && $filters['searchAll'] != ''){
+            $book->where('title', 'like', '%' . $filters['searchAll'] . '%')
+            ->orWhereHas('Authors', function ($author) use ($filters) {
+                $author->where('name', 'like', '%' . $filters['searchAll'] . '%');
+            })
+            ->orWhereHas('Transaction', function ($transaction) use ($filters) {
+                $transaction->where('is_returned', false)
                     ->whereHas('User', function ($user) use ($filters) {
                         $user->where(function ($query) use($filters) {
-                            $words = explode(" ", $filters['title']);
-                            if(count($words) == 2){
-                                $query->where('first_name', 'like', '%'.$words[0].'%')
-                                    ->Where('last_name', 'like', '%'.$words[1].'%')
+                            $words = explode(" ", $filters['searchAll']);
+                            if(count($words) >= 2){
+                                $firstName = trim(preg_replace('/\s+/', ' ', implode(" ", array_slice($words, 0, count($words) - 1))));
+                                $lastName = $words[count($words) - 1];
+                                $query->where('first_name', 'like', '%'.$firstName.'%')
+                                    ->Where('last_name', 'like', '%'.$lastName.'%')
                                     ->orWhere(function ($query) use($filters) {
-                                        $query->where('first_name', 'like', '%'.$filters['title'].'%');
+                                        $query->where('first_name', 'like', '%'.$filters['searchAll'].'%');
                                     });
                             }elseif (count($words) != ""){
                                 $query->where('first_name', 'like', '%' . $words[0] . '%')

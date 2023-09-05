@@ -12,7 +12,8 @@ export const useUsersStore = defineStore('useUsersStore', {
 
         users: {
             data: [] as UserModel[],
-            searchModel: new SearchUserModel()
+            searchModel: new SearchUserModel(),
+            totalUsers: 0,
         },
         user: new UserModel(),
         profile: new UserModel(),
@@ -39,6 +40,7 @@ export const useUsersStore = defineStore('useUsersStore', {
                 this.users.data = result.data.data;
                 this.users.searchModel.pagination.total = result.data.total ?? 1;
                 this.users.searchModel.pagination.last_page = result.data.last_page ?? 1;
+                this.users.totalUsers = result.data.total;
             })
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);

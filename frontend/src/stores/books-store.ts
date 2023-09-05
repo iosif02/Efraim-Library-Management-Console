@@ -28,6 +28,18 @@ export const useBooksStore = defineStore('useBooksStore', {
       searchModel: new SearchBookModel(),
       data: [] as BookModel[]
     },
+    authorBooks: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    },
+    publisherBooks: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    },
+    userBorrowedBooks: {
+      searchModel: new SearchBookModel(),
+      data: [] as BookModel[]
+    },
     books: {
       searchModel: new SearchBookModel(),
       data: [] as BookModel[]
@@ -48,6 +60,8 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.homepage.data.popularBooks = result.data?.popularBooks?.data;
           this.homepage.data.delayedBooks = result.data?.delayedBooks?.data;
           this.homepage.data.totalDelayedBooks = result.data?.delayedBooks?.total;
+          this.homepage.data.totalPopularBooks = result.data?.popularBooks?.total;
+          this.homepage.data.totalCategoryBooks = result.data?.categories?.total;
           this.homepage.isFetched = true;
       })
       .catch(error => console.error("Request error: " + error))
@@ -105,9 +119,9 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    fetchBookDetails(bookId: String) {
+    async fetchBookDetails(bookId: String) {
       this.isLoading = true;
-      axios.get("/books/" + bookId)
+      return axios.get("/books/" + bookId)
       .then(result => {
           if(!result.data) return;
 
@@ -125,6 +139,45 @@ export const useBooksStore = defineStore('useBooksStore', {
           this.categoryBooks.data = result.data.data;
           this.categoryBooks.searchModel.pagination.total = result.data.total ?? 1;
           this.categoryBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    searchAuthorBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.authorBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.authorBooks.data = result.data.data;
+          this.authorBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.authorBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    searchPublisherBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.publisherBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.publisherBooks.data = result.data.data;
+          this.publisherBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.publisherBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
+    searchUserBorrowedBooks() {
+      this.isLoading = true;
+      axios.post("/books/search", this.userBorrowedBooks.searchModel)
+      .then(result => {
+          if(!result.data) return;
+
+          this.userBorrowedBooks.data = result.data.data;
+          this.userBorrowedBooks.searchModel.pagination.total = result.data.total ?? 1;
+          this.userBorrowedBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
       })
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);

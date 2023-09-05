@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps({
-    categories: {
+    authors: {
         type: Object as any,
         required: true
     },
@@ -12,24 +12,24 @@ defineProps({
 </script>
 
 <template>
-    <div class="categories">
-        <div v-for="category in categories" class="category" >
-            <RouterLink :to="{ name: 'categoryBooks', params: { id: category.id }, query: { categoryName: category.name } }" class="link">
+    <div class="authors">
+        <div v-for="author in authors" class="author" >
+            <RouterLink :to="{ name: 'authorBooks', params: { id: author.id }, query: { authorName: author.name } }" class="link">
                 <div class="details">
-                    <div class="book-title text-elipsis">{{ category.number }} {{ category.name }}</div>
-                    <div class="text-elipsis">{{ category.book_count }} books</div>
+                    <div class="book-title text-elipsis">{{ author.number }} {{ author.name }}</div>
+                    <div class="text-elipsis">{{ author.book_count }} books</div>
                 </div>
             </RouterLink>
             <div class="btn-container">
-                <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: category.id } })">Edit</button>
-                <button class="btn-delete" @click="$emit('openModal', category.id)">Delete</button>
+                <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: author.id } })">Edit</button>
+                <button class="btn-delete" @click="$emit('openModal', author.id)">Delete</button>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.category {
+.author {
     background-color: #F6F6F6;
     /* box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15); */
     border-radius: 8px;

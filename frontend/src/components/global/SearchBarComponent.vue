@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SearchIcon from "@/components/icons/SearchIcon.vue";
 import { ref } from "vue";
+import 'primeicons/primeicons.css';
 
 const props = defineProps({
   defaultValue: {
@@ -43,7 +44,7 @@ const clearSearch = () => {
     <SearchIcon />
     <input v-model="searchValue" class="search" type="text" :placeholder="placeholder" @keyup="textSearch" ref="input">
     <div v-if="searchValue">
-      <p @click="clearSearch">X</p>
+      <span @click="clearSearch" class="pi pi-times" style="font-size: 1rem;"></span>
     </div>
   </div>
 </template>
@@ -71,8 +72,6 @@ const clearSearch = () => {
   align-items: center;
   width: 24px;
   padding: 3px;
-  border-radius: 50px;
-  background-color: rgba(0, 0, 0, 0.1);
   position: absolute;
   right: 25px;
 }

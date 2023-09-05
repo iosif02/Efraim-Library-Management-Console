@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import router from '@/router';
 import Pagination from '@/components/global/PaginationComponent.vue';
 import { useUsersStore } from '@/stores/user-store';
 import { ref } from 'vue';
@@ -7,9 +6,7 @@ import ReadersComponent from '@/components/users/ReadersComponent.vue';
 import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
 
 const store = useUsersStore();
-
-if(!store.users.data.length)
-  store.fetchUsers();
+store.fetchUsers();
 
 const showModal = ref<boolean>(false);
 let userId = 0;
@@ -45,15 +42,16 @@ var hideModal = () => {
     @cancel="hideModal" 
   />
 
-  <GoBack goBackText="Readers"/>
+  <GoBack :goBackText="`Readers (${store.users.totalUsers})`"/>
 
   <SearchBar
     :defaultValue="store.users.searchModel.name"
-    @valueChanged="(value: string) => (store.users.searchModel.name = value, store.users.searchModel.pagination.page = 0, store.fetchUsers())"
+    @valueChanged="(value: string) => (store.users.searchModel.name = value, store.users.searchModel.pagination.page = 1, store.fetchUsers())"
     placeholder="Search user..."
   />
 
-  <ReadersComponent :users="store.users.data" routeName="editReader" @openModal="(selectedUserId) => openModal(selectedUserId)"/>
+  <ReadersComponent v-if="store.users.searchModel.pagination.total" :users="store.users.data" routeName="editReader" @openModal="(selectedUserId) => openModal(selectedUserId)"/>
+  <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
   <Pagination
     :current-page="store.users.searchModel.pagination.page"

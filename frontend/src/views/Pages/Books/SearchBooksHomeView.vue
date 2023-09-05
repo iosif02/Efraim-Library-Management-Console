@@ -13,7 +13,8 @@ const store = useBooksStore();
         <span>({{ store.homepage.searchModel.pagination.total }})</span>
     </div>
     
-    <Books :books="store.homepage.data.books" />
+    <Books v-if="store.homepage.searchModel.pagination.total" :books="store.homepage.data.books" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
     <Pagination
         :current-page="store.homepage.searchModel.pagination.page"

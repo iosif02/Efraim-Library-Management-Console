@@ -9,4 +9,6 @@ export default class HomepageViewModel {
 	books: BookModel[] = [];
 
 	totalDelayedBooks: number = 0;
+	totalPopularBooks: number = 0;
+	totalCategoryBooks: number = 0;
 }

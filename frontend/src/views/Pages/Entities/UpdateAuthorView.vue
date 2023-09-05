@@ -24,7 +24,6 @@ var onSubmit = (author: any) => {
   store.updateAuthor(author)
   .then(result => {
     if(result){
-      store.fetchAuthors();
       router.back();
     }
   });
@@ -35,7 +34,7 @@ var onSubmit = (author: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Edit Author"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="store.author" class="form-control">
@@ -44,7 +43,7 @@ var onSubmit = (author: any) => {
       <Field name="name" />
       <ErrorMessage name="name" />
     </div>
-    <input value="Edit" type="submit" class="btn w-100">
+    <input value="Save" type="submit" class="btn w-100">
   </Form>
 </template>
 

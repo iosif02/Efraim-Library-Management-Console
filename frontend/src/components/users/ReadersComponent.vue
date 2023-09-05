@@ -44,15 +44,17 @@ function getNameIntial(first_initial: String, second_initial: String) {
             :class="{ 'borderTop': index != 0, 'paddingTop': index != 0}" 
             :key="index" 
         >
-            <div class="left-section">
-                <div class="user-image" :style="getRandomColor()">
-                    <p>{{ getNameIntial(user.first_name[0], user.last_name[0]) }}</p>
+            <RouterLink :to="{ name: 'userBorrowedBook', params: { id: user.id }, query: { userName: user.first_name + ' ' + user.last_name } }" class="link">
+                <div class="left-section">
+                    <div class="user-image" :style="getRandomColor()">
+                        <p>{{ getNameIntial(user.first_name[0], user.last_name[0]) }}</p>
+                    </div>
+                    <div class="about-section">
+                        <p class="user-name text-elipsis">{{ user.first_name + ' ' + user.last_name}}</p>
+                        <p class="user-status text-elipsis">{{ user.transaction_count }} book</p>
+                    </div>
                 </div>
-                <div class="about-section">
-                    <p class="user-name">{{ user.first_name + ' ' + user.last_name}}</p>
-                    <p class="user-status">{{ user.transaction_count }} book</p>
-                </div>
-            </div>
+            </RouterLink>
             <div class="container-btn">
                 <button class="btn-edit" @click="$router.push({ name: routeName, params: { id: user.id } })">Edit</button>
                 <button class="btn-delete" @click="$emit('openModal', user.id)">Delete</button>
@@ -73,8 +75,7 @@ function getNameIntial(first_initial: String, second_initial: String) {
 .left-section{
     display: flex;
     flex-direction: row;
-
-    overflow: hidden;
+    text-align: start;
 }
 .user-image{
     min-width: 42px;
@@ -104,10 +105,6 @@ function getNameIntial(first_initial: String, second_initial: String) {
     line-height: 16px;
     letter-spacing: 0.77px;
     color: #333333;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 .user-status{
     font-family: 'Roboto-400';
@@ -117,10 +114,6 @@ function getNameIntial(first_initial: String, second_initial: String) {
     letter-spacing: 0.77px;
     color: #8A8A8A;
     margin-top: 5px;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 .arrow{
     display: flex;
@@ -139,5 +132,10 @@ function getNameIntial(first_initial: String, second_initial: String) {
 .container-btn{
     display: flex;
     flex-wrap: nowrap;
+}
+.link {
+    text-decoration: none;
+    flex: 1;
+    overflow: hidden;
 }
 </style>

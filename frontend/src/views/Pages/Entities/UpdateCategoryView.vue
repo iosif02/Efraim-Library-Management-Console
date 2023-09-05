@@ -26,7 +26,6 @@ var onSubmit = (category: any) => {
   store.updateCategory(category)
   .then(result => {
     if(result){
-      store.fetchCategories();
       router.back();
     }
   });
@@ -37,7 +36,7 @@ var onSubmit = (category: any) => {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Edit Category"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="store.category" class="form-control">
@@ -56,7 +55,7 @@ var onSubmit = (category: any) => {
       <Field name="number" type="number" />
       <ErrorMessage name="number" />
     </div>
-    <input value="Edit" type="submit" class="btn w-100">
+    <input value="Save" type="submit" class="btn w-100">
   </Form>
 </template>
 

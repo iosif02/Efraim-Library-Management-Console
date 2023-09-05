@@ -14,8 +14,8 @@ export default class BookModel {
     order: number = 0;
     status: number = 0;
     transaction_count: number = 0;
-    transaction: TransactionModel[] = [];
 
+    transaction: TransactionModel[] = [];
     publisher: PublisherModel = new PublisherModel()
     category: CategoryModel = new CategoryModel();
     authors: AuthorModel[] = [];

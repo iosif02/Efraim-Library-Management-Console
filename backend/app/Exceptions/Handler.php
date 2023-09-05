@@ -60,6 +60,5 @@ class Handler extends ExceptionHandler
             if(!$e instanceof ValidationException && !$e instanceof AccessDeniedHttpException && !$e instanceof AuthenticationException)
                 return response()->json(['message' => 'Something went wrong!'], 400);
         });
-
     }
 }

@@ -4,7 +4,7 @@ import Pagination from '@/components/global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();
-if(!store.delayedBooks.data.length)
+// if(!store.delayedBooks.data.length)
     store.fetchDelayedBooks();
 
 </script>
@@ -20,7 +20,8 @@ if(!store.delayedBooks.data.length)
         placeholder='Search book...'
     />
 
-    <DelayedBooks :books="store.delayedBooks.data" />
+    <DelayedBooks v-if="store.delayedBooks.searchModel.pagination.total" :books="store.delayedBooks.data" />
+    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
     <Pagination
         :current-page="store.delayedBooks.searchModel.pagination.page"

@@ -30,7 +30,6 @@ var onSubmit = (user: any) => {
   .then(result => {
     if(result)
       router.back();
-      store.fetchUsers();
   });
 }
 
@@ -58,7 +57,7 @@ function onFocusElement(e: any) {
   <Loading v-if="store.isLoading" />
 
 	<div>
-    <GoBack goBackText="Back"/>
+    <GoBack goBackText="Add User"/>
 	</div>
 
   <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
@@ -116,12 +115,12 @@ function onFocusElement(e: any) {
       <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
       <label for="authors">Roles</label>
       <AutoComplete 
-        name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true" 
+        name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true"
         @focus="onFocusElement" @item-select="blurInput"
       />
       <ErrorMessage name="roles" />
     </div>
-    <input value="Create" type="submit" class="btn w-100">
+    <input value="Add" type="submit" class="btn w-100">
   </Form>
 </template>
 
