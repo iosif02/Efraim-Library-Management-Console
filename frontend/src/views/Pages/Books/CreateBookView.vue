@@ -49,30 +49,24 @@ const selectedCategory = ref<CategoryModel>();
 const selectedPublisher = ref<PublisherModel>();
 
 var searchAuthors = (event: any) => {
-    if(event?.query?.length > 2) {
-        filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
-        if(filteredAuthors.value.length == 0){
-            filteredAuthors.value = [{id: 0, name: "Result not found! Tap to create!", book_count: 0, pivot: { author_id: 0, book_id: 0 }}]
-            entity = {id: 0, name: event.query, book_count: 0, pivot: { author_id: 0, book_id: 0 }}
-        }
+    filteredAuthors.value = entitiesStore.entities.authors.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase())).filter(x => !selectedAuthors.value.some(x2 => x.id === x2.id));
+    if(filteredAuthors.value.length == 0){
+        filteredAuthors.value = [{id: 0, name: "Result not found! Tap to create!", book_count: 0, pivot: { author_id: 0, book_id: 0 }}]
+        entity = {id: 0, name: event.query, book_count: 0, pivot: { author_id: 0, book_id: 0 }}
     }
 }
 var searchCategories = (event: any) => {
-    if(event?.query?.length > 2) {
-        filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
-        if(filteredCategories.value.length == 0){
-            filteredCategories.value = [{id: 0, name: "Result not found! Tap to create!", description: '' , number: 0 ,book_count: 0}]
-            entity = {id: 0, name: event.query, description: '' , number: 0 ,book_count: 0}
-        }
+    filteredCategories.value = entitiesStore.entities.categories.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+    if(filteredCategories.value.length == 0){
+        filteredCategories.value = [{id: 0, name: "Result not found! Tap to create!", description: '' , number: 0 ,book_count: 0}]
+        entity = {id: 0, name: event.query, description: '' , number: 0 ,book_count: 0}
     }
 }
 var searchPublishers = (event: any) => {
-    if(event?.query?.length > 2) {
-        filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
-        if(filteredPublishers.value.length == 0){
-            filteredPublishers.value = [{id: 0, name: "Result not found! Tap to create!", city: '', book_count: 0}]
-            entity = {id: 0, name: event.query, city: '', book_count: 0}
-        }
+    filteredPublishers.value = entitiesStore.entities.publishers.filter(x => x.name.toLowerCase().includes(event.query.toLowerCase()));
+    if(filteredPublishers.value.length == 0){
+        filteredPublishers.value = [{id: 0, name: "Result not found! Tap to create!", city: '', book_count: 0}]
+        entity = {id: 0, name: event.query, city: '', book_count: 0}
     }
 }
 
@@ -95,6 +89,15 @@ let focusedElement: any = ref(null)
 
 var focusInput = () => {
     if(focusedElement) focusedElement?.target?.focus();
+    focusedElement.value = null;
+}
+
+var blurInput = () => {
+    if(focusedElement) {
+        setTimeout(() => {
+            focusedElement?.target?.blur();   
+        }, 1);
+    }
     focusedElement.value = null;
 }
 
@@ -134,14 +137,14 @@ var submit = (entity: any) => {
 
 <template>
     
-    <Loading v-if="booksStore.isLoading" />
+    <Loading v-if="booksStore.isLoading || entitiesStore.isLoading" />
 
     <GoBack go-back-text="Add Book" />
 
     <CreateEntityModal 
         v-if="showModal" 
         :title="`Create ${typeEntity}`"
-        @hide-modal="showModal = false, focusInput" 
+        @hide-modal="showModal = false, focusInput()" 
         @create-entity="(entity: any) => submit(entity)" 
         :entity = entity 
         :typeEntity="typeEntity"
@@ -180,14 +183,16 @@ var submit = (entity: any) => {
             <Field name="publisher" type="hidden" :value="selectedPublisher" v-model="selectedPublisher" />
             <label for="price">Publisher</label>
             <AutoComplete 
-                name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers" @complete="searchPublishers($event)" optionLabel="name" 
-                scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement"
+                :scroll-height="filteredPublishers.length == 1 ? '51px' :filteredPublishers.length == 2 ? '86px' : filteredPublishers.length == 3 ? '121px' : '150px'"
+                name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers"  optionLabel="name" 
+                loadingIcon="none" dropdown dropdown-mode="current" :virtualScrollerOptions="{ itemSize: 35 }"
+                @focus="onFocusElement" @complete="searchPublishers($event)"
                 @item-select="
                     filteredPublishers[0].id != 0 
                         ? 
-                    focusInput 
+                    focusInput()
                         : 
-                    (typeEntity = 'Publisher' ,selectedPublisher = {id: 0, name: '', city: '', book_count: 0}, showModal = true)"
+                    (typeEntity = 'Publisher' ,selectedPublisher = {id: 0, name: '', city: '', book_count: 0}, showModal = true, blurInput())"
             />
             <ErrorMessage name="publisher" />
         </div>
@@ -195,9 +200,11 @@ var submit = (entity: any) => {
             <Field name="authors" type="hidden" :value="selectedAuthors" v-model="selectedAuthors" />
             <label for="authors">Authors</label>
             <AutoComplete 
-                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" @complete="searchAuthors($event)" optionLabel="name" :multiple="true" 
-                scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement" 
-                @item-select="filteredAuthors[0].id != 0 ? focusInput : (typeEntity = 'Author', selectedAuthors.pop(), showModal = true)"
+                :scroll-height="filteredAuthors.length == 1 ? '51px' :filteredAuthors.length == 2 ? '86px' : filteredAuthors.length == 3 ? '121px' : '150px'"
+                name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" optionLabel="name" :multiple="true"  
+                loadingIcon="none" dropdown dropdown-mode="current" :virtualScrollerOptions="{ itemSize: 35 }"
+                @focus="onFocusElement" @complete="searchAuthors($event)" 
+                @item-select="filteredAuthors[0].id != 0 ? focusInput() : (typeEntity = 'Author', selectedAuthors.pop(), showModal = true, blurInput())"   
             />
             <ErrorMessage name="authors" />
         </div>
@@ -205,14 +212,15 @@ var submit = (entity: any) => {
             <Field name="category" type="hidden" :value="selectedCategory" v-model="selectedCategory" />
             <label for="category">Category</label>
             <AutoComplete 
-                name="category" v-model="selectedCategory" :suggestions="filteredCategories" @complete="searchCategories($event)" optionLabel="name" 
-                scroll-height="150px" :min-length="3" loadingIcon="none" placeholder="Type at least 3 letters..." @focus="onFocusElement"
+                name="category" v-model="selectedCategory" :suggestions="filteredCategories"  optionLabel="name" 
+                scroll-height="150px" loadingIcon="none" dropdown dropdown-mode="current"
+                @focus="onFocusElement" @complete="searchCategories($event)"
                 @item-select="
                 filteredCategories[0].id != 0 
                     ? 
-                focusInput 
+                focusInput()
                     : 
-                (typeEntity = 'Category', selectedCategory = {id: 0, name: '', description: '' , number: 0 ,book_count: 0}, showModal = true)"
+                (typeEntity = 'Category', selectedCategory = {id: 0, name: '', description: '' , number: 0 ,book_count: 0}, showModal = true, blurInput())"
             />
             <ErrorMessage name="category" />
         </div>

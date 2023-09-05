@@ -20,7 +20,7 @@ axios.interceptors.response.use(function(response) {
 	if(error?.response?.data?.errors) {
 		NotificationHelper.NotifyFormValidation(error.response.data.errors);
 	} else {
-		NotificationHelper.NotifyError(error.response.data.message);
+		NotificationHelper.NotifyError(error.response.data?.message);
 	}
 	if(error.response.status == 401) {
 		localStorage.removeItem('bearerToken');
