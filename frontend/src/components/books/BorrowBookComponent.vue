@@ -29,24 +29,24 @@ const daysLeft = (day: number) => {
 </script>
 
 <template>
-    <div class="borrow-list">
-        <div class="borrow-book" v-for="transaction in books.transaction">
-            <div>
-              <div class="row">
-                <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
-                <StatusBookComponent :status="books.status"/>
-              </div>
-              <div class="row">
-                <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
-                <p class="date highlight">{{ daysLeft(transaction.delayed)}}</p>
-              </div>
-            </div> 
+  <div class="borrow-list">
+      <div class="borrow-book" v-for="transaction in books.transaction">
+          <div>
             <div class="row">
-              <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
-              <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+              <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
+              <StatusBookComponent :status="books.status"/>
             </div>
-        </div>
-    </div>
+            <div class="row">
+              <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
+              <p class="date highlight">{{ daysLeft(transaction.delayed)}}</p>
+            </div>
+          </div> 
+          <div class="row">
+            <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
+            <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+          </div>
+      </div>
+  </div>
 </template>
 
 <style scoped>
@@ -121,10 +121,11 @@ const daysLeft = (day: number) => {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 14px;
-  /* letter-spacing: 1px; */
-  text-decoration-line: underline;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* text-decoration-line: underline; */
   color: #76CECB;
 }
 .date {

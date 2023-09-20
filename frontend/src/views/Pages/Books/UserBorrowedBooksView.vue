@@ -21,7 +21,7 @@ store.searchUserBorrowedBooks();
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack :go-back-text="$route.query.userName"/>
+    <GoBack :go-back-text="`${$route.query.userName} (${store.userBorrowedBooks.searchModel.pagination.total})`"/>
 
     <SearchBar
         :defaultValue="store.userBorrowedBooks.searchModel.title"

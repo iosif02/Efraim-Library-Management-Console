@@ -18,6 +18,11 @@ store.searchBooks();
     placeholder='Search book...'
   />
 
+  <div class="results">
+    Results 
+    <span>({{ store.books.searchModel.pagination.total }})</span>
+  </div>
+
   <PopularBooks v-if="store.books.searchModel.pagination.total" :books="store.books.data" />
   <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
 
@@ -32,7 +37,12 @@ store.searchBooks();
 </template>
 
 <style scoped>
-.spacer {
-  margin-bottom: .8rem;
+.results {
+  font-family: 'Roboto-500';
+  color: #2B2E3C;
+  margin-bottom: 10px;
+}
+.results span {
+    color: #AAAAAA;
 }
 </style>

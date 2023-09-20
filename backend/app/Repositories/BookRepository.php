@@ -135,7 +135,8 @@ class BookRepository implements IBookRepository
             ])
             ->withCount([
                 'Transaction' => fn($query) => $query->where('is_returned', 0)
-            ]);
+            ])
+            ->orderByDesc('created_at');
 
         if(isset($filters['category']) && $filters['category'] != 0){
             $book->where('category_id', $filters['category']);

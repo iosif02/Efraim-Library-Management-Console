@@ -24,7 +24,7 @@ store.searchAuthorBooks();
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack :go-back-text="$route.query.authorName"/>
+    <GoBack :go-back-text="`${$route.query.authorName} (${store.authorBooks.searchModel.pagination.total})`"/>
 
     <SearchBar
         :defaultValue="store.authorBooks.searchModel.title"
