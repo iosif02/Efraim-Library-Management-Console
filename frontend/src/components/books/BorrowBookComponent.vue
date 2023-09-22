@@ -43,7 +43,10 @@ const daysLeft = (day: number) => {
           </div> 
           <div class="row">
             <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
-            <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+            <div class="book-action">
+              <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+              <p class="transaction-return" @click="$emit('extend', transaction.id)">Extend</p>
+            </div>
           </div>
       </div>
   </div>
@@ -124,7 +127,7 @@ const daysLeft = (day: number) => {
   font-size: 14px;
   line-height: 14px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   /* text-decoration-line: underline; */
   color: #76CECB;
 }
@@ -139,5 +142,13 @@ const daysLeft = (day: number) => {
   border-radius: 50px; 
   font-weight: bold; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+.book-action{
+  display: flex;
+  flex-direction: row; 
+  gap: 10px;
+}
+.transaction-return:first-child {
+  color: #eb9b00;
 }
 </style>

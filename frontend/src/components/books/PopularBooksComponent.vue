@@ -9,6 +9,7 @@ defineProps({
         required: true
     }
 });
+
 </script>
 
 <template>
@@ -18,13 +19,13 @@ defineProps({
                     <img :src="book.image || '/img/book.jpg'" alt="">
                     <div class="details">
                         <div class="title">{{ book.title }}</div>
-                        <div class="author">{{typeof book.authors == 'string' ? book.authors : book.authors?.map(author => author.name).join(', ')}}</div>
+                        <div class="author">{{book.authors?.map(author => author.name).join(', ')}}</div>
                         <div class="category">
-                            <span class="category-number">({{ book.category?.number }})</span>
-                            <span class="category-name">{{ book.category?.name }}</span>
+                            <span class="category-name"><span class="category-number">({{ book.category?.number || book.number }})</span>{{ book.category?.name || book.category }}</span>
+                            <!-- <router-link :to="{name: 'categoryBooks', params: { id: book.category?.id || book?.category_id || 0 }, query: { categoryName: book.category?.name || book?.category } }" class="category-name"><span class="category-number">({{ book?.number ||  book.category?.number}})</span>{{ book.category?.name || book?.category }}</router-link> -->
                         </div>
                     </div>
-            </RouterLink>
+            </RouterLink> 
         </template>
     </div>
 </template>
@@ -41,13 +42,13 @@ defineProps({
     overflow: hidden;
     text-decoration: none
 }
-    .books .book:nth-child(3n + 2){
-        justify-self: center;
-    }
+.books .book:nth-child(3n + 2){
+    justify-self: center;
+}
 
-    .books .book:nth-child(3n){
-        justify-self: end;
-    }
+.books .book:nth-child(3n){
+    justify-self: end;
+}
 img {
     width: 100%;
     height: 128px;
@@ -63,6 +64,9 @@ img {
 .title {
     color: #2B2E3C;
 }
+/* .category-name {
+    text-decoration: none
+} */
 .category {
     font-size: 12px;
 }

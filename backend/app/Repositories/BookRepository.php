@@ -6,6 +6,7 @@ use App\Exceptions\CustomException;
 use App\Models\Book;
 use App\Models\Transactions;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -85,14 +86,15 @@ class BookRepository implements IBookRepository
     }
     public function GetBookDetailsById(int $bookId): ?Model
     {
-        return Book::with([
-            'Category' => fn($query) => $query->select('id', 'name', 'number'),
-            'Authors',
-            'Publisher' => fn($query) => $query->select('id', 'name'),
-            'Transaction' => function ($query){
-                $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned', 'lender_name')
-                    ->where('is_returned', false);
-            },
+        return Book::select('id', 'title', 'image', 'quantity', 'publisher_id', 'category_id', 'year', 'price')
+            ->with([
+                'Category' => fn($query) => $query->select('id', 'name', 'number'),
+                'Authors' => fn($query) => $query->select('authors.id', 'name'),
+                'Publisher' => fn($query) => $query->select('id', 'name'),
+                'Transaction' => function ($query){
+                    $query->select('id', 'book_id', 'user_id', 'borrow_date', 'return_date', 'is_returned', 'lender_name')
+                        ->where('is_returned', false);
+                },
             'Transaction.User' => fn($query) => $query->select('id', 'first_name', 'last_name')
         ])
         ->withCount([
@@ -229,7 +231,7 @@ class BookRepository implements IBookRepository
     public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
     {
         $books = DB::table('books AS b')
-            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name AS category', 'c.number AS number')
+            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name AS category', 'c.number AS number',)
             ->selectRaw('COUNT(t.id) AS count')
             ->join('categories AS c', 'b.category_id', '=', 'c.id')
             ->join('transactions AS t', 'b.id', '=', 't.book_id')
@@ -246,10 +248,10 @@ class BookRepository implements IBookRepository
     public function GetAuthorsById(array $bookIds): Collection
     {
         return DB::table('authors as a')
-            ->select('ba.book_id', DB::raw('GROUP_CONCAT(a.name SEPARATOR ", ") as authors'))
+            ->select('ba.book_id', 'a.name', 'a.id')
             ->join('book_authors as ba', 'ba.author_id', '=', 'a.id')
             ->whereIn('ba.book_id', $bookIds)
-            ->groupBy('ba.book_id')
+            ->groupBy('ba.book_id', 'a.id', 'a.name')
             ->get();
     }
 
@@ -302,6 +304,15 @@ class BookRepository implements IBookRepository
         $transaction->receiver_name = Auth::user()->full_Name;
         $transaction->update();
         return $transaction;
+    }
+    public function extendBook(int $transactionId): bool
+    {
+        $transaction = Transactions::find($transactionId);
+        $currentDate = Carbon::parse($transaction->return_date);
+        $oneWeeksLater = $currentDate->addWeeks(1);
+        $transaction->return_date = $oneWeeksLater;
+        $transaction->update();
+        return true;
     }
 
 }

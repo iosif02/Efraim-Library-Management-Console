@@ -100,7 +100,7 @@ var onSubmit = (book: any) => {
 
 let focusedElement: any = ref(null)
 
-var focusInput = (e: any) => {
+var focusInput = () => {
     if(focusedElement) focusedElement?.target?.focus();
     focusedElement.value = null;
 }

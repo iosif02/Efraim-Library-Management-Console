@@ -96,4 +96,10 @@ class BookController extends Controller
         $result = $this->bookService->ReturnBook($transactionId);
         return response()->json($result);
     }
+
+    public function extendBook(int $transactionId): JsonResponse
+    {
+        $result = $this->bookService->extendBook($transactionId);
+        return response()->json($result);
+    }
 }
