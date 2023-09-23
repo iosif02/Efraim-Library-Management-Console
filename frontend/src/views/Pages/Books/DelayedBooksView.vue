@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DelayedBooks from '@/components/books/DelayedBooksComponent.vue';
-import Pagination from '@/components/global/PaginationComponent.vue';
+import DelayedBooks from '@/views/Components/Books/DelayedBooksComponent.vue';
+import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();

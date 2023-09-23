@@ -17,18 +17,7 @@ let formatDate = (date: string) => {
     }
     return date;
 }
-// let delayedDays = (date: string) => {
-//     if (date) {
-//         const currentDate = new Date();
-//         const oneDay = 24 * 60 * 60 * 1000;
 
-//         let newDate = new Date(moment(date, "YYYY-MM-DD h:mm:ss").toString());
-//         let days = currentDate.getTime() - newDate.getTime();
-
-//         return Math.ceil(days / oneDay) - 1;
-//     }
-//     return 10;
-// }
 </script>
 
 <template>

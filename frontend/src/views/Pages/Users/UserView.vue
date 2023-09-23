@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AuthorIcon from '@/components/icons/AuthorIcon.vue';
-import ReaderIcon from '@/components/icons/ReaderIcon.vue';
+import AuthorIcon from '@/views/Components/Icons/AuthorIcon.vue';
+import ReaderIcon from '@/views/Components/Icons/ReaderIcon.vue';
 import { RouterLink } from "vue-router";
 import { authStore } from '@/stores/auth-store';
 import { ref } from 'vue';

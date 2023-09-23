@@ -2,7 +2,7 @@
 import type BookModel from '@/models/book/BookModel';
 import type { PropType } from 'vue'
 import { RouterLink } from "vue-router";
-import StatusBookComponent from '@/components/global/StatusBookComponent.vue';
+import StatusBookComponent from '@/views/Components/Global/StatusBookComponent.vue';
 
 defineProps({
     books: {

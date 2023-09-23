@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthorIcon from '@/components/icons/AuthorIcon.vue';
+import AuthorIcon from '@/views/Components/Icons/AuthorIcon.vue';
 import { RouterLink } from "vue-router";
 
 </script>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useBooksStore } from '@/stores/books-store';
-import DelayedBooks from '@/components/books/DelayedBooksComponent.vue';
-import PopularBooks from '@/components/books/PopularBooksComponent.vue';
-import Categories from '@/components/books/CategoriesComponent.vue';
-import TitleSection from "@/components/global/TitleSectionComponent.vue";
+import DelayedBooks from '@/views/Components/Books/DelayedBooksComponent.vue';
+import PopularBooks from '@/views/Components/Books/PopularBooksComponent.vue';
+import Categories from '@/views/Components/Books/CategoriesComponent.vue';
+import TitleSection from "@/views/Components/Global/TitleSectionComponent.vue";
 import SearchBooksHomeView from '@/views/Pages/Books/SearchBooksHomeView.vue';
 
 const store = useBooksStore();

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import router from '@/router';
-import Pagination from '@/components/global/PaginationComponent.vue';
+import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 import { useUsersStore } from '@/stores/user-store';
 import { ref } from 'vue';
-import UsersComponent from '@/components/users/UsersComponent.vue';
+import UsersComponent from '@/views/Components/Users/UsersComponent.vue';
 import BorrowBookModel from "@/models/book/BorrowBookModel";
 
 const props = defineProps({
@@ -21,9 +21,6 @@ UsersStore.fetchUsers();
 
 if(BooksStore.bookDetails.id != parseInt(props.id || ''))
   BooksStore.fetchBookDetails(props.id ?? "");
-
-// if(BooksStore.bookDetails.status == 0)
-//   router.replace({ name: 'bookDetails' });
 
 const showModal = ref<boolean>(false);
 let userId = 0;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Pagination from '@/components/global/PaginationComponent.vue';
-import PublishersComponent from '@/components/entities/PublishersComponent.vue';
+import Pagination from '@/views/Components/Global/PaginationComponent.vue';
+import PublishersComponent from '@/views/Components/Entities/PublishersComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
-import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
+import CreateButtonComponent from "@/views/Components/Global/CreateButtonComponent.vue"
 import { ref } from 'vue';
 
 const store = useEntitiesStore();

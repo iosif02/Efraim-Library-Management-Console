@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PopularBooks from '@/components/books/PopularBooksComponent.vue';
-import Pagination from '@/components/global/PaginationComponent.vue';
+import PopularBooks from '@/views/Components/Books/PopularBooksComponent.vue';
+import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();

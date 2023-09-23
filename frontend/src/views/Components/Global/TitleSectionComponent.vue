@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ChevronRightIcon from "@/components/icons/ChevronRightIcon.vue";
+import ChevronRightIcon from "@/views/Components/Icons/ChevronRightIcon.vue";
 import { RouterLink } from "vue-router";
 
 const props = defineProps(['title', 'routeName'])

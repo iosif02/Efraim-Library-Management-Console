@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SearchIcon from "@/components/icons/SearchIcon.vue";
+import SearchIcon from "@/views/Components/Icons/SearchIcon.vue";
 import { ref } from "vue";
 import 'primeicons/primeicons.css';
 

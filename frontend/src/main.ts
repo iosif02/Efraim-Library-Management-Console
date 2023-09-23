@@ -7,17 +7,17 @@ import Notifications from '@kyvg/vue3-notification';
 import PrimeVue from 'primevue/config';
 import AutoComplete from 'primevue/autocomplete';
 
-import "@/interceptors/axios"
+import "@/helpers/axios"
 import "@/assets/main.css";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
-import GoBackVue from "@/components/global/GoBackComponent.vue";
-import Loading from '@/components/global/LoadingComponent.vue';
-import LoadingButton from '@/components/global/LoadingButtonComponent.vue';
-import SearchBar from '@/components/global/SearchBarComponent.vue';
-import Modal from '@/components/global/ModalComponent.vue';
+import GoBackVue from "@/views/Components/Global/GoBackComponent.vue";
+import Loading from '@/views/Components/Global/LoadingComponent.vue';
+import LoadingButton from '@/views/Components/Global/LoadingButtonComponent.vue';
+import SearchBar from '@/views/Components/Global/SearchBarComponent.vue';
+import Modal from '@/views/Components/Global/ModalComponent.vue';
 
 import { filters } from "@/helpers/Filter";
 

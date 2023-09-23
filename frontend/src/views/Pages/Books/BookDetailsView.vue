@@ -3,8 +3,8 @@ import router from '@/router';
 import { RouterLink } from "vue-router";
 import { useBooksStore } from '@/stores/books-store';
 import { ref } from 'vue';
-import BorrowBookComponent from '@/components/books/BorrowBookComponent.vue';
-import DetailsBook from '@/components/books/DetailsBookComponent.vue'
+import BorrowBookComponent from '@/views/Components/Books/BorrowBookComponent.vue';
+import DetailsBook from '@/views/Components/Books/DetailsBookComponent.vue'
 
 const props = defineProps({
   id: String

@@ -72,12 +72,6 @@
 
             resetCanvasButton.addEventListener('click', clearCnvs, false);
 
-            // gui = new dat.GUI();
-            // gui.add(Configs, 'step', 1, 20);
-            // gui.add(Configs, 'base', 500, 3000);
-            // gui.add(Configs, 'zInc', 0.0001, 0.01);
-            // gui.close();
-
             update();
         }
 

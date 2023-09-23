@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import HomeIcon from "@/components/icons/HomeIcon.vue";
-import BooksIcon from "@/components/icons/BooksIcon.vue";
-import ProfileIcon from "@/components/icons/ProfileIcon.vue";
-import EntityIcon from "@/components/icons/EntityIcon.vue";
+import HomeIcon from "@/views/Components/Icons/HomeIcon.vue";
+import BooksIcon from "@/views/Components/Icons/BooksIcon.vue";
+import ProfileIcon from "@/views/Components/Icons/ProfileIcon.vue";
+import EntityIcon from "@/views/Components/Icons/EntityIcon.vue";
 </script>
 
 <template>

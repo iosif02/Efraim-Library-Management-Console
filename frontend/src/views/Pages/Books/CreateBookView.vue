@@ -7,7 +7,7 @@ import { useEntitiesStore } from '@/stores/entities-store';
 import type AuthorModel from '@/models/entities/AuthorModel';
 import type CategoryModel from '@/models/entities/CategoryModel';
 import type PublisherModel from '@/models/entities/PublisherModel';
-import CreateEntityModal from '@/components/entities/CreateEntityModal.vue'
+import CreateEntityModal from '@/views/Components/Entities/CreateEntityModal.vue'
 import router from '@/router';
 
 const entitiesStore = useEntitiesStore();

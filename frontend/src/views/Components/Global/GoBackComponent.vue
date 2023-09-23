@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ChevronLeftIcon from "@/components/icons/ChevronLeftIcon.vue";
+import ChevronLeftIcon from "@/views/Components/Icons/ChevronLeftIcon.vue";
 import router from "@/router";
 
 defineProps({

@@ -25,12 +25,12 @@ html,body {
 @font-face {
   font-family: "Roboto-400";
   src: local("Roboto-400"),
-  url(./fonts/Roboto/Roboto-Regular.ttf) format("truetype");
+  url(./assets/fonts/Roboto/Roboto-Regular.ttf) format("truetype");
 }
 @font-face {
   font-family: "Roboto-500";
   src: local("Roboto-500"),
-  url(./fonts/Roboto/Roboto-Medium.ttf) format("truetype");
+  url(./assets/fonts/Roboto/Roboto-Medium.ttf) format("truetype");
   color: #2B2E3C;
 }
 .text-color{

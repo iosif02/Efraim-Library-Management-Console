@@ -8,12 +8,12 @@ export default
         {
             path: "/login",
             name: "login",
-            component: () => import("@/views/Auth/LoginView.vue"),
+            component: () => import("@/views/Pages/Auth/LoginView.vue"),
         },
         {
             path: "/register",
             name: "register",
-            component: () => import("@/views/Auth/RegisterView.vue"),
+            component: () => import("@/views/Pages/Auth/RegisterView.vue"),
         },
     ]
 };

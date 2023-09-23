@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type UserModel from '@/models/user/UserModel';
-import ChevronRightIcon from "@/components/icons/ChevronRightIcon.vue";
+import ChevronRightIcon from "@/views/Components/Icons/ChevronRightIcon.vue";
 import type { PropType } from 'vue'
 
 defineProps({

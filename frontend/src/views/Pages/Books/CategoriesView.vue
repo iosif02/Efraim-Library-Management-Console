@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import Categories from '@/components/books/CategoriesComponent.vue';
-import Pagination from '@/components/global/PaginationComponent.vue';
+import Categories from '@/views/Components/Books/CategoriesComponent.vue';
+import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import { useEntitiesStore } from '@/stores/entities-store';
 
 const store = useEntitiesStore();
-// if(!store.categories.data.length)
-    store.fetchCategories();
+store.fetchCategories();
 
 </script>
 

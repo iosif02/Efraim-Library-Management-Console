@@ -9,4 +9,5 @@ interface IFileService
 {
     public function StoreFile(UploadedFile $file): string;
     public function GetFile(string $context, string $filename): BinaryFileResponse;
+    public function DeleteFile(?string $path): void;
 }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Pagination from '@/components/global/PaginationComponent.vue';
+import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import { useUsersStore } from '@/stores/user-store';
 import { ref } from 'vue';
-import ReadersComponent from '@/components/users/ReadersComponent.vue';
-import CreateButtonComponent from "@/components/global/CreateButtonComponent.vue"
+import ReadersComponent from '@/views/Components/Users/ReadersComponent.vue';
+import CreateButtonComponent from "@/views/Components/Global/CreateButtonComponent.vue"
 
 const store = useUsersStore();
 store.fetchUsers();

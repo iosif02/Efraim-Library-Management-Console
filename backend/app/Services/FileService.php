@@ -27,8 +27,10 @@ class FileService implements IFileService
         return response()->file($filePath);
     }
 
-    public function DeleteFile(string $path): void
+    public function DeleteFile(?string $path): void
     {
+        if(!$path) return;
+
         Storage::delete('public/' . $path);
     }
 }
