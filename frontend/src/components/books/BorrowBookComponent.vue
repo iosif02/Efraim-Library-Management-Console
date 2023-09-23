@@ -29,24 +29,27 @@ const daysLeft = (day: number) => {
 </script>
 
 <template>
-    <div class="borrow-list">
-        <div class="borrow-book" v-for="transaction in books.transaction">
-            <div>
-              <div class="row">
-                <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
-                <StatusBookComponent :status="books.status"/>
-              </div>
-              <div class="row">
-                <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
-                <p class="date highlight">{{ daysLeft(transaction.delayed)}}</p>
-              </div>
-            </div> 
+  <div class="borrow-list">
+      <div class="borrow-book" v-for="transaction in books.transaction">
+          <div>
             <div class="row">
-              <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
-              <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+              <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
+              <StatusBookComponent :status="books.status"/>
             </div>
-        </div>
-    </div>
+            <div class="row">
+              <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
+              <p class="date highlight">{{ daysLeft(transaction.delayed)}}</p>
+            </div>
+          </div> 
+          <div class="row">
+            <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
+            <div class="book-action">
+              <p class="transaction-return" @click="$emit('onReturn', transaction.id)">Return</p>
+              <p class="transaction-return" @click="$emit('extend', transaction.id)">Extend</p>
+            </div>
+          </div>
+      </div>
+  </div>
 </template>
 
 <style scoped>
@@ -121,10 +124,11 @@ const daysLeft = (day: number) => {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 14px;
+  text-transform: uppercase;
   /* letter-spacing: 1px; */
-  text-decoration-line: underline;
+  /* text-decoration-line: underline; */
   color: #76CECB;
 }
 .date {
@@ -138,5 +142,13 @@ const daysLeft = (day: number) => {
   border-radius: 50px; 
   font-weight: bold; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+.book-action{
+  display: flex;
+  flex-direction: row; 
+  gap: 10px;
+}
+.transaction-return:first-child {
+  color: #eb9b00;
 }
 </style>

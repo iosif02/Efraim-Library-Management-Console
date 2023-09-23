@@ -164,19 +164,6 @@ var onSubmit = (entity: any) => {
     text-transform: capitalize;
     color: #101828;
 }
-.description{
-    font-family: 'Arial';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    color: #667085;
-    margin-top: 8px;
-}
-.confrim{
-    margin-top: 24px;
-}
 .cancel{
     border: 1px solid #D0D5DD;
     background-color: white;

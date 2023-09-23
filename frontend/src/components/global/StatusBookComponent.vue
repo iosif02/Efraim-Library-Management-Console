@@ -37,8 +37,8 @@ defineProps({
 }
 .badStatus{
     font-size: 12px;
-    color: #CE7679;
-    background-color: #F2DCDC;
+    color: #eb9b00;
+    background-color: #f3e2c1;
     border-radius: 22px;
     padding: 5px 10px 5px 20px;
     position: relative;
@@ -51,7 +51,7 @@ defineProps({
     transform: translateY(-50%);
     width: 5px;
     height: 5px;
-    background: #CE7679;
+    background: #eb9b00;
     border-radius: 50%;
     left: 10px;
 }

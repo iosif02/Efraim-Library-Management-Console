@@ -24,7 +24,7 @@ store.searchCategoryBooks();
 <template>
     <Loading v-if="store.isLoading" />
 
-    <GoBack :go-back-text="$route.query.categoryName"/>
+    <GoBack :go-back-text="`${$route.query.categoryName} (${store.categoryBooks.searchModel.pagination.total})`"/>
 
     <SearchBar
         :defaultValue="store.categoryBooks.searchModel.title"

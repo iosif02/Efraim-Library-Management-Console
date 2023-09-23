@@ -221,6 +221,15 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
+    async extendBook(transactionId: Number){
+      this.isLoading = true;
+      return axios.post("/books/extend/" + transactionId)
+      .then(result => {
+        return result.data;
+      })
+      .catch(error => console.error("Request error: " + error))
+      .finally(() => this.isLoading = false);
+    },
     async borrowBook(borrowModel: BorrowBookModel) {
       this.isLoading = true;
       return axios.post("/books/borrow", borrowModel)

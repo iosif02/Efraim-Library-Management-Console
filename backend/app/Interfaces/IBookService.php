@@ -19,4 +19,5 @@ interface IBookService
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator;
     public function BorrowBook(array $fields): Transactions;
     public function ReturnBook(int $transactionId): Transactions;
+    public function extendBook(int $transactionId): bool;
 }
