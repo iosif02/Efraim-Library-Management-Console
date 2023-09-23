@@ -107,9 +107,11 @@ class BookService implements IBookService
         $bookAuthors = $this->bookRepository->GetAuthorsById($bookIds);
 
         foreach ($books as $book) {
-            foreach($bookAuthors as $author){
-                if($book->id == $author->book_id)
-                    $book->authors = $author->authors;
+            $book->authors = [];
+            foreach ($bookAuthors as $author) {
+                if ($book->id == $author->book_id) {
+                    $book->authors[] = $author;
+                }
             }
         }
 
@@ -151,5 +153,17 @@ class BookService implements IBookService
             throw new CustomException('Transaction not found!');
 
         return $this->bookRepository->ReturnBook($transactionId);
+    }
+
+    /**
+     * @throws CustomException
+     */
+    public function extendBook(int $transactionId): bool
+    {
+        $transaction = $this->bookRepository->GetTransactionById($transactionId);
+        if(!$transaction)
+            throw new CustomException('Transaction not found!');
+
+        return $this->bookRepository->extendBook($transactionId);
     }
 }

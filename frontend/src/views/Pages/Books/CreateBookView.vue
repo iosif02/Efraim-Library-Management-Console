@@ -186,6 +186,7 @@ var submit = (entity: any) => {
                 :scroll-height="filteredPublishers.length == 1 ? '51px' :filteredPublishers.length == 2 ? '86px' : filteredPublishers.length == 3 ? '121px' : '150px'"
                 name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers"  optionLabel="name" 
                 loadingIcon="none" dropdown dropdown-mode="current" :virtualScrollerOptions="{ itemSize: 35 }"
+                @dropdown-click="focusInput()"
                 @focus="onFocusElement" @complete="searchPublishers($event)"
                 @item-select="
                     filteredPublishers[0].id != 0 
@@ -203,6 +204,7 @@ var submit = (entity: any) => {
                 :scroll-height="filteredAuthors.length == 1 ? '51px' :filteredAuthors.length == 2 ? '86px' : filteredAuthors.length == 3 ? '121px' : '150px'"
                 name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" optionLabel="name" :multiple="true"  
                 loadingIcon="none" dropdown dropdown-mode="current" :virtualScrollerOptions="{ itemSize: 35 }"
+                @dropdown-click="focusInput()"
                 @focus="onFocusElement" @complete="searchAuthors($event)" 
                 @item-select="filteredAuthors[0].id != 0 ? focusInput() : (typeEntity = 'Author', selectedAuthors.pop(), showModal = true, blurInput())"   
             />
@@ -214,6 +216,7 @@ var submit = (entity: any) => {
             <AutoComplete 
                 name="category" v-model="selectedCategory" :suggestions="filteredCategories"  optionLabel="name" 
                 scroll-height="150px" loadingIcon="none" dropdown dropdown-mode="current"
+                @dropdown-click="focusInput()"
                 @focus="onFocusElement" @complete="searchCategories($event)"
                 @item-select="
                 filteredCategories[0].id != 0 

@@ -31,6 +31,8 @@ class Book extends Model
     protected $casts = [
         'is_recommended' => 'boolean',
     ];
+
+    protected $hidden = ['category_id', 'publisher_id'];
     public function Transaction(): HasMany
     {
         return $this->hasMany(Transactions::class);

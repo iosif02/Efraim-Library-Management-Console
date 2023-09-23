@@ -67,8 +67,10 @@ var onSubmit = (user: any) => {
   user.roles = user.roles.map((x: RoleModel) => x.id);
   store.updateUser(user)
   .then(result => {
-    if(result)
+    if(result){
       store.fetchProfile();
+      isEdit.value = false;
+    }
   });
 }
 

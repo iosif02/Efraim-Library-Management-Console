@@ -16,9 +16,29 @@ if(!props.id || props.id == '0' || !parseInt(props.id)){
 
 const store = useBooksStore();
 store.fetchBookDetails(props.id ?? "");
+const showModal = ref<boolean>(false);
+const showModalOnReturn = ref<boolean>(false);
+const showModalOnExtend = ref<boolean>(false);
+let bookId: number = 0;
 
-var onReturn = (transactionId: number) => {
-  store.returnBook(transactionId)
+var openModal = (transactionId: number, type: string) => {
+  bookId = transactionId;
+  if(type == 'return')
+    return showModalOnReturn.value = true;
+  if(type == 'extend')
+    return showModalOnExtend.value = true;
+  return showModal.value = true;
+}
+
+var hideModal = () => {
+  showModal.value = false;
+  showModalOnReturn.value = false
+  showModalOnExtend.value = false
+}
+
+var returnBook = () => {
+  hideModal();
+  store.returnBook(bookId)
   .then((result) => {
     if(result)
       store.fetchBookDetails(props.id ?? "")
@@ -27,10 +47,21 @@ var onReturn = (transactionId: number) => {
       })
   })
 }
-const showModal = ref<boolean>(false);
+
+var extendBook = () => {
+  hideModal();
+  store.extendBook(bookId)
+  .then((result) => {
+    if(result)
+      store.fetchBookDetails(props.id ?? "")
+      .then(() => {
+        store.fetchHomepage();
+      })
+  })
+}
 
 var deleteBook = () => {
-  showModal.value = false;
+  hideModal();
   store.deleteBook(parseInt(props.id || ''))
   .then(result => {
     if(result){
@@ -39,14 +70,6 @@ var deleteBook = () => {
       router.back();
     }
   });
-}
-
-var hideModal = () => {
-  showModal.value = false;
-}
-
-var openModal = () => {
-  showModal.value = true;
 }
 
 </script>
@@ -63,9 +86,27 @@ var openModal = () => {
     @cancel="hideModal" 
   />
 
+  <Modal 
+    v-if="showModalOnReturn" 
+    title="Return Confirmation"
+    description="Are you sure you want to return this book?"
+    action="Return"
+    @submit="returnBook" 
+    @cancel="hideModal" 
+  />
+
+  <Modal 
+    v-if="showModalOnExtend" 
+    title="Extend Confirmation"
+    description="Are you sure you want to extend this book?"
+    action="Extend"
+    @submit="extendBook" 
+    @cancel="hideModal" 
+  />
+
   <GoBack goBackText="Back">
     <button @click="router.push({ name: 'editBook', params: { id: props.id } })" class="btn-edit">Edit</button>
-    <button @click="openModal" class="btn-delete">Delete</button>
+    <button @click="openModal(0, '')" class="btn-delete">Delete</button>
   </GoBack>
   
   <DetailsBook :book="store.bookDetails"/>
@@ -77,7 +118,7 @@ var openModal = () => {
     </div>
   </div>
 
-  <BorrowBookComponent :books="store.bookDetails" @onReturn="(transactionId) => onReturn(transactionId)"/>
+  <BorrowBookComponent :books="store.bookDetails" @onReturn="(transactionId) => openModal(transactionId, 'return')" @extend="(transactionId) => openModal(transactionId, 'extend')"/>
 
   <RouterLink :to="{ name: 'borrowBook', params: { id: props.id }}">
     <button 

@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::post('/borrow', [BookController::class, 'BorrowBook']);
         Route::post('/return/{transactionId}', [BookController::class, 'ReturnBook']);
+        Route::post('/extend/{transactionId}', [BookController::class, 'extendBook']);
     });
 
     Route::prefix('entities')->group(function () {
