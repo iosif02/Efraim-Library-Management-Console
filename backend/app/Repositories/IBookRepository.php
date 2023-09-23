@@ -26,5 +26,5 @@ interface IBookRepository
     public function BorrowBook(array $fields): Transactions;
     public function GetTransactionById(int $transactionId): ?Transactions;
     public function ReturnBook(int $transactionId): Transactions;
-    public function extendBook(int $transactionId): bool;
+    public function ExtendBook(int $transactionId): bool;
 }

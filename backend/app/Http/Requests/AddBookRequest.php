@@ -31,7 +31,7 @@ class AddBookRequest extends FormRequest
             'title' => 'required|string|unique:books,title',
             'category_id' => 'required|integer',
             'quantity' => 'nullable|integer',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'price' => 'nullable|integer',
             'year' => 'nullable|integer',
             'publisher_id' => 'nullable|integer',

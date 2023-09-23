@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'Register']);
 Route::post('login', [AuthController::class, 'Login']);
 
+Route::get('/storage-preview/{context}/{path}', [BookController::class, 'GetImage'])->where('path', '.*');
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::prefix('books')->group(function () {
         Route::get('/homepage', [BookController::class, 'GetHomepage']);
@@ -37,7 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::post('/borrow', [BookController::class, 'BorrowBook']);
         Route::post('/return/{transactionId}', [BookController::class, 'ReturnBook']);
-        Route::post('/extend/{transactionId}', [BookController::class, 'extendBook']);
+        Route::post('/extend/{transactionId}', [BookController::class, 'ExtendBook']);
     });
 
     Route::prefix('entities')->group(function () {

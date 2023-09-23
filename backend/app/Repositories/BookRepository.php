@@ -305,7 +305,7 @@ class BookRepository implements IBookRepository
         $transaction->update();
         return $transaction;
     }
-    public function extendBook(int $transactionId): bool
+    public function ExtendBook(int $transactionId): bool
     {
         $transaction = Transactions::find($transactionId);
         $currentDate = Carbon::parse($transaction->return_date);

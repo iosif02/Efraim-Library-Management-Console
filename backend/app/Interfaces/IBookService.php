@@ -5,6 +5,7 @@ namespace App\Interfaces;
 use App\Models\Transactions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 interface IBookService
 {
@@ -19,5 +20,6 @@ interface IBookService
     public function SearchRecommendedBooks(array $filters): ?LengthAwarePaginator;
     public function BorrowBook(array $fields): Transactions;
     public function ReturnBook(int $transactionId): Transactions;
-    public function extendBook(int $transactionId): bool;
+    public function ExtendBook(int $transactionId): bool;
+    public function GetImage(string $context, string $filename): BinaryFileResponse;
 }

@@ -192,7 +192,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       .catch(error => console.error("Request error: " + error))
       .finally(() => this.isLoading = false);
     },
-    async updateBook(book: BookModel) {
+    async updateBook(book: FormData) {
       this.isLoading = true;
       return axios.post("/books/update", book)
       .then(result => {

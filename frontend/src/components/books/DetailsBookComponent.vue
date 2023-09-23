@@ -13,7 +13,7 @@ defineProps({
 <template>
     <div class="image-book">
         <div class="image">
-            <img :src="book.image || '/img/book.jpg'" />
+            <img :src="$filters.imageFilter(book.image)" />
         </div>
         <p class="book-title">{{ book.title }}</p>
         <p class="book-author">{{ book.authors?.map(author => author.name).join(', ') }}</p>

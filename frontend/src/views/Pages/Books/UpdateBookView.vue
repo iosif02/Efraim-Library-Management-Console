@@ -14,14 +14,16 @@ const props = defineProps({
   id: String,
 })
 
-if(!props.id || props.id == '0' || !parseInt(props.id)){
+const bookId = ref<any>(props.id);
+
+if(!bookId.value || bookId.value == '0' || !parseInt(bookId.value)) {
   router.back();
 }
 
 const entitiesStore = useEntitiesStore();
 const booksStore = useBooksStore();
 
-booksStore.fetchBookDetails(props.id ?? "");
+booksStore.fetchBookDetails(bookId.value);
 
 if(!entitiesStore.entities.publishers.length) {
     entitiesStore.fetchEntities();
@@ -39,9 +41,12 @@ const validateForm = yup.object({
 });
 
 const imgSrc = ref<String|ArrayBuffer|null|undefined>("");
+const imgObj = ref<any>(null);
 var onFile = (e: any) => {
     const files = e.target.files;
     if (!files.length) return;
+
+    imgObj.value = files[0];
 
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -81,13 +86,23 @@ var searchPublishers = (event: any) => {
 }
 
 var onSubmit = (book: any) => {
-    imgSrc.value ? book.image = imgSrc.value : delete book.image;
-    book.category_id = book.category?.id;
-    book.publisher_id = book.publisher?.id;
-    book.authors = book.authors.map((x: AuthorModel) => x.id);
-    book.bookId = props.id
-    booksStore.updateBook(book)
-    .then(result => {
+    let formData = new FormData()
+    formData.append('category_id', book.category?.id)
+    formData.append('publisher_id', book.publisher?.id)
+    formData.append('bookId', bookId.value)
+
+    book.authors.map((x: any) => {
+        formData.append('authors[]', x.id)
+    });
+    
+    if(imgObj.value) formData.append('imageObject', imgObj.value)
+
+    formData.append('title', book.title)
+    formData.append('price', book.price)
+    formData.append('year', book.year)
+    formData.append('quantity', book.quantity)
+
+    booksStore.updateBook(formData).then(result => {
         if(result){
             if(booksStore.homepage.searchModel.searchAll != "")
                 booksStore.searchHomeBooks();
@@ -145,7 +160,6 @@ var submit = (entity: any) => {
         selectedPublisher.value = entity;
     }
 }
-
 </script>
 
 <template>
@@ -165,7 +179,7 @@ var submit = (entity: any) => {
 
     <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="booksStore.bookDetails" ref="myForm">
         <div class="form-group image">
-            <img :src="imgSrc?.toString() || booksStore.bookDetails.image || '/img/book.jpg'" v-if="imgSrc?.toString() || booksStore.bookDetails.image " />
+            <img :src="imgSrc?.toString() || $filters.imageFilter(booksStore.bookDetails.image)" v-if="imgSrc?.toString() || booksStore.bookDetails.image " />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>

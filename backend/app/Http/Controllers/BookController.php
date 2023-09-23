@@ -8,6 +8,7 @@ use App\Http\Requests\BorrowBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Interfaces\IBookService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookController extends Controller
 {
@@ -97,9 +98,14 @@ class BookController extends Controller
         return response()->json($result);
     }
 
-    public function extendBook(int $transactionId): JsonResponse
+    public function ExtendBook(int $transactionId): JsonResponse
     {
-        $result = $this->bookService->extendBook($transactionId);
+        $result = $this->bookService->ExtendBook($transactionId);
         return response()->json($result);
+    }
+
+    public function GetImage($context, $filename): BinaryFileResponse
+    {
+        return $this->bookService->GetImage($context, $filename);
     }
 }

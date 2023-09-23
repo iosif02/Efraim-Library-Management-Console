@@ -36,7 +36,7 @@ let formatDate = (date: string) => {
         <template v-for="currentBook in props?.books">
             <RouterLink :to="{ name: 'bookDetails', params: { id: currentBook.book.id} }" style="text-decoration: none;">
                 <div class="book">
-                    <img :src="currentBook.book.image || '/img/book.jpg'" alt="">
+                    <img :src="$filters.imageFilter(currentBook.book.image)" alt="">
                     <div class="details">
                         <div class="top-section">
                             <p class="name">{{ currentBook.user?.first_name }} {{ currentBook.user?.last_name }}</p>

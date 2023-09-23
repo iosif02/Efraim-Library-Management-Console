@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookService implements IBookService
 {
@@ -42,7 +43,7 @@ class BookService implements IBookService
     public function AddBook(array $fields): bool
     {
         if(isset($fields['image']) && $fields['image'] != ''){
-            $imageName = $this->fileService->StoreFile($fields['image']);
+            $imageName = $fields['image']->file('image')->store('image');
             $fields['image'] = $imageName;
         }
 
@@ -58,9 +59,11 @@ class BookService implements IBookService
         if(!$book)
             throw new CustomException('Book not found!');
 
-        if(isset($fields['image']) && $fields['image'] != ''){
-            $imageName = $this->fileService->StoreFile($fields['image']);
+        if(isset($fields['imageObject']) && $fields['imageObject'] != '') {
+            $imageName = $this->fileService->StoreFile($fields['imageObject']);
             $fields['image'] = $imageName;
+
+            $this->fileService->DeleteFile($book['image']);
         }
 
         return $this->bookRepository->UpdateBook($fields);
@@ -158,12 +161,17 @@ class BookService implements IBookService
     /**
      * @throws CustomException
      */
-    public function extendBook(int $transactionId): bool
+    public function ExtendBook(int $transactionId): bool
     {
         $transaction = $this->bookRepository->GetTransactionById($transactionId);
         if(!$transaction)
             throw new CustomException('Transaction not found!');
 
-        return $this->bookRepository->extendBook($transactionId);
+        return $this->bookRepository->ExtendBook($transactionId);
+    }
+
+    public function GetImage(string $context, string $filename): BinaryFileResponse
+    {
+        return $this->fileService->GetFile($context, $filename);
     }
 }

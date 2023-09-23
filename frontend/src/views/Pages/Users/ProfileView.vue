@@ -105,7 +105,7 @@ let formatDate = (date: any) => {
   <Form v-if="isEdit" @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="{...store.profile, ...store.profile.user_details}" ref="myForm">
     <div class="profile-image-container">
       <div v-if="imgSrc?.toString() || store.profile.user_details?.photo_url" >
-        <img :src="imgSrc?.toString() || store.profile.user_details?.photo_url" />
+        <img :src="imgSrc?.toString() || $filters.imageFilter(store.profile.user_details?.photo_url)" />
       </div>
       <div v-else class="profile-image" :style="backgroundColorStyle">
         <p> {{ getNameIntial(store.profile?.first_name[0], store.profile?.last_name[0]) }} </p>

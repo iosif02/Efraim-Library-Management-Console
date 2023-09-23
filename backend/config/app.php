@@ -7,6 +7,7 @@ return [
     /* Custom variables */
     'paginate_per_page' => env('PAGINATE_PER_PAGE'),
     'app_url' => env('APP_URL'),
+    'app_env' => env('APP_ENV'),
 
     /*
     |--------------------------------------------------------------------------

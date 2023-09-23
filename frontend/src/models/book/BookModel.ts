@@ -9,6 +9,7 @@ export default class BookModel {
 	year: number = 0;
     price: number = 0;
     image: string = "";
+    imageObject: any = null; 
     quantity: number = 0;
     is_recommended: boolean = false;
     order: number = 0;

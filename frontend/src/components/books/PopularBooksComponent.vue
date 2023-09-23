@@ -16,7 +16,7 @@ defineProps({
     <div class="books">
         <template v-for="book in books">
             <RouterLink :to="{ name: 'bookDetails', params: { id: book.id} }" class="book">
-                    <img :src="book.image || '/img/book.jpg'" alt="">
+                    <img :src="$filters.imageFilter(book.image)" alt="">
                     <div class="details">
                         <div class="title">{{ book.title }}</div>
                         <div class="author">{{book.authors?.map(author => author.name).join(', ')}}</div>
