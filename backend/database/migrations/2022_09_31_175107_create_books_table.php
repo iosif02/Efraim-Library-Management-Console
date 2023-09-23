@@ -28,6 +28,7 @@ return new class extends Migration
                 ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->foreignIdFor(Publisher::class)->nullable()
                 ->constrained()->onDelete('restrict')->onUpdate('restrict');
+            $table->string('mark', 64);
             $table->timestamps();
             $table->softDeletes();
         });
