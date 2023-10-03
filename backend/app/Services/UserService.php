@@ -53,14 +53,17 @@ class UserService implements IUserService
      */
     public function UpdateUser(array $fields): bool
     {
-        if(isset($fields['photo_url']) && $fields['photo_url'] != ''){
-            $imageName = $this->fileService->StoreFile($fields['photo_url']);
-            $fields['photo_url'] = $imageName;
-        }
-
         $user = $this->userRepository->GetUserById($fields['userId']);
         if(!$user)
             throw new CustomException('User not found!');
+
+        if(isset($fields['imageFile']) && $fields['imageFile'] != ''){
+            $imageName = $this->fileService->StoreFile($fields['imageFile'], 'profile');
+            $fields['photo_url'] = $imageName;
+
+            $this->fileService->DeleteFile($user->UserDetails['photo_url']);
+        }
+
         return $this->userRepository->UpdateUser($fields);
     }
 

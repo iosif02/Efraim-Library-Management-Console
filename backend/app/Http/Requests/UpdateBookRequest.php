@@ -28,7 +28,7 @@ class UpdateBookRequest extends FormRequest
             'title' => 'required|string|unique:books,title,' .request('bookId'),
             'category_id' => 'required|integer',
             'quantity' => 'nullable|integer',
-            'imageObject' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'imageFile' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'price' => 'nullable|integer',
             'year' => 'nullable|integer',
             'publisher_id' => 'nullable|integer',

@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileService implements IFileService
 {
-    public function StoreFile(UploadedFile|string $file): string
+    public function StoreFile(UploadedFile|string $file, string $directory): string
     {
-        $fileName = Storage::putFile('public/image', $file);
+        $fileName = Storage::putFile('public/image/' . $directory, $file);
         return str_replace("public/", "", $fileName);
     }
 

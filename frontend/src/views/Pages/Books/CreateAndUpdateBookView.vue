@@ -9,21 +9,26 @@ import type CategoryModel from '@/models/entities/CategoryModel';
 import type PublisherModel from '@/models/entities/PublisherModel';
 import CreateEntityModal from '@/views/Components/Entities/CreateEntityModal.vue'
 import router from '@/router';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
   id: String,
+  actionName: String,
 })
-
-const bookId = ref<any>(props.id);
-
-if(!bookId.value || bookId.value == '0' || !parseInt(bookId.value)) {
-  router.back();
-}
 
 const entitiesStore = useEntitiesStore();
 const booksStore = useBooksStore();
 
-booksStore.fetchBookDetails(bookId.value);
+const bookId = ref<any>(props.id);
+const route = useRoute();
+
+if(route.query.actionName){
+    if(!bookId.value || bookId.value == '0' || !parseInt(bookId.value)) {
+        router.back();
+    }
+
+    booksStore.fetchBookDetails(bookId.value);
+}
 
 if(!entitiesStore.entities.publishers.length) {
     entitiesStore.fetchEntities();
@@ -95,20 +100,30 @@ var onSubmit = (book: any) => {
         formData.append('authors[]', x.id)
     });
     
-    if(imgObj.value) formData.append('imageObject', imgObj.value)
+    if(imgObj.value) formData.append('imageFile', imgObj.value)
 
-    formData.append('title', book.title)
-    formData.append('price', book.price)
-    formData.append('year', book.year)
-    formData.append('quantity', book.quantity)
+    formData.append('title', book?.title)
+    formData.append('price', book?.price)
+    formData.append('year', book?.year)
+    formData.append('quantity', book?.quantity)
+    
+    if(route.query.actionName == 'update'){
+        return booksStore.updateBook(formData).then(result => {
+            if(result){
+                if(booksStore.homepage.searchModel.searchAll != "")
+                    booksStore.searchHomeBooks();
 
-    booksStore.updateBook(formData).then(result => {
+                booksStore.fetchHomepage()
+                router.back();
+            }
+        });
+    }
+
+    return booksStore.createBook(formData).then(result => {
         if(result){
-            if(booksStore.homepage.searchModel.searchAll != "")
+            if(booksStore.homepage.searchModel.title != "")
                 booksStore.searchHomeBooks();
-
-            booksStore.fetchHomepage()
-            router.back();
+            router.back()
         }
     });
 }
@@ -177,9 +192,9 @@ var submit = (entity: any) => {
         :typeEntity="typeEntity"
     />
 
-    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="booksStore.bookDetails" ref="myForm">
+    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="route.query.actionName ? booksStore.bookDetails : undefined " ref="myForm">
         <div class="form-group image">
-            <img :src="imgSrc?.toString() || $filters.imageFilter(booksStore.bookDetails.image)" v-if="imgSrc?.toString() || booksStore.bookDetails.image " />
+            <img :src="imgSrc?.toString() || $filters.imageFilter(booksStore.bookDetails.image)" v-if="route.query.actionName && (imgSrc?.toString() || booksStore.bookDetails.image)" />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>

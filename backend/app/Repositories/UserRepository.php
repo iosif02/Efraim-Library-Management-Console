@@ -34,7 +34,11 @@ class UserRepository implements IUserRepository
 
     public function GetUserById(int $userId): ?User
     {
-        return User::find($userId);
+        return User::select('id')
+            ->with([
+                'UserDetails' =>
+                    fn($query) => $query->select('user_id','photo_url'),
+            ])->find($userId);
     }
 
     public function GetUserDetailsById(int $userId): ?User

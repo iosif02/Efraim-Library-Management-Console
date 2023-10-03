@@ -42,8 +42,8 @@ class BookService implements IBookService
 
     public function AddBook(array $fields): bool
     {
-        if(isset($fields['image']) && $fields['image'] != ''){
-            $imageName = $fields['image']->file('image')->store('image');
+        if(isset($fields['imageFile']) && $fields['imageFile'] != ''){
+            $imageName = $this->fileService->StoreFile($fields['imageFile'], 'book');
             $fields['image'] = $imageName;
         }
 
@@ -59,8 +59,8 @@ class BookService implements IBookService
         if(!$book)
             throw new CustomException('Book not found!');
 
-        if(isset($fields['imageObject']) && $fields['imageObject'] != '') {
-            $imageName = $this->fileService->StoreFile($fields['imageObject']);
+        if(isset($fields['imageFile']) && $fields['imageFile'] != '') {
+            $imageName = $this->fileService->StoreFile($fields['imageFile'], 'book');
             $fields['image'] = $imageName;
 
             $this->fileService->DeleteFile($book['image']);
