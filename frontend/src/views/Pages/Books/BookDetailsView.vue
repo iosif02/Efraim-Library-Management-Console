@@ -105,7 +105,7 @@ var deleteBook = () => {
   />
 
   <GoBack goBackText="Back">
-    <button @click="router.push({ name: 'editBook', params: { id: props.id } })" class="btn-edit">Edit</button>
+    <button @click="router.push({ name: 'editBook', params: { id: props.id }, query: { actionName: 'update' } })" class="btn-edit">Edit</button>
     <button @click="openModal(0, '')" class="btn-delete">Delete</button>
   </GoBack>
   

@@ -1,7 +1,6 @@
 import MainLayout from "@/views/Layouts/MainLayout.vue";
-import CreateBookViewVue from "@/views/Pages/Books/CreateBookView.vue";
 import BookDetailsViewVue from "@/views/Pages/Books/BookDetailsView.vue";
-import UpdateBookViewVue from "@/views/Pages/Books/UpdateBookView.vue";
+import CreateAndUpdateBookViewVue from "@/views/Pages/Books/CreateAndUpdateBookView.vue";
 import BorrowBookViewVue from "@/views/Pages/Books/BorrowBookView.vue";
 import CategoryBooksViewVue from "@/views/Pages/Books/CategoryBooksView.vue";
 import AuthorBooksViewVue from "@/views/Pages/Books/AuthorBooksView.vue";
@@ -24,7 +23,7 @@ export default
         {
             path: "/create-book",
             name: "createBook",
-            component: CreateBookViewVue
+            component: CreateAndUpdateBookViewVue
         },
         {
             path: "/books/:id",
@@ -35,7 +34,7 @@ export default
         {
             path: "/edit/:id",
             name: "editBook",
-            component: UpdateBookViewVue,   
+            component: CreateAndUpdateBookViewVue,   
             props: true,
         },
         {

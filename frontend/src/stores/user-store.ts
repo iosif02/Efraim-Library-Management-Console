@@ -55,7 +55,7 @@ export const useUsersStore = defineStore('useUsersStore', {
             .catch(error => console.error("Request error: " + error))
             .finally(() => this.isLoading = false);
         },
-        async updateUser(user: UserEditModel) {
+        async updateUser(user: FormData) {
             this.isLoading = true;
             return axios.post("/users/update-user", user)
             .then(result => {

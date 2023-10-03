@@ -9,14 +9,18 @@ import moment from 'moment';
 const store = useUsersStore()
 if(!store.profile.id)
   store.fetchProfile();
+const profileId = ref<any>(null);
   
 if(!store.roles.length)
   store.fetchRoles();
 
 const imgSrc = ref<String|ArrayBuffer|null|undefined>("");
+const imgObj = ref<any>(null);
 var onFile = (e: any) => {
     const files = e.target.files;
     if (!files.length) return;
+
+    imgObj.value = files[0];
 
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -62,10 +66,25 @@ function getNameIntial(first_initial: String, second_initial: String) {
 const backgroundColorStyle = getRandomColor();
 
 var onSubmit = (user: any) => {
-  imgSrc.value ? user.photo_url = imgSrc.value : delete user.photo_url;
-  user.userId = store.profile.id
-  user.roles = user.roles.map((x: RoleModel) => x.id);
-  store.updateUser(user)
+  let formData = new FormData()
+  profileId.value = store.profile.id
+  formData.append('email', user?.email)
+  formData.append('identity_number', user?.identity_number)
+  formData.append('first_name', user?.first_name)
+  formData.append('last_name', user?.last_name)
+  formData.append('address', user?.address)
+  formData.append('phone', user?.phone)
+  formData.append('occupation', user?.occupation)
+  formData.append('birth_date', user?.birth_date)
+  formData.append('userId', profileId.value)
+
+  user.roles.map((x: any) => {
+      formData.append('roles[]', x.id)
+  });
+  
+  if(imgObj.value) formData.append('imageFile', imgObj.value)
+
+  store.updateUser(formData)
   .then(result => {
     if(result){
       store.fetchProfile();
@@ -168,7 +187,7 @@ let formatDate = (date: any) => {
   <div v-else>
     <div class="profile-image-container">
       <div v-if="imgSrc?.toString() || store.profile.user_details?.photo_url" style="position: relative;">
-        <img :src="imgSrc?.toString() || store.profile.user_details?.photo_url" />
+        <img :src="imgSrc?.toString() || $filters.imageFilter(store.profile.user_details?.photo_url)" />
       </div>
       <div v-else class="profile-image" :style="backgroundColorStyle">
         <p> {{ getNameIntial(store.profile?.first_name[0], store.profile?.last_name[0]) }} </p>
