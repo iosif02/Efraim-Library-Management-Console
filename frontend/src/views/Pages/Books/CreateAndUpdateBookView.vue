@@ -30,6 +30,10 @@ if(route.query.actionName){
     booksStore.fetchBookDetails(bookId.value);
 }
 
+if (!route.query.actionName) {
+    booksStore.bookDetails.image = ''
+}
+
 if(!entitiesStore.entities.publishers.length) {
     entitiesStore.fetchEntities();
 }
@@ -181,7 +185,7 @@ var submit = (entity: any) => {
     
     <Loading v-if="booksStore.isLoading || entitiesStore.isLoading" />
 
-    <GoBack go-back-text="Edit Book" />
+    <GoBack :go-back-text="route.query.actionName ? 'Edit Book' : 'Add Book'" />
 
     <CreateEntityModal 
         v-if="showModal" 
@@ -194,7 +198,7 @@ var submit = (entity: any) => {
 
     <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="route.query.actionName ? booksStore.bookDetails : undefined " ref="myForm">
         <div class="form-group image">
-            <img :src="imgSrc?.toString() || $filters.imageFilter(booksStore.bookDetails.image)" v-if="route.query.actionName && (imgSrc?.toString() || booksStore.bookDetails.image)" />
+            <img :src="imgSrc?.toString() || $filters.imageFilter(booksStore.bookDetails.image)" v-if="imgSrc?.toString() || booksStore.bookDetails.image" />
             <div v-else class="overlay">
                 <label for="image">Select a photo</label>
             </div>
