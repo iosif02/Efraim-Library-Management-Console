@@ -31,7 +31,6 @@ export const authStore = defineStore('authStore', {
 		},
 		async login(user: LoginModel) {
 			try {
-				const csrfToken = await axios.get(config.appUrl + "/sanctum/csrf-cookie");
 				let response = await axios.post(config.apiUrl + "/login", user);
 
 				if(response?.data?.token) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PopularBooks from '@/views/Components/books/PopularBooksComponent.vue';
+import PopularBooks from '@/views/Components/Books/PopularBooksComponent.vue';
 import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import CreateButtonComponent from "@/views/Components/Global/CreateButtonComponent.vue"
 import { useBooksStore } from '@/stores/books-store';
