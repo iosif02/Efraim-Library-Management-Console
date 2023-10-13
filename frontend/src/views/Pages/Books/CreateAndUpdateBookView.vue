@@ -13,7 +13,6 @@ import { useRoute } from 'vue-router';
 
 const props = defineProps({
   id: String,
-  actionName: String,
 })
 
 const entitiesStore = useEntitiesStore();
@@ -22,7 +21,7 @@ const booksStore = useBooksStore();
 const bookId = ref<any>(props.id);
 const route = useRoute();
 
-if(route.query.actionName){
+if(route.name == 'editBook'){
     if(!bookId.value || bookId.value == '0' || !parseInt(bookId.value)) {
         router.back();
     }
@@ -30,7 +29,7 @@ if(route.query.actionName){
     booksStore.fetchBookDetails(bookId.value);
 }
 
-if (!route.query.actionName) {
+if (route.name == 'editBook') {
     booksStore.bookDetails.image = ''
 }
 
@@ -43,7 +42,7 @@ const validateForm = yup.object({
     title: yup.string().required(),
     year: yup.number().typeError('Quantity must be a number').required(),
     quantity: yup.number().typeError('Quantity must be a number').required(),
-    price: yup.number().typeError('Quantity must be a number').required(),
+    price: yup.number().typeError('Quantity must be a number').nullable(),
     publisher: yup.object().typeError('must be one in the dropdown').required(),
     authors: yup.array<AuthorModel>().typeError('must be one in the dropdown').required(),
     category: yup.object().typeError('must be one in the dropdown').required(),
@@ -111,7 +110,7 @@ var onSubmit = (book: any) => {
     formData.append('year', book?.year)
     formData.append('quantity', book?.quantity)
     
-    if(route.query.actionName == 'update'){
+    if(route.name == 'editBook'){
         return booksStore.updateBook(formData).then(result => {
             if(result){
                 if(booksStore.homepage.searchModel.searchAll != "")
@@ -185,18 +184,18 @@ var submit = (entity: any) => {
     
     <Loading v-if="booksStore.isLoading || entitiesStore.isLoading" />
 
-    <GoBack :go-back-text="route.query.actionName ? 'Edit Book' : 'Add Book'" />
+    <GoBack :go-back-text="route.name == 'editBook' ? 'Edit Book' : 'Add Book'" />
 
     <CreateEntityModal 
         v-if="showModal" 
         :title="`Create ${typeEntity}`"
         @hide-modal="showModal = false, focusInput()" 
-        @create-entity="(entity: any) => submit(entity)" 
+        @create-entity="submit" 
         :entity = entity 
         :typeEntity="typeEntity"
     />
 
-    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="route.query.actionName ? booksStore.bookDetails : undefined " ref="myForm">
+    <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="route.name == 'editBook' ? booksStore.bookDetails : undefined " ref="myForm">
         <div class="form-group image">
             <img :src="imgSrc?.toString() || $filters.imageFilter(booksStore.bookDetails.image)" v-if="imgSrc?.toString() || booksStore.bookDetails.image" />
             <div v-else class="overlay">
@@ -206,17 +205,17 @@ var submit = (entity: any) => {
             <ErrorMessage name="image" />
         </div>
         <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">Title <span class="mandatory">*</span> </label>
             <Field name="title" />
             <ErrorMessage name="title" />
         </div>
         <div class="form-group">
-            <label for="year">Year</label>
+            <label for="year">Year <span class="mandatory">*</span> </label>
             <Field name="year" />
             <ErrorMessage name="year" />
         </div>
         <div class="form-group">
-            <label for="quantity">Quantity</label>
+            <label for="quantity">Quantity <span class="mandatory">*</span> </label>
             <Field name="quantity" />
             <ErrorMessage name="quantity" />
         </div>
@@ -227,7 +226,7 @@ var submit = (entity: any) => {
         </div>
         <div class="form-group">
             <Field name="publisher" type="hidden" :value="selectedPublisher" v-model="selectedPublisher" />
-            <label for="price">Publisher</label>
+            <label for="price">Publisher <span class="mandatory">*</span> </label>
             <AutoComplete 
                 :scroll-height="filteredPublishers.length == 1 ? '51px' :filteredPublishers.length == 2 ? '86px' : filteredPublishers.length == 3 ? '121px' : '150px'"
                 name="publisher" v-model="selectedPublisher" :suggestions="filteredPublishers"  optionLabel="name" 
@@ -244,7 +243,7 @@ var submit = (entity: any) => {
         </div>
         <div class="form-group">
             <Field name="authors" type="hidden" :value="selectedAuthors" v-model="selectedAuthors" />
-            <label for="authors">Authors</label>
+            <label for="authors">Authors <span class="mandatory">*</span> </label>
             <AutoComplete 
                 :scroll-height="filteredAuthors.length == 1 ? '55px' :filteredAuthors.length == 2 ? '86px' : filteredAuthors.length == 3 ? '121px' : '150px'"
                 name="authors" v-model="selectedAuthors" :suggestions="filteredAuthors" optionLabel="name" :multiple="true"  
@@ -256,7 +255,7 @@ var submit = (entity: any) => {
         </div>
         <div class="form-group"> 
             <Field name="category" type="hidden" :value="selectedCategory" v-model="selectedCategory" />
-            <label for="category">Category</label>
+            <label for="category">Category <span class="mandatory">*</span> </label>
             <AutoComplete 
                 name="category" v-model="selectedCategory" :suggestions="filteredCategories"  optionLabel="name" 
                 scroll-height="150px" loadingIcon="none" dropdown dropdown-mode="current"
@@ -271,7 +270,7 @@ var submit = (entity: any) => {
             <ErrorMessage name="category" />
         </div>
        
-        <input value="Save" type="submit" class="btn w-100">
+        <input :value="route.name == 'editBook' ? 'Save' : 'Add'" type="submit" class="btn w-100">
     </Form>
 </template>
 

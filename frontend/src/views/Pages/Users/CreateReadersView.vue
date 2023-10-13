@@ -62,17 +62,22 @@ function onFocusElement(e: any) {
 
   <Form @submit="onSubmit" :validation-schema="validateForm" class="form-control">
     <div class="form-group">
-      <label for="email">Email</label>
-      <Field name="email" />
-      <ErrorMessage name="email" />
+      <label for="first_name">First name <span class="mandatory">*</span> </label>
+      <Field name="first_name" />
+      <ErrorMessage name="first_name" />
     </div>
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="last_name">Last name <span class="mandatory">*</span> </label>
+      <Field name="last_name" />
+      <ErrorMessage name="last_name" />
+    </div>
+    <div class="form-group">
+      <label for="password">Password <span class="mandatory">*</span> </label>
       <Field name="password" type="password"/>
       <ErrorMessage name="password" />
     </div>
     <div class="form-group">
-      <label for="password">Confirm Password</label>
+      <label for="password">Confirm Password <span class="mandatory">*</span> </label>
 			<Field name="password_confirmation" type="password" />
 			<ErrorMessage name="password_confirmation" />
 		</div>
@@ -82,14 +87,14 @@ function onFocusElement(e: any) {
       <ErrorMessage name="identity_number" />
     </div>
     <div class="form-group">
-      <label for="first_name">First name</label>
-      <Field name="first_name" />
-      <ErrorMessage name="first_name" />
+      <label for="phone">Phone <span class="mandatory">*</span> </label>
+      <Field name="phone" type="number" maxlength="2"/>
+      <ErrorMessage name="phone" />
     </div>
     <div class="form-group">
-      <label for="last_name">Last name</label>
-      <Field name="last_name" />
-      <ErrorMessage name="last_name" />
+      <label for="email">Email <span class="mandatory">*</span> </label>
+      <Field name="email" />
+      <ErrorMessage name="email" />
     </div>
     <div class="form-group">
       <label for="address">Address</label>
@@ -97,23 +102,18 @@ function onFocusElement(e: any) {
       <ErrorMessage name="address" />
     </div>
     <div class="form-group">
-      <label for="phone">Phone</label>
-      <Field name="phone" type="number" maxlength="2"/>
-      <ErrorMessage name="phone" />
-    </div>
-    <div class="form-group">
       <label for="occupation">Occupation</label>
       <Field name="occupation" />
       <ErrorMessage name="occupation" />
     </div>
     <div class="form-group">
-      <label for="birth_date">Birth date</label>
+      <label for="birth_date">Birth date <span class="mandatory">*</span> </label>
       <Field name="birth_date" type="date" />
       <ErrorMessage name="birth_date" />
     </div>
     <div class="form-group">
       <Field name="roles" type="hidden" :value="selectedRoles" v-model="selectedRoles" />
-      <label for="authors">Roles</label>
+      <label for="authors">Roles <span class="mandatory">*</span> </label>
       <AutoComplete 
         name="roles" v-model="selectedRoles" :suggestions="filteredRoles" @complete="searchRoles($event)" optionLabel="name" :dropdown="true" :multiple="true"
         @focus="onFocusElement" @item-select="blurInput"

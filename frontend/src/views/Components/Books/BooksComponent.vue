@@ -31,7 +31,7 @@ defineProps({
                                     <span class="category-name">{{ book.category?.name }}</span>
                                 </div>
                                 <div class="btn-link">
-                                    <RouterLink :to="{ name: 'editBook', params: { id: book.id }, query: { actionName: 'update' } }">
+                                    <RouterLink :to="{ name: 'editBook', params: { id: book.id } }">
                                         <button class="btn-edit">Edit</button>
                                     </RouterLink>
                                 </div>

@@ -6,8 +6,6 @@ import { useBooksStore } from '@/stores/books-store';
 const store = useBooksStore();
 // if(!store.popularBooks.data.length)
     store.fetchPopularBooks();
-
-console.log(store.popularBooks.data[0])
 </script>
 
 <template>

@@ -25,7 +25,7 @@ class UpdatePublisherRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'city' => 'required|string',
+            'city' => 'nullable|string',
             'publisherId' => 'required|integer'
         ];
     }

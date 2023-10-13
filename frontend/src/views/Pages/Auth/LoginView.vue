@@ -36,12 +36,12 @@ const validateForm = yup.object({
 	<h2 class="auth-title">Login</h2>
 	<Form class="form-control" @submit="login" :validation-schema="validateForm">
 		<div class="form-group">
-			<label>Email</label>
+			<label>Email <span class="mandatory">*</span> </label>
 			<Field name="email" type="email" />
 			<ErrorMessage name="email" />
 		</div>
 		<div class="form-group">
-			<label>Password</label>
+			<label>Password <span class="mandatory">*</span> </label>
 			<Field name="password" type="password" />
 			<ErrorMessage name="password" />
 		</div>
