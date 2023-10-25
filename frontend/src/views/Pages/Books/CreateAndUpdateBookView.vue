@@ -109,6 +109,9 @@ var onSubmit = (book: any) => {
     formData.append('price', book?.price)
     formData.append('year', book?.year)
     formData.append('quantity', book?.quantity)
+    formData.append('is_marked', book?.is_marked)
+
+    console.log(book);
     
     if(route.name == 'editBook'){
         return booksStore.updateBook(formData).then(result => {
@@ -164,7 +167,6 @@ let entity: AuthorModel|CategoryModel|PublisherModel = {
 const showModal = ref<boolean>(false);
 
 var submit = (entity: any) => {
-    showModal.value = false;
     if(typeEntity == 'Author'){
         let newArray = [entity, ...selectedAuthors.value];
         selectedAuthors.value = newArray;
@@ -269,6 +271,11 @@ var submit = (entity: any) => {
             />
             <ErrorMessage name="category" />
         </div>
+        <div class="mark">
+            <label for="is_marked">Mark for challenge </label>
+            <Field name="is_marked" type="checkbox" :value="true" :unchecked-value="false"/>
+            <ErrorMessage name="is_marked" />
+        </div>
        
         <input :value="route.name == 'editBook' ? 'Save' : 'Add'" type="submit" class="btn w-100">
     </Form>
@@ -301,5 +308,15 @@ var submit = (entity: any) => {
     object-fit: cover;
     width: 100%;
     height: 100%;
+}
+.mark{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+  gap: 5px;
+  margin-bottom: .5rem;
+}
+.mark label{
+    color: #4D4D4D;
 }
 </style>

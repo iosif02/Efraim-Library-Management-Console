@@ -86,7 +86,7 @@ class BookRepository implements IBookRepository
     }
     public function GetBookDetailsById(int $bookId): ?Model
     {
-        return Book::select('id', 'title', 'image', 'quantity', 'publisher_id', 'category_id', 'year', 'price')
+        return Book::select('id', 'title', 'image', 'quantity', 'is_marked','publisher_id', 'category_id', 'year', 'price')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('authors.id', 'name'),

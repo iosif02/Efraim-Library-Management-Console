@@ -24,11 +24,11 @@ return new class extends Migration
             $table->integer('quantity');
             $table->boolean('is_recommended')->default(false);
             $table->integer('order')->nullable();
+            $table->boolean('is_marked')->nullable();
             $table->foreignIdFor(Category::class)
                 ->constrained()->onDelete('restrict')->onUpdate('restrict');
             $table->foreignIdFor(Publisher::class)
                 ->constrained()->onDelete('restrict')->onUpdate('restrict');
-            $table->string('mark', 64);
             $table->timestamps();
             $table->softDeletes();
         });

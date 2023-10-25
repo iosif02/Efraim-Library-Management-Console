@@ -47,6 +47,9 @@ class BookService implements IBookService
             $fields['image'] = $imageName;
         }
 
+        $booleanValue = filter_var($fields['is_marked'], FILTER_VALIDATE_BOOLEAN);
+        $fields['is_marked'] = $booleanValue;
+
         return $this->bookRepository->AddBook($fields);
     }
 
@@ -65,6 +68,9 @@ class BookService implements IBookService
 
             $this->fileService->DeleteFile($book['image']);
         }
+
+        $booleanValue = filter_var($fields['is_marked'], FILTER_VALIDATE_BOOLEAN);
+        $fields['is_marked'] = $booleanValue;
 
         return $this->bookRepository->UpdateBook($fields);
     }

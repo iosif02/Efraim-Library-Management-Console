@@ -35,6 +35,9 @@ var onSubmit = (entity: any) => {
                 store.fetchEntities();
             }
         })
+        .finally(() => {
+            emit.call(this, 'hideModal');
+        });
     }
 
     if(props.typeEntity == 'Category'){
@@ -44,6 +47,9 @@ var onSubmit = (entity: any) => {
                 emit.call(this, 'createEntity', result);
                 store.fetchEntities();
             }
+        })
+        .finally(() => {
+            emit.call(this, 'hideModal');
         });
     }
 
@@ -54,6 +60,9 @@ var onSubmit = (entity: any) => {
                 emit.call(this, 'createEntity', result);
                 store.fetchEntities();
             }
+        })
+        .finally(() => {
+            emit.call(this, 'hideModal');
         });
     }
 };
@@ -106,11 +115,8 @@ var onSubmit = (entity: any) => {
     height: 100%;
     position: fixed;
     background-color: rgba(60, 60, 60, 0.5);
-    /* background-color: black;
-    opacity: .2; */
 }
 .modal {
-    /* height: 30%; */
     width: 90%;
     border-radius: 12px;
     background-color: white;
