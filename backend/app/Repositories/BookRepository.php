@@ -309,7 +309,7 @@ class BookRepository implements IBookRepository
     {
         $transaction = Transactions::find($transactionId);
         $currentDate = Carbon::parse($transaction->return_date);
-        $oneWeeksLater = $currentDate->addWeeks(1);
+        $oneWeeksLater = $currentDate->addWeeks(2);
         $transaction->return_date = $oneWeeksLater;
         $transaction->update();
         return true;

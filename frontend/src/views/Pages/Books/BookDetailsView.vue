@@ -44,6 +44,7 @@ var returnBook = () => {
       store.fetchBookDetails(props.id ?? "")
       .then(() => {
         store.fetchHomepage();
+        store.searchHomeBooks();
       })
   })
 }
