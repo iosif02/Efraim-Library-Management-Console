@@ -29,7 +29,7 @@ if(route.name == 'editBook'){
     booksStore.fetchBookDetails(bookId.value);
 }
 
-if (route.name == 'editBook') {
+if (route.name == 'createBook') {
     booksStore.bookDetails.image = ''
 }
 
@@ -110,8 +110,6 @@ var onSubmit = (book: any) => {
     formData.append('year', book?.year)
     formData.append('quantity', book?.quantity)
     formData.append('is_marked', book?.is_marked)
-
-    console.log(book);
     
     if(route.name == 'editBook'){
         return booksStore.updateBook(formData).then(result => {

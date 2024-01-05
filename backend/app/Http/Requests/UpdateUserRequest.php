@@ -30,12 +30,21 @@ class UpdateUserRequest extends FormRequest
             'identity_number' => 'nullable|regex:/^(\d{13})$/',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'password' => 'nullable|string|confirmed',
             'address' => 'nullable|string',
             'phone' => 'required|regex:/^(\d{10})$/',
             'occupation' => 'nullable|string',
             'birth_date' => 'required|date',
             'roles' => 'required|array',
             'userId' => 'required|integer',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'identity_number.regex' => 'Identity number must contain exactly 13 digits.',
+            'phone.regex' => 'Phone number must contain exactly 10 digits.',
         ];
     }
 }

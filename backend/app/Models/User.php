@@ -65,8 +65,8 @@ class User extends Authenticatable
     protected function firstName(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value ? ucfirst($value) : "",
-            set: fn (string $value) => strtolower($value),
+            get: fn (?string $value) => $value ? ucwords($value) : "",
+            set: fn (string $value) => ucwords(strtolower($value)),
         );
     }
 

@@ -64,6 +64,9 @@ class UserService implements IUserService
             $this->fileService->DeleteFile($user->UserDetails['photo_url']);
         }
 
+        if(isset($fields['password']) && $fields['password']!= '')
+            $fields['password'] = bcrypt($fields['password']);
+
         return $this->userRepository->UpdateUser($fields);
     }
 

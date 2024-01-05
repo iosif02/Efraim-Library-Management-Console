@@ -37,4 +37,12 @@ class AddUserRequest extends FormRequest
             'roles' => 'required|array',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'identity_number.regex' => 'Identity number must contain exactly 13 digits.',
+            'phone.regex' => 'Phone number must contain exactly 10 digits.',
+        ];
+    }
 }

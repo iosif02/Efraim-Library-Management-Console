@@ -15,12 +15,12 @@ const validateForm = yup.object({
     email: yup.string().required().email(),
     password: yup.string().required().min(8),
     password_confirmation: yup.string().required().oneOf([yup.ref('password')], 'Passwords do not match'),
-    identity_number: yup.number().required(),
+    // identity_number: yup.number().nullable(),
     first_name: yup.string().required(),
     last_name: yup.string().required(),
-    address: yup.string().required(),
+    address: yup.string().nullable(),
     phone: yup.number().required(),
-    occupation: yup.string().required(),
+    occupation: yup.string().nullable(),
     birth_date: yup.date().required(),
 });
 

@@ -206,7 +206,7 @@ class BookRepository implements IBookRepository
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator
     {
         return Transactions::select('id', 'borrow_date', 'return_date', 'user_id', 'book_id')
-            ->where('return_date', '<', date('y-m-d'))->where('is_returned', false)
+            ->where('return_date', '<', Carbon::now('Europe/Bucharest')->subDay())->where('is_returned', false)
             ->with([
                 'Book' => fn($query) => $query->select('id', 'title', 'category_id', 'image'),
                 'User' => fn($query) => $query->select('id', 'first_name', 'last_name'),
