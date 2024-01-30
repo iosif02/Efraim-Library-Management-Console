@@ -4,26 +4,26 @@ import type { PropType } from 'vue'
 import 'primeicons/primeicons.css';
 
 defineProps({
-    book: {
-        type: Object as PropType<BookModel>,
-        required: true
-    }
+  book: {
+      type: Object as PropType<BookModel>,
+      required: true
+  }
 });
 </script>
 <template>
-    <div class="image-book">
-        <div class="image">
-          <img :src="$filters.imageFilter(book.image)" />
-          <div v-if="book.is_marked" class="mark-container">
-            <span class="pi pi-star-fill mark"></span>
-          </div>
-        </div>
-        <p class="book-title">{{ book.title }}</p>
-        <p class="book-author">{{ book.authors?.map(author => author.name).join(', ') }}</p>
-        <div class="book-category">
-            <span>({{ book.category?.number }})</span>
-            <p>{{ book.category?.name }}</p>
-        </div>
+  <div class="image-book">
+    <div class="image">
+      <img :src="$filters.imageFilter(book.image)" />
+      <div v-if="book.is_marked" class="mark-container">
+        <span class="pi pi-star-fill mark"></span>
+      </div>
+    </div>
+    <p class="book-title">{{ book.title }}</p>
+    <p class="book-author">{{ book.authors?.map(author => author.name).join(', ') }}</p>
+    <div class="book-category">
+      <span>({{ book.category?.number }})</span>
+      <p>{{ book.category?.name }}</p>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import PopularBooks from '@/views/Components/Books/PopularBooksComponent.vue';
+import HistoryBook from '@/views/Components/Books/HistoryBookComponent.vue';
+import PopularBooks from '@/views/Components/Books/PopularBooksComponent.vue'
 import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import router from '@/router';
 import { useBooksStore } from '@/stores/books-store';
@@ -13,28 +14,50 @@ if(!props.id || props.id == '0' || !parseInt(props.id))
     router.replace({ name: 'readers' });
 
 const store = useBooksStore();
-store.userBorrowedBooks.searchModel.user = parseInt(props.id || '')
+store.userBorrowedBooks.searchModel.user = parseInt(props.id || '');
+store.userHistoryBooks.searchModel.user = parseInt(props.id || '');
 store.searchUserBorrowedBooks();
+store.searchUserHistoryBooks();
 
 </script>
 
 <template>
-    <Loading v-if="store.isLoading" />
+    <Loading v-if="store.isLoading || store.isLoadingTwo" />
 
     <GoBack :go-back-text="`${$route.query.userName} (${store.userBorrowedBooks.searchModel.pagination.total})`"/>
 
     <SearchBar
         :defaultValue="store.userBorrowedBooks.searchModel.title"
-        @valueChanged="(value: string) => (store.userBorrowedBooks.searchModel.title = value, store.userBorrowedBooks.searchModel.pagination.page = 1, store.searchUserBorrowedBooks())"
+        @valueChanged="(value: string) => (
+            store.userBorrowedBooks.searchModel.title = value, 
+            store.userBorrowedBooks.searchModel.pagination.page = 1, 
+            store.searchUserBorrowedBooks(),
+            store.userHistoryBooks.searchModel.title = value, 
+            store.userHistoryBooks.searchModel.pagination.page = 1, 
+            store.searchUserHistoryBooks()
+        )"
         placeholder='Search book...'
     />
+    <div v-if="store.userBorrowedBooks.searchModel.pagination.total || store.userHistoryBooks.searchModel.pagination.total">
+        <Bounded v-if="store.userBorrowedBooks.searchModel.pagination.total" text='Active'/>
+        <PopularBooks v-if="store.userBorrowedBooks.searchModel.pagination.total" :books="store.userBorrowedBooks.data" />
+        
+        <Pagination
+            :current-page="store.userBorrowedBooks.searchModel.pagination.page"
+            :last-page="store.userBorrowedBooks.searchModel.pagination.last_page"
+            @change-page="(page: number) => (store.userBorrowedBooks.searchModel.pagination.page = page, store.searchUserBorrowedBooks())"
+        />
 
-    <PopularBooks v-if="store.userBorrowedBooks.searchModel.pagination.total" :books="store.userBorrowedBooks.data" />
-    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
+        <Bounded v-if="store.userHistoryBooks.searchModel.pagination.total" text='History'/>
+        <HistoryBook v-if="store.userHistoryBooks.searchModel.pagination.total" :transactions="store.userHistoryBooks.data" />
+
+        <Pagination
+            :current-page="store.userHistoryBooks.searchModel.pagination.page"
+            :last-page="store.userHistoryBooks.searchModel.pagination.last_page"
+            @change-page="(page: number) => (store.userHistoryBooks.searchModel.pagination.page = page, store.searchUserHistoryBooks())"
+        />
+    </div>
     
-    <Pagination
-        :current-page="store.userBorrowedBooks.searchModel.pagination.page"
-        :last-page="store.userBorrowedBooks.searchModel.pagination.last_page"
-        @change-page="(page: number) => (store.userBorrowedBooks.searchModel.pagination.page = page, store.searchUserBorrowedBooks())"
-    />
+    <div class="no-found" v-else-if="!store.isLoading && !store.isLoadingTwo"> No Result Found! </div>
+    
 </template>

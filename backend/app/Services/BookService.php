@@ -104,6 +104,11 @@ class BookService implements IBookService
         return $this->bookRepository->SearchBooks($filters);
     }
 
+    public function SearchGlobalBooks(array $filters): ?LengthAwarePaginator
+    {
+        return $this->bookRepository->SearchGlobalBooks($filters);
+    }
+
     public function SearchDelayedBooks(array $filters): ?LengthAwarePaginator
     {
         return $this->bookRepository->SearchDelayedBooks($filters);

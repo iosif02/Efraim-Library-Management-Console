@@ -19,7 +19,7 @@ defineProps({
                     <img :src="$filters.imageFilter(book.image)" alt="">
                     <div class="details">
                         <div class="title">{{ book.title }}</div>
-                        <div class="author">{{book.authors?.map(author => author.name).join(', ')}}</div>
+                        <div class="author">{{ book.authors?.map(author => author.name).join(', ') }}</div>
                         <div class="category">
                             <span class="category-name"><span class="category-number">({{ typeof book.category === 'object' ? book.category?.number : book?.number }})</span>{{ typeof book.category === 'object' ? book.category?.name : book?.category }}</span>
                             <!-- <router-link :to="{name: 'categoryBooks', params: { id: book.category?.id || book?.category_id || 0 }, query: { categoryName: book.category?.name || book?.category } }" class="category-name"><span class="category-number">({{ book?.number ||  book.category?.number}})</span>{{ book.category?.name || book?.category }}</router-link> -->

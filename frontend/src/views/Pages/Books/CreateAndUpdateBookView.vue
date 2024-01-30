@@ -114,7 +114,7 @@ var onSubmit = (book: any) => {
     if(route.name == 'editBook'){
         return booksStore.updateBook(formData).then(result => {
             if(result){
-                if(booksStore.homepage.searchModel.searchAll != "")
+                if(booksStore.homepage.searchModel.title != "")
                     booksStore.searchHomeBooks();
 
                 booksStore.fetchHomepage()

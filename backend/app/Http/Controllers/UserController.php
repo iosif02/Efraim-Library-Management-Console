@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddUserRequest;
+use App\Http\Requests\BookSearchRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserSearchRequest;
 use App\Interfaces\IUserService;
@@ -32,6 +33,22 @@ class UserController extends Controller
     {
         $validated = $request->validated();
         $result = $this->userService->SearchUsers($validated);
+
+        return response()->json($result);
+    }
+
+    public function SearchUserBorrowedBooks(BookSearchRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        $result = $this->userService->SearchUserBorrowedBooks($validated);
+
+        return response()->json($result);
+    }
+
+    public function SearchUserHistoryBooks(BookSearchRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        $result = $this->userService->SearchUserHistoryBooks($validated);
 
         return response()->json($result);
     }

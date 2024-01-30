@@ -72,7 +72,7 @@ var onSubmit = (user: any) => {
   let formData = new FormData()
   profileId.value = store.profile.id
   formData.append('email', user?.email)
-  formData.append('identity_number', user?.identity_number || '')
+  formData.append('identity_number', user.identity_number == null || '-' ? '' : user.identity_number);
   formData.append('first_name', user?.first_name)
   formData.append('last_name', user?.last_name)
   user.password && formData.append('password', user.password)
@@ -82,7 +82,6 @@ var onSubmit = (user: any) => {
   formData.append('occupation', user?.occupation || '')
   formData.append('birth_date', user?.birth_date)
   formData.append('userId', profileId.value)
-  formData.append('occupation', user?.occupation || '')
 
   user.roles.map((x: any) => {
       formData.append('roles[]', x.id)

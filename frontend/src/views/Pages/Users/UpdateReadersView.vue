@@ -34,6 +34,7 @@ var onSubmit = (user: any) => {
   delete user.photo_url;
   user.userId = props.id;
   user.roles = user.roles.map((x: RoleModel) => x.id);
+  user.identity_number = user.identity_number == '-' ? null : user.identity_number;
   store.updateUser(user)
   .then(result => {
     if(result)

@@ -43,6 +43,16 @@ class UserService implements IUserService
         return $this->userRepository->SearchUsers($filters);
     }
 
+    public function SearchUserBorrowedBooks(array $filters): ?LengthAwarePaginator
+    {
+        return $this->userRepository->SearchUserBorrowedBooks($filters);
+    }
+
+    public function SearchUserHistoryBooks(array $filters): ?LengthAwarePaginator
+    {
+        return $this->userRepository->SearchUserHistoryBooks($filters);
+    }
+
     public function AddUser(array $fields): bool
     {
         return $this->userRepository->AddUser($fields);
