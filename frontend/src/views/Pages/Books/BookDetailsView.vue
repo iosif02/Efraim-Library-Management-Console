@@ -23,10 +23,16 @@ let bookId: number = 0;
 
 var openModal = (transactionId: number, type: string) => {
   bookId = transactionId;
+  const transaction = store.bookDetails.transaction.find(item => item.id = transactionId);
+  const condition = (transaction?.delayed ?? 0) <= 0;
+
   if(type == 'return')
     return showModalOnReturn.value = true;
-  if(type == 'extend')
+    
+  if(type == 'extend' && condition)
     return showModalOnExtend.value = true;
+
+  if(type == '')
   return showModal.value = true;
 }
 

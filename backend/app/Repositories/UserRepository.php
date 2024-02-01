@@ -109,7 +109,7 @@ class UserRepository implements IUserRepository
             ->where('user_id', $filters['user'])
             ->where('is_returned', true)
             ->with([
-                'Book' => fn($query) => $query->select('id', 'title', 'image'),
+                'Book' => fn($query) => $query->select('id', 'title', 'image', 'is_marked'),
             ])
             ->orderByDesc('updated_at');
 

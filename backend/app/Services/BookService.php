@@ -178,7 +178,11 @@ class BookService implements IBookService
         if(!$transaction)
             throw new CustomException('Transaction not found!');
 
-        return $this->bookRepository->ExtendBook($transactionId);
+        if(Carbon::parse($transaction->return_date)->isPast() || Carbon::parse($transaction->return_date)->isToday()){
+            return $this->bookRepository->ExtendBook($transactionId);
+        }
+
+        throw new CustomException("The return date didn't passed!");
     }
 
     public function GetImage(string $context, string $filename): BinaryFileResponse

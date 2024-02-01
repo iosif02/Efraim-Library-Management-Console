@@ -4,8 +4,7 @@ import Pagination from '@/views/Components/Global/PaginationComponent.vue';
 import { useBooksStore } from '@/stores/books-store';
 
 const store = useBooksStore();
-// if(!store.popularBooks.data.length)
-    store.fetchPopularBooks();
+store.fetchPopularBooks();
 </script>
 
 <template>
@@ -20,7 +19,7 @@ const store = useBooksStore();
     />
 
     <PopularBooks v-if="store.popularBooks.data[0]" :books="store.popularBooks.data" />
-    <div class="no-found" v-else-if="!store.isLoading"> No Result Found! </div>
+    <div class="no-found" v-else-if="!store.isLoading"> No result found </div>
 
     <Pagination
         :current-page="store.popularBooks.searchModel.pagination.page"

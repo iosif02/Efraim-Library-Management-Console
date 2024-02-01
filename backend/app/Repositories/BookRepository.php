@@ -106,7 +106,7 @@ class BookRepository implements IBookRepository
 
     public function SearchBooks(array $filters): ?LengthAwarePaginator
     {
-        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
+        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image', 'is_marked')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
@@ -136,7 +136,7 @@ class BookRepository implements IBookRepository
 
     public function SearchGlobalBooks(array $filters): ?LengthAwarePaginator
     {
-        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
+        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image', 'is_marked')
             ->with([
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
@@ -199,15 +199,34 @@ class BookRepository implements IBookRepository
 //        return $transaction;
     }
 
-    public function SearchPopularBooks(array $filters): ?LengthAwarePaginator
+    public function SearchPopularBooks(array $filters): LengthAwarePaginator
     {
+//        $books = Book::select('id', 'title', 'category_id', 'image')
+//            ->withCount('Transaction')
+//            ->with([
+//                'Category' => fn($query) => $query->select('id', 'name', 'number'),
+//                'Authors' => fn($query) => $query->select('authors.id', 'name'),
+//            ])
+//            ->orderByDesc('transaction_count')
+//            ->take($filters['pagination']['per_page'])
+//            ->get();
+//
+//        if (isset($filters['title']) && $filters['title'] != '') {
+//            $books = $books->filter(function ($book) use ($filters) {
+//                return stripos($book->title, $filters['title']) !== false;
+//            });
+//        }
+//
+//        return $books;
+
         $books = DB::table('books AS b')
-            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name AS category', 'c.number AS number',)
+            ->select('b.id', 'b.title', 'b.category_id', 'b.image', 'is_marked', 'c.name AS category', 'c.number AS number',)
             ->selectRaw('COUNT(t.id) AS count')
             ->join('categories AS c', 'b.category_id', '=', 'c.id')
             ->join('transactions AS t', 'b.id', '=', 't.book_id')
-            ->groupBy('b.id', 'b.title', 'b.category_id', 'b.image', 'c.name', 'c.number')
-            ->orderByDesc('count');
+            ->groupBy('b.id', 'b.title', 'b.category_id', 'b.image', 'is_marked', 'c.name', 'c.number')
+            ->orderByDesc('count')
+            ->having('count', '>', 13);
 
         if(isset($filters['title']) && $filters['title'] != '') {
             $books->where('title', 'like', '%'.$filters['title'].'%');
@@ -279,9 +298,8 @@ class BookRepository implements IBookRepository
     public function ExtendBook(int $transactionId): bool
     {
         $transaction = Transactions::find($transactionId);
-        $currentDate = Carbon::parse($transaction->return_date);
-        $oneWeeksLater = $currentDate->addWeeks(2);
-        $transaction->return_date = $oneWeeksLater;
+        $twoWeeksLater = Carbon::now('Europe/Bucharest')->addWeeks(2);
+        $transaction->return_date = $twoWeeksLater;
         $transaction->update();
         return true;
     }

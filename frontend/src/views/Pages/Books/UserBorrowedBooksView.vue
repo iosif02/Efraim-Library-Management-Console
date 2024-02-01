@@ -16,6 +16,8 @@ if(!props.id || props.id == '0' || !parseInt(props.id))
 const store = useBooksStore();
 store.userBorrowedBooks.searchModel.user = parseInt(props.id || '');
 store.userHistoryBooks.searchModel.user = parseInt(props.id || '');
+store.userBorrowedBooks.searchModel.pagination.page = 1;
+store.userHistoryBooks.searchModel.pagination.page = 1;
 store.searchUserBorrowedBooks();
 store.searchUserHistoryBooks();
 
@@ -58,6 +60,6 @@ store.searchUserHistoryBooks();
         />
     </div>
     
-    <div class="no-found" v-else-if="!store.isLoading && !store.isLoadingTwo"> No Result Found! </div>
+    <div class="no-found" v-else-if="!store.isLoading && !store.isLoadingTwo"> No result found </div>
     
 </template>

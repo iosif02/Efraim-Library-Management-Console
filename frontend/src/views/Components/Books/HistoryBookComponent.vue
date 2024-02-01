@@ -27,6 +27,9 @@ let formatDate = (date: string) => {
         <div class="history-book">
           <div class="container-image">
             <img :src="$filters.imageFilter(transaction.book?.image)" alt="">
+            <div v-if="transaction.book.is_marked" class="mark-container">
+              <span class="pi pi-star-fill mark"></span>
+            </div>
           </div>
           <div class="details">
             <p class="transaction-name text-elipsis">{{ transaction.book?.title }}</p>
@@ -63,12 +66,33 @@ let formatDate = (date: string) => {
   max-width: 60px;
   border-radius: 5px;
   margin-right: 10px;
+  position: relative;
 }
 .container-image img {
   width: 100%;
   height: 100%;
   border-radius: 5px;
   object-fit: cover;
+}
+.mark-container{
+  top: 0px;
+  right: 10px;
+  position: absolute;
+  width: 1rem;
+  height: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 5px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.mark{
+  font-size: 0.65rem; 
+  color: yellow;
+  top: 10px;
+  left: 15px;
 }
 .details {
   height: 100%;

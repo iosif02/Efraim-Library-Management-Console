@@ -193,8 +193,6 @@ export const useBooksStore = defineStore('useBooksStore', {
       .then(result => {
           if(!result.data) return;
 
-          console.log(result.data);
-
           this.userHistoryBooks.data = result.data.data;
           this.userHistoryBooks.searchModel.pagination.total = result.data.total ?? 1;
           this.userHistoryBooks.searchModel.pagination.last_page = result.data.last_page ?? 1;
@@ -236,6 +234,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       this.isLoading = true;
       return axios.post("/books/return/" + transactionId)
       .then(result => {
+        NotificationHelper.NotifySuccess('Book was returned with scucces!')
         return result.data;
       })
       .catch(error => console.error("Request error: " + error))
@@ -245,6 +244,7 @@ export const useBooksStore = defineStore('useBooksStore', {
       this.isLoading = true;
       return axios.post("/books/extend/" + transactionId)
       .then(result => {
+        NotificationHelper.NotifySuccess('Book was extended with scucces!')
         return result.data;
       })
       .catch(error => console.error("Request error: " + error))
