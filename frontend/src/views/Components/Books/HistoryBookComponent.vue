@@ -27,14 +27,14 @@ let formatDate = (date: string) => {
         <div class="history-book">
           <div class="container-image">
             <img :src="$filters.imageFilter(transaction.book?.image)" alt="">
-            <div v-if="transaction.book.is_marked" class="mark-container">
+            <div v-if="transaction.book?.is_marked" class="mark-container">
               <span class="pi pi-star-fill mark"></span>
             </div>
           </div>
           <div class="details">
             <p class="transaction-name text-elipsis">{{ transaction.book?.title }}</p>
             <p class="transaction-date text-elipsis">{{ formatDate(transaction.borrow_date) + ' - ' + formatDate(transaction.return_date) }}</p>
-            <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction?.lender_name }}</span></p>
+            <p class="transaction-voluntary text-elipsis">Processed by <span>{{ transaction.lender_name }}</span></p>
             <!-- <p class="transaction-voluntary text-elipsis">Returned by <span>{{ transaction?.receiver_name }}</span></p> -->
           </div>
         </div>

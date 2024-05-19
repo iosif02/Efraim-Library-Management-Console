@@ -85,29 +85,9 @@ class UserRepository implements IUserRepository
 
     public function SearchUserBorrowedBooks(array $filters): ?LengthAwarePaginator
     {
-        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
-            ->with([
-                'Category' => fn($query) => $query->select('id', 'name', 'number'),
-                'Authors' => fn($query) => $query->select('name')
-            ])
-            ->orderByDesc('created_at')
-            ->whereHas('Transaction', function ($transaction) use ($filters) {
-                $transaction->where('is_returned', false)
-                    ->where('user_id', $filters['user']);
-            });
-
-        if(isset($filters['title']) && $filters['title'] != '') {
-            $book->where('title', 'like', '%' . $filters['title'] . '%');
-        }
-
-        return $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
-    }
-
-    public function SearchUserHistoryBooks(array $filters): ?LengthAwarePaginator
-    {
         $transaction = Transactions::select('id', 'book_id', 'borrow_date', 'return_date', 'lender_name', 'receiver_name')
             ->where('user_id', $filters['user'])
-            ->where('is_returned', true)
+            ->where('is_returned', $filters['isReturned'])
             ->with([
                 'Book' => fn($query) => $query->select('id', 'title', 'image', 'is_marked'),
             ])
@@ -120,23 +100,24 @@ class UserRepository implements IUserRepository
         }
 
         return $transaction->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+    }
 
+    public function SearchUserHistoryBooks(array $filters): ?LengthAwarePaginator
+    {
+        $book = Book::select('id', 'title', 'image', 'is_marked')
+            ->with([
+                'Transaction' => fn($query) => $query->select('id', 'book_id', 'borrow_date', 'return_date', 'lender_name', 'receiver_name')
+            ])
+            ->whereHas('Transaction', function ($transaction) use ($filters) {
+                $transaction->where('is_returned', false)
+                    ->where('user_id', $filters['user']);
+            });
 
-//        $book = Book::select('books.id', 'title', 'category_id', 'quantity', 'image')
-//            ->with([
-//                'Category' => fn($query) => $query->select('id', 'name', 'number'),
-//                'Authors' => fn($query) => $query->select('name')
-//            ])
-//            ->whereHas('Transaction', function ($transaction) use ($filters) {
-//                $transaction->where('is_returned', true)
-//                    ->where('user_id', $filters['user']);
-//            });
-//
-//        if(isset($filters['title']) && $filters['title'] != '') {
-//            $book->where('title', 'like', '%' . $filters['title'] . '%');
-//        }
-//
-//        return $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
+        if(isset($filters['title']) && $filters['title'] != '') {
+            $book->where('title', 'like', '%' . $filters['title'] . '%');
+        }
+
+        return $book->paginate($filters['pagination']['per_page'], null, null, $filters['pagination']['page']);
     }
 
     /**

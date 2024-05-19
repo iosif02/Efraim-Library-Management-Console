@@ -42,10 +42,10 @@ const validateForm = yup.object({
     title: yup.string().required(),
     year: yup.number().typeError('Quantity must be a number').required(),
     quantity: yup.number().typeError('Quantity must be a number').required(),
-    price: yup.number().typeError('Quantity must be a number').nullable(),
-    publisher: yup.object().typeError('must be one in the dropdown').required(),
+    price: yup.string().nullable(),
+    publisher: yup.object().typeError('Must be one in the dropdown').required(),
     authors: yup.array<AuthorModel>().typeError('must be one in the dropdown').required(),
-    category: yup.object().typeError('must be one in the dropdown').required(),
+    category: yup.object().typeError('Must be one in the dropdown').required(),
 });
 
 const imgSrc = ref<String|ArrayBuffer|null|undefined>("");

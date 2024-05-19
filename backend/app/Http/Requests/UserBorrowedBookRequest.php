@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class BookSearchRequest extends FormRequest
+class UserBorrowedBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,24 +26,11 @@ class BookSearchRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string',
-            'author' => 'nullable|integer',
-            'category' => 'nullable|integer',
-            'publisher' => 'nullable|integer',
+            'user' => 'nullable|integer',
+            'isReturned' => 'required|boolean',
             'pagination' => 'required',
             'pagination.per_page' => 'required|integer',
             'pagination.page' => 'required|integer',
         ];
     }
-
-//    /**
-//     * Custom message for validation
-//     *
-//     * @return array
-//     */
-//    public function messages()
-//    {
-//        return [
-//            'title.required' => 'Title is required!'
-//        ];
-//    }
 }

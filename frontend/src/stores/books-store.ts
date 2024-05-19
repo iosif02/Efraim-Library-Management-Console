@@ -39,7 +39,7 @@ export const useBooksStore = defineStore('useBooksStore', {
     },
     userBorrowedBooks: {
       searchModel: new SearchBookModel(),
-      data: [] as BookModel[]
+      data: [] as DelayedBookModel[]
     },
     userHistoryBooks: {
       searchModel: new SearchBookModel(),
@@ -189,7 +189,7 @@ export const useBooksStore = defineStore('useBooksStore', {
     },
     searchUserHistoryBooks() {
       this.isLoadingTwo = true;
-      axios.post("/users/search-history-books", this.userHistoryBooks.searchModel)
+      axios.post("/users/search-borrowed-books", this.userHistoryBooks.searchModel)
       .then(result => {
           if(!result.data) return;
 

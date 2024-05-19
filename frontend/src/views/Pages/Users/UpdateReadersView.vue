@@ -21,13 +21,16 @@ if(!store.roles.length) {
 }
 const validateForm = yup.object({
   email: yup.string().required().email(),
-  // identity_number: yup.number().nullable(),
   first_name: yup.string().required(),
   last_name: yup.string().required(),
   address: yup.string().nullable(),
-  phone: yup.number().required(),
+  phone: yup.string().required().min(10),
   occupation: yup.string().nullable(),
   birth_date: yup.date().required(),
+
+  identity_number: yup.string().when(value =>(
+    value ? yup.string().min(13).max(13) : yup.string().nullable() 
+  )),
 });
 
 var onSubmit = (user: any) => {
@@ -52,13 +55,20 @@ var searchRoles = (event: any) => {
 let focusedElement: any = ref(null)
 
 var blurInput = (e: any) => {
-    if(focusedElement) focusedElement?.target?.focus();
-    focusedElement.value = null;
+  if(focusedElement) focusedElement?.target?.focus();
+  focusedElement.value = null;
 }
 
 function onFocusElement(e: any) {
-    focusedElement = e;
+  focusedElement = e;
 }
+
+const originalValue = store.user.user_details.identity_number;
+const transformedValue = originalValue !== 0 ? String(originalValue) : null;
+
+const identity_number = {
+  identity_number: transformedValue === '-' ? null : transformedValue
+};
 
 </script>
 
@@ -69,7 +79,7 @@ function onFocusElement(e: any) {
     <GoBack goBackText="Edit User"/>
 	</div>
 
-  <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details}" class="form-control">
+  <Form @submit="onSubmit" :validation-schema="validateForm" :initial-values="{...store.user, ...store.user.user_details, ...identity_number}" class="form-control">
     <div class="form-group">
       <label for="first_name">First name <span class="mandatory">*</span> </label>
       <Field name="first_name" />

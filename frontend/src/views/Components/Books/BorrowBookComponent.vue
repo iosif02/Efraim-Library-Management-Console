@@ -37,7 +37,9 @@ const daysLeft = (day: number) => {
       <div class="borrow-book" v-for="transaction in books.transaction">
           <div>
             <div class="row">
-              <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
+              <RouterLink :to="{ name: 'userBorrowedBook', params: { id: transaction.user?.id ?? 0 }, query: { userName: transaction.user?.first_name + ' ' + transaction.user?.last_name } }" class="router-link">
+                <p class="transaction-name text-elipsis">{{ transaction.user?.first_name + ' ' + transaction.user?.last_name }}</p>
+              </RouterLink>
               <StatusBookComponent :status="books.status"/>
             </div>
             <div class="row">

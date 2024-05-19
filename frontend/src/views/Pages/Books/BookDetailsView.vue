@@ -10,9 +10,8 @@ const props = defineProps({
   id: String
 })
 
-if(!props.id || props.id == '0' || !parseInt(props.id)){
-  router.back();
-}
+if(!props.id || props.id == '0' || !parseInt(props.id))
+    router.back();
 
 const store = useBooksStore();
 store.fetchBookDetails(props.id ?? "");
@@ -125,7 +124,10 @@ var deleteBook = () => {
     </div>
   </div>
 
-  <BorrowBookComponent :books="store.bookDetails" @onReturn="(transactionId) => openModal(transactionId, 'return')" @extend="(transactionId) => openModal(transactionId, 'extend')"/>
+  <BorrowBookComponent 
+    :books="store.bookDetails" 
+    @onReturn="(transactionId) => openModal(transactionId, 'return')" 
+    @extend="(transactionId) => openModal(transactionId, 'extend')"/>
 
   <RouterLink :to="{ name: 'borrowBook', params: { id: props.id }}">
     <button 

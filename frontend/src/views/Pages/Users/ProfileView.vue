@@ -31,15 +31,20 @@ var onFile = (e: any) => {
 
 const validateForm = yup.object({
   email: yup.string().required().email(),
-  // identity_number: yup.string().nullable(),
   first_name: yup.string().required(),
   last_name: yup.string().required(),
   address: yup.string().nullable(),
-  phone: yup.number().required(),
+  phone: yup.string().required().min(10),
   occupation: yup.string().nullable(),
   birth_date: yup.date().required(),
 
-  password: yup.string().nullable().min(8),
+  identity_number: yup.string().when(value =>(
+    value ? yup.string().min(13).max(13) : yup.string().nullable() 
+  )),
+
+  password: yup.string().when(value =>(
+    value ? yup.string().min(8) : yup.string().nullable() 
+  )),
 	password_confirmation: yup.string().nullable().oneOf([yup.ref('password')], 'Passwords do not match')
 });
 
@@ -69,10 +74,11 @@ function getNameIntial(first_initial: String, second_initial: String) {
 const backgroundColorStyle = getRandomColor();
 
 var onSubmit = (user: any) => {
+  const identity_number = user.identity_number == null || user.identity_number == '-' ? '' : user.identity_number;
   let formData = new FormData()
   profileId.value = store.profile.id
   formData.append('email', user?.email)
-  formData.append('identity_number', user.identity_number == null || '-' ? '' : user.identity_number);
+  formData.append('identity_number', identity_number);
   formData.append('first_name', user?.first_name)
   formData.append('last_name', user?.last_name)
   user.password && formData.append('password', user.password)
@@ -130,6 +136,13 @@ function onFocusElement(e: any) {
     focusedElement = e;
 }
 
+const originalValue = store.user.user_details.identity_number;
+const transformedValue = originalValue !== 0 ? String(originalValue) : null;
+
+const identity_number = {
+  identity_number: transformedValue === '-' ? null : transformedValue
+};
+
 </script>
 
 <template>
@@ -137,7 +150,7 @@ function onFocusElement(e: any) {
 
   <GoBack goBackText="Profile"/>
 
-  <Form v-if="isEdit" @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="{...store.profile, ...store.profile.user_details}" ref="myForm">
+  <Form v-if="isEdit" @submit="onSubmit" :validation-schema="validateForm" class="form-control" :initial-values="{ ...store.profile, ...store.profile.user_details, ...identity_number }" ref="myForm">
     <div class="profile-image-container">
       <div v-if="imgSrc?.toString() || store.profile.user_details?.photo_url" >
         <img :src="imgSrc?.toString() || $filters.imageFilter(store.profile.user_details?.photo_url)" />

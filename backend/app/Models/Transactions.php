@@ -48,7 +48,7 @@ class Transactions extends Model
     protected function lenderName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucwords($value),
+            get: fn (?string $value) => $value ?? ucwords($value),
             set: fn (string $value) => strtolower($value),
         );
     }
@@ -56,7 +56,7 @@ class Transactions extends Model
     protected function receiverName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucwords($value),
+            get: fn (?string $value) => $value ?? ucwords($value),
             set: fn (string $value) => strtolower($value),
         );
     }

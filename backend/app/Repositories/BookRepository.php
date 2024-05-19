@@ -141,6 +141,11 @@ class BookRepository implements IBookRepository
                 'Category' => fn($query) => $query->select('id', 'name', 'number'),
                 'Authors' => fn($query) => $query->select('name')
             ])
+            ->withCount([
+                'Transaction' => function ($query){
+                    $query->where('is_returned', false);
+                }
+            ])
             ->orderByDesc('created_at');
 
         if(isset($filters['title']) && $filters['title'] != ''){

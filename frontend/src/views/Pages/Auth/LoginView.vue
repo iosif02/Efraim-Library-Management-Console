@@ -49,10 +49,10 @@ const validateForm = yup.object({
 			<input :value="isLoading ? '' : 'Sign In'" type="submit" class="btn w-100 m-0">
 			<LoadingButton v-if="isLoading" />
 		</div>
-		<p class="small-text">
+		<!-- <p class="small-text">
 			You don't have an account?
 			<RouterLink :to="{ name: 'register' }">Register here</RouterLink>
-		</p>
+		</p> -->
 	</Form>
 </template>
 
